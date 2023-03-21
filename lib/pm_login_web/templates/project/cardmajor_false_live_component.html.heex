@@ -1,0 +1,26 @@
+<style>
+  .drop_card{
+    cursor:pointer;
+    transition: 0.3s;
+  }
+  .drop_card_hover:hover{
+    transition: all 0.12s ease;
+    background-color: #3ca0e740;
+  }
+</style>
+<div class="column drop_card" style="padding: 0">
+  <a phx-click="show-task-ismajor-false-component">
+    <div class="icon-card list-user-card-component drop_card_hover" style="margin: 0 1rem 0 0">
+      <div
+        class="icon"
+        style={"color: #{@color}; background-color: #{@background_color};"}
+      >
+      <i class={"bi bi-#{@icon}"}></i>
+      </div>
+      <div class="content">
+        <h6><%= @content_name %></h6>
+       <h3 style={"color: #{@font_color}"}><%= Enum.count(@content_list) %></h3>
+      </div>
+    </div>
+  </a>
+</div>

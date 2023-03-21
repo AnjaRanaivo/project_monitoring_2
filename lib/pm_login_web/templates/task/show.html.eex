@@ -1,0 +1,43 @@
+<h1>Show Task</h1>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @task.title %>
+  </li>
+
+  <li>
+    <strong>Progression:</strong>
+    <%= @task.progression %>
+  </li>
+
+  <li>
+    <strong>Date start:</strong>
+    <%= @task.date_start %>
+  </li>
+
+  <li>
+    <strong>Date end:</strong>
+    <%= @task.date_end %>
+  </li>
+
+  <li>
+    <strong>Estimated duration:</strong>
+    <%= @task.estimated_duration %>
+  </li>
+
+  <li>
+    <strong>Performed duration:</strong>
+    <%= @task.performed_duration %>
+  </li>
+
+  <li>
+    <strong>Deadline:</strong>
+    <%= @task.deadline %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
+<span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>

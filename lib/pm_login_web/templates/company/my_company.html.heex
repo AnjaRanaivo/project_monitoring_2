@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="column basecontents__without__radius my__company__title">
+    <img src={Routes.static_path(@socket, "/#{@active_client.company.logo}")} class="company-pic-header" alt="">
+    <h1 class="h__company__title"><%= @active_client.company.name %></h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><a id="adm">Contrats d'assistance <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+    <table id="tb-auth">
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Date de début</th>
+          <th>Date de fin</th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for assist_contract <- @active_client.company.assist_contracts do %>
+        <tr>
+          <td><%= assist_contract.title %></td>
+          <td><%= assist_contract.date_start %></td>
+          <td><%= assist_contract.date_end %></td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><a id="adm">Editeurs <br/><span class="material-icons mat__ico">fit_screen</span></a></h3>
+    <table id="tb-auth">
+      <thead>
+        <tr>
+          <th>Titre</th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for editor <- @active_client.company.editors do %>
+        <tr>
+          <td><%= editor.title %></td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><a id="adm">Licences <br/><span class="material-icons mat__ico">description</span></a></h3>
+    <table id="tb-auth">
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Date de début</th>
+          <th>Date de fin</th>
+
+        </tr>
+      </thead>
+      <tbody>
+    <%= for license <- @active_client.company.licenses do %>
+        <tr>
+          <td><%= license.title %></td>
+          <td><%= license.date_start %></td>
+          <td><%= license.date_end %></td>
+
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><a id="adm">Logiciels <br/><span class="material-icons mat__ico">computer</span></a></h3>
+    <table id="tb-auth">
+      <thead>
+        <tr>
+          <th>Nom</th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for software <- @active_client.company.softwares do %>
+        <tr>
+          <td><%= software.title %></td>
+
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>

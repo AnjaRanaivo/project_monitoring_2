@@ -1,0 +1,5 @@
+<h1>Edit Priority</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.priority_path(@conn, :update, @priority)) %>
+
+<span><%= link "Back", to: Routes.priority_path(@conn, :index) %></span>

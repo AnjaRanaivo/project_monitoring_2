@@ -1,0 +1,138 @@
+.priority__point{
+  background-color: #00000035;
+  color: #000;
+  text-transform: uppercase;
+}
+
+.urg__priority__point{
+  background-color: #e74d3c6b;
+  color: #db5040;
+  text-transform: uppercase;
+}
+
+.high__priority__point{
+  background-color: #e67d225f;
+  color: #e67d22;
+  text-transform: uppercase;
+}
+
+.avg__priority__point{
+  background-color: #3498db55;
+  color: #3498db;
+  text-transform: uppercase;
+}
+
+.low__priority__point{
+  background-color: #2ecc7030;
+  color: #2ecc70;
+  text-transform: uppercase;
+}
+
+.priority__point, .low__priority__point, .avg__priority__point, .high__priority__point, .urg__priority__point {
+  width: 30px;
+  height: 5px;
+  border-radius: 999px;
+  position: relative;
+  left: 0;
+  top: 0;
+  margin-top: 10px;
+}
+
+.priority__point__rec{
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 999px;
+  position: relative;
+  float: right;
+  /* left: 175px;
+  top: 0px; */
+}
+
+.urg__priority__point__rec{
+  width: 10px;
+  height: 10px;
+  background-color: #e74c3c;
+  border-radius: 999px;
+  position: relative;
+  /* left: 175px;
+  top: 0px; */
+}
+
+.high__priority__point__rec{
+  width: 10px;
+  height: 10px;
+  background-color: #e67e22;
+  border-radius: 999px;
+  position: relative;
+  /* left: 175px;
+  top: 0px; */
+}
+
+.avg__priority__point__rec{
+  width: 10px;
+  height: 10px;
+  background-color: #3498db;
+  border-radius: 999px;
+  position: relative;
+  /* left: 175px;
+  top: 0px; */
+}
+
+.low__priority__point__rec{
+  width: 10px;
+  height: 10px;
+  background-color: #2ecc71;
+  border-radius: 999px;
+  position: relative;
+  /* left: 175px;
+  top: 0px; */
+}
+
+.urg__priority__point__conboard{
+  width: 10px;
+  height: 10px;
+  background-color: #e74c3c;
+  border-radius: 999px;
+  position: relative;
+  float: right;
+  /* left: 175px;
+  top: 0px; */
+}
+
+.high__priority__point__conboard{
+  width: 10px;
+  height: 10px;
+  background-color: #e67e22;
+  border-radius: 999px;
+  position: relative;
+  float: right;
+
+  /* left: 175px;
+  top: 0px; */
+}
+
+.avg__priority__point__conboard{
+  width: 10px;
+  height: 10px;
+  background-color: #3498db;
+  border-radius: 999px;
+  position: relative;
+  float: right;
+
+  /* left: 175px;
+  top: 0px; */
+}
+
+.low__priority__point__conboard{
+  width: 10px;
+  height: 10px;
+  background-color: #2ecc71;
+  border-radius: 999px;
+  position: relative;
+  float: right;
+
+  /* left: 175px;
+  top: 0px; */
+}
+

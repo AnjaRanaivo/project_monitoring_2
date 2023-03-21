@@ -1,0 +1,40 @@
+<h1><span class="material-icons mat__ico__big">fit_screen</span>Editeurs</h1>
+
+<table id="tb-auth">
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Société</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for editor <- @editors do %>
+    <tr>
+      <td><%= editor.title %></td>
+      <td><%= editor.company.name %></td>
+      <td>
+        <span><a href={Routes.editor_path(@socket, :show, editor)}><i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i></a></span>
+        <span><a href={Routes.editor_path(@socket, :edit, editor)}><i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i></a></span>
+        <span><a href="#" phx-click="go-del" phx-value-id={editor.id}><i class="bi bi-x btn btn-danger btn-lg" style="font-size: 20px;"></i></a></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><a href={Routes.editor_path(@socket, :new)} class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Nouvel éditeur</a></span>
+<span><a href={Routes.company_path(@socket, :services)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Services</a></span>
+
+<%= live_component(@socket,
+                   ModalLive,
+                   id: "confirm-del",
+                   title: "Supprimer éditeur?",
+                   body: "Etes-vous sûr de supprimer l'éditeur #{if not is_nil(@service_id), do: PmLogin.Services.get_editor!(@service_id).title}?",
+                   right_button: "Oui",
+                   right_button_action: "del",
+                   right_button_param: @service_id,
+                   left_button: "Annuler",
+                   show_modal: @show_modal,
+                   left_button_action: "cancel-del")
+%>

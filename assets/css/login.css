@@ -1,0 +1,31 @@
+.login__body{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* z-index: 998; */
+}
+
+.login__input{
+  border: 1px solid lightgray;
+  height:40px;
+  margin-bottom: 30px;
+  border-radius: 5px;
+}
+
+@media (max-width: 638px){
+  .login__input{
+    margin-bottom: 50px;
+    border-style: none;
+  }
+}
+
+/* .login__icons{
+  font-size: 35px;
+  color: gray;
+} */

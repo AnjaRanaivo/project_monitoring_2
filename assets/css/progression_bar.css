@@ -1,0 +1,25 @@
+.meter {
+  display: flex;
+  overflow: hidden;
+  background-color: #e2e8f0;
+  border-radius: 0.75rem;
+  /* margin-top: 1rem;
+  margin-bottom: 2rem; */
+  height: 2rem;
+}
+.prog_bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #e63946;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 3rem;
+  transition: width 2s ease;
+}
+.progression__nb{
+  position: relative;
+  font-size: 18px;
+  top: 10px;
+}

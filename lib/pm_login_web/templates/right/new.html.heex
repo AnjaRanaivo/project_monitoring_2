@@ -1,0 +1,5 @@
+<h1><i class="bi bi-plus-circle"></i> Nouveau statut</h1>
+<div class="basecontents__without__radius">
+<%= render "form.html", Map.put(assigns, :action, Routes.right_path(@socket, :create)) %>
+</div>
+<span><a href={Routes.right_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

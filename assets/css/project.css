@@ -1,0 +1,231 @@
+.project-show{
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.pro__company__card{
+  display: inline;
+  width: 200px;
+  height: 30px;
+  /* transform: scale(0.5); */
+}
+
+.pro__company__card__title{
+  position: relative;
+  top: -10px;
+  margin-left: 2%; 
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+.customer-request-next,
+.customer-request-prev {
+  font-size: 21px;
+  padding: 10px;
+  display: flex;
+  clip-path: circle();
+  transition: 0.2s;
+}
+
+.customer-request-prev:hover, 
+.customer-request-next:hover {
+  background: #0069d9;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button-cr-see, 
+.button-cr-modify {
+  width: auto;
+  border-radius: 0px;
+  text-transform: capitalize;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.button-cr {
+  display: flex;
+  gap: 1rem;
+  margin-left: 4rem;
+  margin-top: 1rem;
+}
+
+.button-cr > button:nth-child(1):focus {
+  background: #297fb9a5;
+  color: #fff;
+}
+
+.button-cr > button:nth-child(2):focus {
+  background: #16a084b3;
+  color: #fff;
+}
+
+.button-cr i {
+  font-size: 1.25rem;
+}
+
+.button-cr-see {
+  width: 150px;
+  border: 1px solid #2980b9;
+  background: transparent;
+  color: #2980b9;
+}
+
+.button-cr-see:hover {
+  border: none;
+  background: #2980b9;
+  color: #fff;
+}
+
+.button-cr-modify {
+  background: #16a085;
+  color: #fff;
+}
+
+.button-cr-modify:hover {
+  background: #16a084b3;
+  color: #fff;
+}
+
+
+@media (max-width: 1560px) {  
+  .responsive-customer-request,
+  .main-admin-index {
+    transform: scale(0.95) !important;
+  }  
+
+  .responsive-customer-request .card-info {
+    margin-right: -1rem !important;
+  }
+
+  .responsive-customer-request .button-project-list {
+    margin-left: 0rem !important;
+  }
+}
+
+@media (max-width: 1450px) {
+  .responsive-customer-request,
+  .main-admin-index {
+    transform: scale(0.92) !important;
+  }  
+
+  .responsive-customer-request .card-info {
+    margin-right: -4rem !important;
+  }
+
+  .responsive-customer-request .button-project-list {
+    margin-left: -4rem !important;
+  }
+
+  .button-project-list {
+    margin-bottom: 1.92rem !important;
+  }
+
+  .boardcontainer {
+    padding-top: 37px !important;
+  }
+}
+
+@media (max-width: 1368px) {
+  .responsive-customer-request,
+  .main-admin-index {
+    transform: scale(0.9) !important;
+  }  
+
+  .responsive-customer-request .card-info {
+    margin-right: -5rem !important;
+  }
+
+  .responsive-customer-request .button-project-list {
+    margin-left: -5rem !important;
+  }
+
+  .button-project-list {
+    margin-bottom: 1.82rem !important;
+  }
+
+  .boardcontainer {
+    padding-top: 32px !important;
+  }
+}
+
+@media (max-width: 1350px) {
+  .responsive-customer-request,
+  .main-admin-index {
+    transform: scale(0.85) !important;
+  }  
+
+  .responsive-customer-request .card-info {
+    margin-right: -9rem !important;
+  }
+
+  .responsive-customer-request .button-project-list {
+    margin-left: -9rem !important;
+  }
+
+  .button-project-list {
+    margin-bottom: 1.65rem !important;
+  }
+
+  .boardcontainer {
+    padding-top: 30px !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .responsive-customer-request,
+  .main-admin-index {
+    transform: scale(0.82) !important;
+  }  
+
+  .responsive-customer-request .card-info {
+    margin-right: -11rem !important;
+  }
+
+  .responsive-customer-request .button-project-list {
+    margin-left: -11rem !important;
+  }
+
+  .button-project-list {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .boardcontainer {
+    padding-top: 30px !important;
+  }
+}
+
+@media (max-width: 1240px) {
+  .responsive-customer-request,
+  .main-admin-index {
+    transform: scale(0.72) !important;
+  }  
+
+  .responsive-customer-request .card-info {
+    margin-right: -18rem !important;
+  }
+
+  .responsive-customer-request .button-project-list {
+    margin-left: -18rem !important;
+  }
+
+  .button-project-list {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .boardcontainer {
+    padding-top: 27px !important;
+  }
+}
+
+.all-tasks-project-title {
+  color: #fff !important;
+}
+
+.all-tasks-project-title:hover {
+  color: #0069d9 !important;
+}
+

@@ -1,0 +1,44 @@
+<h2 style="color: #fff;"><i class="bi bi-shield-exclamation"></i> Droits/ autorisations</h2>
+
+<table class="table-list-users">
+  <thead>
+    <tr>
+
+      <th>Titre</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% undeletable_rights = [1,2,3,4,100] %>
+<%= for right <- @rights do %>
+    <tr>
+
+
+      <td><%= right.title %></td>
+
+      <td>
+        <span><a href={Routes.right_path(@socket, :show, right)}><i class="bi bi-info-circle btn btn-info btn-lg"></i></a></span>
+        <%= if right.id not in undeletable_rights do %>
+        <span><a href="#" phx-click="go-del" phx-value-id={right.id} class="btn btn-danger btn-lg"><i class="bi bi-trash"></i></a></span>
+        <% end %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><a href={Routes.right_path(@socket, :new)} class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Nouveau droit</a></span>
+
+<%= live_component(@socket,
+                   ModalLive,
+                   id: "confirm-del",
+                   title: "Supprimer?",
+                   body: "Etes-vous sûr de supprimer ce statut?",
+                   right_button: "OUI",
+                   right_button_action: "delete",
+                   right_button_param: @del_id,
+                   left_button: "ANNULER",
+                   show_modal: @show_modal,
+                   left_button_action: "cancel-del")
+%>

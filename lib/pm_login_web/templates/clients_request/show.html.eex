@@ -1,0 +1,18 @@
+<h1>Show Clients request</h1>
+
+<ul>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @clients_request.content %>
+  </li>
+
+  <li>
+    <strong>Date post:</strong>
+    <%= @clients_request.date_post %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.clients_request_path(@conn, :edit, @clients_request) %></span>
+<span><%= link "Back", to: Routes.clients_request_path(@conn, :index) %></span>

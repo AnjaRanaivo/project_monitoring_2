@@ -1,0 +1,5 @@
+<div id="inscription" class="container">
+  <h1 id="inshead">Inscription</h1>
+
+  <%= render "form.html", Map.put(assigns, :action, Routes.user_path(@conn, :create)) %>
+</div>

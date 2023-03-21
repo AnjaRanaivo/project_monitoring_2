@@ -1,0 +1,143 @@
+<div class="row">
+  <div class="column column-60">
+    <h1 style="color: #fff;"><span class="material-icons" style="font-size: 40px;">supervisor_account</span> Liste des utilisateurs</h1>
+  </div>
+</div>
+
+  <div class="my_row">
+    <div class="my_col">
+      <!-- <b style="position: relative; top: 8px;">Filtre :</b> -->
+      <span class="material-icons-round filter__icon filt__and__sort__ico" style=" color: #fff;">filter_list</span>
+      <form phx-change="right_selected">
+
+        <select id="right_filter" name="right_select" style="background-color: #111827; color: #fff;">
+        <option value="" selected disabled hidden>Par statut</option>
+        <option value="9000">Tout</option>
+          <%= for right <- @rights do %>
+        <option value={right.id}><%= right.title %></option>
+          <% end %>
+        </select>
+
+      </form>
+    </div>
+
+    <div class="my_col">
+      <!-- <b style="position: relative; top: 8px;"></b> -->
+      <span class="material-icons-round sort__icon filt__and__sort__ico" style=" color: #fff;">sort_by_alpha</span>
+      <form phx-change="sort_users">
+
+        <select id="sort_auth" name="sort_select" style="background-color: #111827; color: #fff;">
+        <option value="" selected disabled hidden>Alphabétique</option>
+        <option value="asc">A - Z</option>
+        <option value="desc">Z - A</option>
+        </select>
+
+      </form>
+    </div>
+
+    <div class="my_col">
+      <form phx-change="search-user" style="color: #fff;">
+          <input type="text" name="search-a" placeholder="Rechercher par nom" style="width: 150px; color:#fff;">
+      </form>
+      <span class="material-icons-round filt__and__sort__ico" style=" color: #fff;">search</span>
+    </div>
+
+    <div phx-click="show-form" class="button">
+      <i class="bi bi-plus-circle"></i> Créer utilisateur
+    </div>
+    
+
+
+
+  </div>
+  <table class="table-list-users">
+    <thead>
+      <tr>
+        <th></th>
+        <th><span class="material-icons-round arr__sorted" phx-click="sorted_by_username"><%= if not @sorted_by_username do "keyboard_arrow_down" else "keyboard_arrow_right" end %></span>Nom d'utilisateur</th>
+        <th><span class="material-icons-round arr__sorted" phx-click="sorted_by_email"><%= if not @sorted_by_email do "keyboard_arrow_down" else "keyboard_arrow_right" end %></span> Email</th>
+        <th><span class="material-icons-round arr__sorted" phx-click="sorted_by_status"><%= if not @sorted_by_status do "keyboard_arrow_down" else "keyboard_arrow_right" end %></span> Statut</th>
+
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for user <- @users do %>
+      <tr>
+        <td data-label="">
+            <img class="profile-pic-mini" src={ Routes.static_path(@socket, "/#{user.profile_picture}") } width="50"/>
+        </td>
+
+        <td data-label="Nom"><%= user.username %></td>
+        <td data-label="Email"><%= user.email %></td>
+        <td data-label="Statut"><%= user.title %></td>
+
+        <td data-label="Actions" style="display: block ruby; padding-top: 19px;">
+          <%= if user.id != @curr_user_id do %>
+              <a title="Modifier" href={Routes.user_path(@socket, :edit, user)} class=""><i class="bi bi-info-circle info__user btn btn-info btn-lg"></i></a>
+              <%= if user.right_id != 100 do %>
+                <i title="Archiver" class="bi bi-archive btn btn-danger btn-lg archive__user" phx-click="go-arch" phx-value-id={user.id}></i>
+              <% else %>
+                <i class="bi bi-archive btn btn-dark btn-lg"></i>
+            <% end %>
+
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<%= live_component(@socket,
+                     ModalLive,
+                     id: "confirm-arch",
+                     title: "Archiver?",
+                     body: "Etes-vous sûr d'archiver l'utilisateur #{if not is_nil(@arch_id), do: PmLogin.Login.get_username(@arch_id)}?",
+                     right_button: "Oui",
+                     right_button_action: "arch",
+                     right_button_param: @arch_id,
+                     left_button: "Annuler",
+                     show_modal: @show_modal,
+                     left_button_action: "cancel-arch")
+  %>
+
+
+<div class="request__form__container" style={"visibility: #{ if @form, do: "visible", else: "hidden" }; opacity: #{ if @form, do: "1", else: "0" };"}>
+  <div phx-window-keydown="cancel-form" class="basecontents__without__radius request__form">
+    <div class="column">
+      <a class="form__close" title="Fermer" phx-click="close-form"><i class="bi bi-x"></i></a>
+      <h2><i class="bi bi-plus-circle"></i> Créer utilisateur</h2>
+      <div class="request__form__content">
+        <.form let={f} for={@changeset} phx-submit="save-user">
+
+        <label for="username">Nom d'utilisateur</label>
+        <%= text_input f, :username %>
+        <%= error_tag f, :req_uname_error %>
+        <%= error_tag f, :username %>
+
+        <label for="email">Adresse éléctronique</label>
+        <%= text_input f, :email %>
+        <%= error_tag f, :email %>
+        <%= error_tag f, :req_email_error %>
+
+        <label for="email_confirmation">Confirmer adresse e-mail</label>
+        <%= text_input f, :email_confirmation %>
+        <%= error_tag f, :email_confirmation %>
+
+        <label for="password">Mot de passe</label>
+        <%= password_input f, :password %>
+        <%= error_tag f, :password %>
+        <%= error_tag f, :req_pass_error %>
+
+        <label for="password_confirmation">Confirmer mot de passe</label>
+        <%= password_input f, :password_confirmation %>
+        <%= error_tag f, :password_confirmation %>
+        <button type="submit" style="float: right;" class="bt__com__form"><i class="bi bi-plus-circle bt__com__form__ico"></i></button>
+        </.form>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

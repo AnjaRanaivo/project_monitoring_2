@@ -1,0 +1,82 @@
+.recaps__chart{
+  padding-top: 20px;
+  overflow-y: scroll;
+  height: 500px;
+}
+
+.desktop__header{
+  display: block;
+  max-height: 50px;
+}
+
+@media (max-width: 638px){
+  .desktop__header{
+    display: none !important;
+  }
+}
+
+.mobile__header{
+  display: none;
+  max-height: 50px;
+}
+
+@media (max-width: 638px){
+  .mobile__header{
+    display: block;
+  }
+}
+
+.gantt__icon{
+  font-size: 25px;
+  margin-right: 20px;
+  transition: font-size 0.2s ease;
+}
+
+
+.gantt__icon:hover{
+  font-size: 30px;
+}
+
+.gantt__card{
+  width: 120%;
+  /* height: 120%; */
+}
+
+.x__close{
+  font-size: 35px;
+  float: right;
+  margin-top: 15px;
+  transition: font-size 0.5s ease;
+}
+
+.x__close__copy{
+  font-size: 25px;
+  /* float: right; */
+  transition: font-size 0.5s ease;
+}
+
+.x__close__with__animation{
+  /* font-size: 25px;
+  float: right; */
+  transition: font-size 0.5s ease;
+  /* background-color: red; */
+  cursor: pointer;
+  -webkit-animation:spin 0.3s linear 0s;
+  -moz-animation:spin 0.3s linear 0s;
+  animation:spin 0.3s linear 0s;
+}
+
+.x__close:hover{
+  /* font-size: 30px; */
+  cursor: pointer;
+  -webkit-animation:spin 0.3s linear 0s;
+  -moz-animation:spin 0.3s linear 0s;
+  animation:spin 0.3s linear 0s;
+}
+
+
+
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(180deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(180deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(180deg); transform:rotate(180deg); } }

@@ -1,0 +1,53 @@
+
+<h1><i class="bi bi-plus-circle"></i> Nouveau projet</h1>
+<div class="basecontents__without__radius">
+  <%= render "form.html", Map.put(assigns, :action, Routes.project_path(@socket, :create)) %>
+</div>
+
+<span><a href={ Routes.project_path(@socket, :index) } class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>
+
+<div class="request__form__container" style={"visibility: #{ if @form, do: "visible", else: "hidden" }; opacity: #{ if @form, do: "1", else: "0" };"}>
+  <div phx-window-keydown="cancel-form" class="basecontents__without__radius request__form">
+    <div class="column">
+      <a class="form__close" title="Fermer" phx-click="close-form"><i class="bi bi-x"></i></a>
+      <h2><i class="bi bi-plus-circle"></i> Nouveau client</h2>
+      <div class="request__form__content">
+        <.form let={f} for={@user_changeset} phx-submit="save-user">
+        <label for="username" class="zoom-out">Nom d'utilisateur</label>
+        <%= text_input f, :username %>
+        <%= error_tag f, :req_uname_error %>
+        <%= error_tag f, :username %>
+
+        <label for="email" class="zoom-out">Adresse éléctronique</label>
+        <%= text_input f, :email %>
+        <%= error_tag f, :email %>
+        <%= error_tag f, :req_email_error %>
+
+        <label for="email_confirmation" class="zoom-out">Confirmer adresse e-mail</label>
+        <%= text_input f, :email_confirmation %>
+        <%= error_tag f, :email_confirmation %>
+
+        <label for="password" class="zoom-out">Mot de passe</label>
+        <%= password_input f, :password %>
+        <%= error_tag f, :password %>
+        <%= error_tag f, :req_pass_error %>
+
+        <label for="password_confirmation" class="zoom-out">Confirmer mot de passe</label>
+        <%= password_input f, :password_confirmation %>
+        <%= error_tag f, :password_confirmation %>
+
+        <label for="company_id" class="zoom-out">Pour société: </label>
+        <%= select f, :company_id, @companies_ids, style: "width: -moz-available;" %>
+        <%= error_tag f, :company_id %>
+
+        <%= hidden_input f, :right_id, value: 4 %>
+
+        <button type="submit" style="float: right;" class="bt__com__form"><i class="bi bi-plus-circle bt__com__form__ico"></i></button>
+        </.form>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

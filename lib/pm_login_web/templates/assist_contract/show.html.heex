@@ -1,0 +1,25 @@
+<h1><span class="material-icons mat__ico__big">content_paste</span> <%= @assist_contract.title %></h1>
+
+<div class="basecontents__without__radius project-show">
+<ul>
+
+  <li>
+    <strong>De :</strong>
+    <%= @assist_contract.company.name %>
+  </li>
+
+  <li>
+    <strong>Date de début:</strong>
+    <%= Utilities.letters_date_format(@assist_contract.date_start) %>
+  </li>
+
+  <li>
+    <strong>Date de fin:</strong>
+    <%= Utilities.letters_date_format(@assist_contract.date_end) %>
+  </li>
+
+</ul>
+</div>
+
+<span><a href={Routes.assist_contract_path(@socket, :edit, @assist_contract)} class="btn btn-lg btn-warning"><i class="bi bi-pencil-square"></i> Modifier</a></span>
+<span><a href={Routes.assist_contract_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

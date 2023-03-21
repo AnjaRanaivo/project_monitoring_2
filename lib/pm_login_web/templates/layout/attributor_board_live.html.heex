@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <title>MGBI/ Monitoring</title>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@socket, "/assets/app.css")}/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@socket, "/assets/app.js")}></script>
+  </head>
+  <body class="body-bg">
+    <script>0</script>
+
+    <header class="site-header">
+
+      <div class="wrapper site-header__wrapper">
+        <%= link "Monitoring - Mgbi", to: Routes.user_path(@socket, :index), class: "brand" %>
+        <nav class="nav">
+          <a  class="menu-btn nav__toggle"><div class="menu-btn__burger"></div></a>
+          <ul class="nav__wrapper">
+
+            <li class="nav__item"><a href={Routes.project_path(@socket, :index)} class="nav__item__link"><span class="material-icons mat__ico">insert_chart</span><p>Projets</p></a></li>
+            
+            <div class="dropdown">
+              <li class="dropbtn nav__item__link" style="margin-top: -4px">
+                <a class="nav__item__link"><span class="material-icons mat__ico">format_list_bulleted</span> <p>Mes tâches</p> </a>
+              </li>
+              <div class="dropdown-content">
+                <li class="nav__item">
+                  <a href={Routes.project_path(@socket, :tasks)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-lines-fill" style="font-size: 15px"></i>
+                    <p>Mes propres tâches</p>
+                  </a>
+                  <a href={Routes.project_path(@socket, :attributed_tasks)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-plus" style="font-size: 15px"></i>
+                    <p>Les tâches attribuées</p>
+                    
+                  </a>
+                </li>
+              </div>
+            </div>
+
+            <li class="nav__item"><a href={Routes.user_path(@socket, :index)} class="nav__item__link"><span class="material-icons mat__ico">home</span><p>Accueil</p></a></li>
+
+            <li class="nav__item old__notif">
+              <div class="dropdown">
+                <% unseens = PmLogin.Services.list_my_notifications(@curr_user_id)
+                |> Enum.count(fn(x) -> !(x.seen) end) %>
+                <a href="#" title="Notifications" phx-click="switch-notif"><span class="material-icons mat__ico header__ico">notifications</span><span class="notification-span" style={"background-color: #{ if unseens == 0 do "transparent" end } !important;"}><b class="notification-nb" style={"position: relative; left: #{ if unseens > 9 do "0px !important" end };"}><%=
+                  if unseens < 10 do
+                    unseens
+                  else
+                    "9+"
+                  end
+                  %></b></span></a>
+
+                  <div class="dropdown-notif basecontents__without__radius" style={"display: #{if @show_notif, do: "block", else: "none" };"}>
+                    <%= if length(@notifs)!=0 do %>
+                    <p id="spin_a" title="Charger notifications" class="x__close__copy" style="text-align: center;"><i id="myspin" class="bi bi-arrow-clockwise notif__load" phx-click="load-notifs" phx-hook="SpinTest"></i></p>
+                    <% end %>
+                    <%= for notif <- @notifs do %>
+                      <div class="row notif-link basecontents__without__radius" style={"background-color: #{ if not notif.seen, do: "lightgray" } ;"}>
+                        <div class="column column-10">
+                          <img class="profile-pic-notif" src={ Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(notif.sender_id) }") } width="20"/>
+                        </div>
+                        <div class="column" style="width: 150px;">
+                          <b class="notif-text"><%= notif.content %></b>
+                          <br/><br/>
+                          <i class="notif-date">il y a <%= PmLogin.Services.time_ago notif %></i>
+                        </div>
+                      </div>
+                    <% end %>
+                    <%= if length(@notifs)==0 do %>
+                      <p>Aucune notification</p>
+                    <% end %>
+                  </div>
+              </div>
+            </li>
+
+            <li class="nav__item">
+              <div class="dropdown">
+                <a href={ Routes.user_path(@socket, :show, @curr_user_id) } class="nav__item__link">
+                <img class="profile-pic-header" src={Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(@curr_user_id) }")} width="50" style="position: relative;top: 5px;"/>
+                <p><%= PmLogin.Login.get_user!(@curr_user_id).username %></p></a>
+                <div class="dropdown-content">
+                  <a href={ Routes.user_path(@socket, :show, @curr_user_id) } class="admin__links" style="display: flex;justify-content: space-between;">
+                    <p>Mon profil</p><p><i class="bi bi-person my-profile-icons"></i></p>
+                  </a>
+                  <a href={ Routes.auth_path(@socket, :sign_out) } class="admin__links" style="display: flex;justify-content: space-between;">
+                    <p style="color: red;">Se déconnecter</p><p style="color: red;"><i class="bi bi-box-arrow-right deconnexion__icon"></i></p>
+                  </a>
+                </div>
+              </div>
+            </li>
+
+
+          </ul>
+        </nav>
+      </div>
+
+       <div class="mobile__notif" style="display: inline-block;">
+                <% unseens = PmLogin.Services.list_my_notifications(@curr_user_id)
+                |> Enum.count(fn(x) -> !(x.seen) end) %>
+                <a href="#" title="Notifications" phx-click="switch-notif"><i class="bi bi-bell-fill mobile__notif__ico"></i><span class="notification-span" style={"background-color: #{ if unseens == 0 do "transparent" end } !important;"}><b class="notification-nb-mobile" style={"position: relative; left: #{ if unseens > 9 do "0px !important" end };"}><%=
+                  if unseens < 10 do
+                    unseens
+                  else
+                    "9+"
+                  end
+                  %></b></span></a>
+
+                  <div class="mobile-dropdown-notif basecontents__without__radius" style={"display: #{ if @show_notif, do: "block", else: "none" };"}>
+                    <%= if length(@notifs)!=0 do %>
+                    <p class="x__close__copy" title="Charger notifications" style="text-align: center;"><i id="myspin" class="bi bi-arrow-clockwise notif__load" phx-click="load-notifs"></i></p>
+                    <% end %>
+                    <%= for notif <- @notifs do %>
+                      <div class="row notif-link basecontents__without__radius" style={"background-color: #{ if not notif.seen, do: "lightgray" } ;"}>
+                        <div class="column column-10">
+                          <img class="profile-pic-notif" src={Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(notif.sender_id) }") } width="20"/>
+                        </div>
+                        <div class="column" style="width: 150px;">
+                          <b class="notif-text"><%= notif.content %></b>
+                          <br/><br/>
+                          <i class="notif-date">il y a <%= PmLogin.Services.time_ago notif %></i>
+                        </div>
+                      </div>
+                    <% end %>
+                    <%= if length(@notifs)==0 do %>
+                      <p>Aucune notification</p>
+                    <% end %>
+                  </div>
+              </div>
+
+
+
+
+
+    </header>
+    <!-- <div class="" phx-hook="hookTest">
+
+    </div> -->
+
+    <main id="main" role="main" class="boardcontainer" phx-hook="AnimateAlert">
+      <p class="alert alert-info basecontents" role="alert"
+        phx-click="lv:clear-flash" id="alert_anim"
+        phx-value-key="info"><%= live_flash(@flash, :info) %><%= if not is_nil(live_flash(@flash, :info)) do %><i class="bi bi-x alert__cross"></i><% end %></p>
+
+      <p class="alert alert-danger" role="alert"
+        phx-click="lv:clear-flash"
+        phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+      <%= @inner_content %>
+      <br/>
+      <br/>
+
+    </main>
+  </body>
+  <footer id="foot" class="container-fluid">
+    <div id="footcont" class="container">
+      <p><span id="copyright__icon" class="material-icons">copyright</span>copyright MGBI / Project monitoring</p>
+    </div>
+
+  </footer>
+</html>

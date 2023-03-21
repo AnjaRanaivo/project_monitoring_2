@@ -1,0 +1,25 @@
+<div class="row">
+  <a href={Routes.clients_request_path(@socket, :my_requests)} class="column basecontents__without__radius esp__adm__col">
+    <h3 class="header__link__title"><p id="adm">Mes requêtes <br/><span class="material-icons">receipt_long</span></p></h3>
+  </a>
+  <!--
+  <a href={Routes.clients_request_path(@socket, :client_tasks)} class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Mes projets <br/><span class="material-icons">maps_home_work</span></p></h3>
+  </a>
+  -->
+  <a href={Routes.clients_request_path(@socket, :client_tasks)} class="column basecontents__without__radius esp__adm__col">
+    <h3 class="header__link__title"><p id="adm">Mes tâches <br/><span class="material-icons">receipt_long</span></p></h3>
+  </a>
+</div>
+
+<div class="row">
+  <a href={Routes.company_path(@socket, :my_company)} class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Ma société <br/><span class="material-icons">maps_home_work</span></p></h3>
+  </a>
+
+  <a href={Routes.clients_request_path(@socket, :client_users)} class="column basecontents__without__radius esp__adm__col">
+    <h3 class="header__link__title">
+      <p id="adm">Utilisateurs <br /><span class="material-icons mat__ico">supervisor_account</span></p>
+    </h3>
+  </a>
+</div>

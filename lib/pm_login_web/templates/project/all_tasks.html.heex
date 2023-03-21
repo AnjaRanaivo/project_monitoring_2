@@ -1,0 +1,179 @@
+<h3 style="color: #fff; margin-bottom: 0px;">
+    Toutes les tâches (<%= Enum.count(@tasks) %>)
+</h3>
+
+  <table class="table-tasks" id="" style="font-size: 11px;">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th>
+          <form phx-change="tasks_filtered_by_status"  style="margin-bottom: -2rem;">
+            <select
+              id="task_filter"
+              name="status_id"
+              style="margin-bottom: O;  color: #fff !important;"
+            >
+              <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Statut</option>
+              <%= for status <- @statuses do %>
+                <option value={status.id} style="background: #1F2937; color: #fff;">
+                  <%= status.title %>
+                </option>
+              <% end %>
+            </select>
+          </form>
+        </th>
+        <th></th>
+        <th></th>
+        <th> 
+          <form phx-change="tasks_filtered_by_contributors"  style="margin-bottom: -2rem;">
+            <select
+              id="task_filter"
+              name="contributor_select"
+              style="margin-bottom: O;  color: #fff !important;"
+            >
+              <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Contributeurs</option>
+              <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+
+              <%= for contributor <- @contributors do %>
+                <option value={elem(contributor, 1)} style="background: #1F2937; color: #fff;">
+                  <%= elem(contributor, 0) %>
+                </option>
+              <% end %>
+
+              <option value="-1" style="background: #1F2937; color: #fff;">Sans contributeur</option>
+            </select>
+          </form>
+        </th>
+        <th></th>
+        <th>
+          <form phx-change="tasks_filtered_by_customer"  style="margin-bottom: -2rem;">
+            <select
+              id="task_filter"
+              name="customer_select"
+              style="margin-bottom: O;  color: #fff !important;"
+            >
+              <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Clients</option>
+              <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+
+              <%= for active_client <- @active_clients do %>
+                <option value={active_client.id} style="background: #1F2937; color: #fff;">
+                  <%= PmLogin.Login.get_username(active_client.user_id) %>
+                </option>
+              <% end %>
+
+              <option value="-1" style="background: #1F2937; color: #fff;">Sans client</option>
+            </select>
+          </form>
+        </th>
+      </tr>
+      <tr>
+        <th>Projet</th>
+        <th>Nom</th>
+        <!-- <th>Description</th> -->
+        <th>Statut</th>
+        <th>Priorité</th>
+        <th>Attributeur</th>
+        <th>Contributeur</th>
+        <th>Progression</th>
+        <th>Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for task <- @tasks do %>        
+        <!-- Afficher les tâches si son statut est différent de Achevée(s) et que c'est pas archivé -->
+        <%= if task.hidden == false do %>
+          <tr>
+            <td data-label="Projet" style="word-wrap: anywhere; min-width: 125px;">
+              <%= link "#{task.project.title}", to: Routes.project_path(@socket, :board, task.project_id), class: "all-tasks-project-title" %>
+            </td>
+            <td data-label="Nom" style="word-wrap: anywhere; min-width: 150px;">
+              <%= task.title %>
+            </td>
+            <!-- <td data-label="Description" style="word-wrap: anywhere"><%= task.description %></td> -->
+            <form phx-submit="status_and_progression_changed" style="margin-top: 23px;">
+              <td data-label="Status">
+                <%= for status <- @statuses do %>
+                  <%= if status.id == task.status.id do %>
+                      <%= status.title %>
+                  <% end %>
+                <% end %>
+              </td>
+    
+              <td data-label="Priorité" style="min-width: 130px;">
+                <%= case task.priority_id do %>
+                  <% 1 -> %>
+                    <div class="low__priority__point__bg">
+                      <span class="low__priority__point__t"></span>
+                      Faible
+                    </div>
+                  <% 2 -> %>
+                    <div class="avg__priority__point__bg">
+                      <span class="avg__priority__point__t"></span>
+                      Moyenne
+                    </div>
+                  <% 3 -> %>
+                    <div class="high__priority__point__bg">
+                      <span class="high__priority__point__t"></span>
+                      Importante
+                    </div>
+                  <% 4 -> %>
+                    <div class="urg__priority__point__bg">
+                      <span class="urg__priority__point__t"></span>
+                      Urgente
+                    </div>
+                  <% _ -> %>
+                    <div class="priority__point__bg">
+                      <span class="priority__point__t"></span>
+                    </div>
+                <% end %>
+              </td>
+
+              <td data-label="Attributeur" style="min-width: 125px"> 
+                <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+              </td>
+
+              <td data-label="Contributeur">
+                <%= if is_nil(task.contributor_id) do %>
+                  <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+                <% else %>
+                  <%= PmLogin.Login.get_user!(task.contributor_id).username %>
+                <% end %>
+              </td>
+
+              <td data-label="Progression">
+                <%= task.progression %> %
+              </td>
+              <td><%= PmLogin.Login.get_username(PmLogin.Services.get_active_client!(task.project.active_client_id).user_id) %></td>
+              <td data-label="Actions" class="d-action">
+                <div style="display: flex;
+                            margin-top: 40px;
+                            justify-content: end;"
+                >
+
+                  <div
+                    title="Supprimer"
+                    class="table-button btn-mobile"
+                    phx-click="delete_card"
+                    phx-value-id={task.id}
+                    style="margin-top: -40px; background-color: #e74c3c; border-color: #e74c3c"
+                  >
+                    Supprimer
+                  </div>
+                </div>
+              </td>
+            </form>
+              <td class="btn-table" style="padding-left: 0;">
+                <button
+                  title="Supprimer"
+                  class="bi bi-trash3 plus__icon table-button"
+                  phx-click="delete_card"
+                  phx-value-id={task.id}
+                  style="background-color: #e74c3c; border-color: #e74c3c; border-radius: 50%;"
+                />
+              </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>

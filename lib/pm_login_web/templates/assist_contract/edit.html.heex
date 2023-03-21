@@ -1,0 +1,7 @@
+<h1><i class="bi bi-pencil-square"></i> Modifier contrat d'assistance</h1>
+
+<div class="basecontents__without__radius">
+<%= render "form.html", Map.put(assigns, :action, Routes.assist_contract_path(@socket, :update, @assist_contract)) %>
+</div>
+
+<span><a href={Routes.assist_contract_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

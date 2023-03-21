@@ -1,0 +1,38 @@
+<h1>Listing Tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Progression</th>
+      <th>Date start</th>
+      <th>Date end</th>
+      <th>Estimated duration</th>
+      <th>Performed duration</th>
+      <th>Deadline</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for task <- @tasks do %>
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= task.progression %></td>
+      <td><%= task.date_start %></td>
+      <td><%= task.date_end %></td>
+      <td><%= task.estimated_duration %></td>
+      <td><%= task.performed_duration %></td>
+      <td><%= task.deadline %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>
+        <span><%= link "Edit", to: Routes.task_path(@conn, :edit, task) %></span>
+        <span><%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>

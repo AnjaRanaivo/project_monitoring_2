@@ -1,0 +1,58 @@
+<div class="container profile-data" style="padding-top: 10px; border-radius: 5px;">
+
+
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Vérifiez vos informations ci-dessous</p>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-6 col60">
+    <h1><%= @user.username %></h1>
+    <h2><p class="subtext"><%= @user.email %></p></h2>
+  </div>
+  <div id="pic-sqr" class="col-6 col40">
+    <img class="profile-pic" src="<%= Routes.static_path(@socket, "/#{@user.profile_picture}") %>"/>
+  </div>
+</div>
+
+<br/>
+<div id="" class="row">
+  <%= if @user.right_id != 100 do %>
+      <div class="col-6 col60">
+        <%= label f, "Droit" %>
+      </div>
+      <div id="right-select" class="col-6 col40">
+        <%= select f, :right_id, @str_rights , selected: [@user.right_id], style: "display: block; margin: 0 auto;" %>
+      </div>
+      <% else %>
+      <div class="col-6 col60">
+        <%= label f, "Archivé(e)" %>
+      </div>
+      <div id="right-select" class="col-6 col40">
+        <%= link("Restaurer",to: Routes.user_path(@socket, :restore, @user),method: :put,class: "btn btn-outline-dark btn-lg ",id: "signin")%>
+      </div>
+      <% end %>
+</div>
+<br/>
+<%= if @user.right_id==3 do %>
+  <div class="row">
+    <div class="col-6 col60">
+    Rôle
+    </div>
+    <div class="col-6 col40">
+    <%= select f, :function_id, @str_functions , selected: [@user.function_id], style: "display: block; margin: 0 auto;" %>
+    </div>
+  </div>
+<% end %>
+
+  <br/>
+  <%= if @user.right_id != 100 do %>
+  <%= submit "Modifier droit", class: "submit", id: "signin" %>
+  <% end %>
+
+<% end %>
+
+</div>

@@ -1,0 +1,40 @@
+.line-chart {
+    margin: 1rem 1rem 1rem 0 !important;
+}
+
+.doughnut-chart {
+    margin: 1rem 1rem 1rem 0rem !important;
+}
+
+.stacked-bar-chart {
+    margin: 1rem 2rem 0rem -0.5rem !important;
+}
+
+.horizontal-bar-chart {
+    margin: 1rem 1.5rem 0rem 0rem !important;
+}
+
+.line-chart, .doughnut-chart, .horizontal-bar-chart, .stacked-bar-chart {
+    padding: 30px 20px 30px 20px;
+    max-width: 100%;
+}
+
+
+@media screen and (max-width: 1024px) {
+    #chart {
+        display: block !important;
+    }   
+    
+    #chart > .column {
+        width: 100% !important;
+    }
+
+    #chart > .column >.stacked-bar-chart {
+        margin: 1rem 2rem 1rem 0rem !important;
+    }
+
+    #chart > .column >.horizontal-bar-chart {
+        margin: 1rem 2rem 0rem 0rem !important;
+    }
+}
+

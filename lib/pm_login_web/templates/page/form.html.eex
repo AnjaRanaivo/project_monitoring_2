@@ -1,0 +1,33 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Vérifiez vos informations ci-dessous</p>
+    </div>
+  <% end %>
+
+  <div class="row login__input">
+    <span class="material-icons-round" style="font-size: 35px;color: gray;">account_box</span>
+    <%= text_input f, :username, class: "un", id: "iu", align: "center", placeholder: "Identifiant/Adresse éléctronique" %>
+  </div>
+  <%= error_tag f, :req_uname_error %>
+
+<div class="row login__input">
+  <span class="material-icons-round" style="font-size: 35px;color: gray;">password</span>
+  <%= password_input f, :password, class: "pass", align: "center", placeholder: "Mot de passe" %>
+</div>
+  <%= error_tag f, :req_pass_error %>
+
+  <%= submit "Se connecter", class: "submit", align: "center" %>
+<% end %>
+
+<!-- <div id="login" class="container">
+  <p id="title" align="center">MGBI/ MONITORING</p>
+   <p class="sign" align="center">Connexion</p>
+   <form action="/auth" method="post" class="form1">
+     <input class="un" type="text" name="username" align="center" placeholder="Utilisateur">
+     <input class="pass" type="password" name="password" align="center" placeholder="Mot de passe">
+     <input type="hidden" name="_csrf_token" value="<%= Plug.CSRFProtection.get_csrf_token() %>">
+     <button class="submit" align="center">Se connecter</button>
+   </form>
+   <a id="signup" href="<%= Routes.user_path(@conn, :new) %>">Inscription</a>
+   </div> -->

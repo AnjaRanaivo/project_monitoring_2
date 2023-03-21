@@ -1,0 +1,5 @@
+<h1><i class="bi bi-pencil-square"></i> Modifier éditeur</h1>
+<div class="basecontents__without__radius">
+<%= render "form.html", Map.put(assigns, :action, Routes.editor_path(@socket, :update, @editor)) %>
+</div>
+<span><a href={Routes.editor_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

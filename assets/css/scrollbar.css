@@ -1,0 +1,20 @@
+/* Custom ScrollBar */
+.stage::-webkit-scrollbar {
+    width: 5px;
+    height: 25px;
+}
+
+/* Track */
+.stage::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+.stage::-webkit-scrollbar-thumb {
+    background: #2c3e50;
+}
+
+/* Handle on hover */
+.stage::-webkit-scrollbar-thumb:hover {
+    background: #5b748d84;
+}

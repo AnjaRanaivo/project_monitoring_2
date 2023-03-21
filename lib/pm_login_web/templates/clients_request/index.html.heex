@@ -1,0 +1,28 @@
+<h1>Listing Clients requests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>Date post</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for clients_request <- @clients_requests do %>
+    <tr>
+      <td><%= clients_request.content %></td>
+      <td><%= clients_request.date_post %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.clients_request_path(@socket, :show, clients_request) %></span>
+        <span><%= link "Edit", to: Routes.clients_request_path(@socket, :edit, clients_request) %></span>
+        <span><%= link "Delete", to: Routes.clients_request_path(@socket, :delete, clients_request), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Clients request", to: Routes.clients_request_path(@socket, :new) %></span>

@@ -1,0 +1,15 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Vérifiez les informations ci-dessous</p>
+    </div>
+  <% end %>
+
+  <%= label f, "Titre" %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <div>
+    <%= submit "Confirmer", class: "btn btn-lg btn-primary right-button" %>
+  </div>
+<% end %>

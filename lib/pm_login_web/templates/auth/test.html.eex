@@ -1,0 +1,4 @@
+<p>Test authentification</p>
+<%= Plug.Conn.get_session(@conn, :curr_user_id) %>
+
+<%= link "Se déconnecter", to: Routes.auth_path(@conn, :sign_out) %>

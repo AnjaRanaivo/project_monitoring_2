@@ -1,0 +1,56 @@
+.my__modal__container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: visibility 0.2s, opacity 0.2s linear;
+}
+
+.my__modal__card{
+    position: fixed;
+    margin: 0 auto;
+    white-space: normal;
+    word-wrap: break-word;
+    z-index: 999;
+    border-radius: 5px;
+    background-color: white;
+    opacity: 0.9;
+}
+
+.archive__modal__card{
+    padding-bottom: -20px !important;
+    width: 500px;
+}
+
+.planified__modal__card{
+    padding-bottom: -20px !important;
+    /* height: 500px; */
+    /* width: 500px; */
+}
+
+#planified_list{
+    overflow-y:scroll;
+    height:400px;
+    display:block;
+}
+
+
+#planified_list th{
+    position: sticky;
+    background-color: white;
+    z-index: 1200;
+    top: 0;
+}
+
+.hidden__contents__container{
+    height: 250px;
+    max-height: 250px;
+    overflow-y: auto;
+}

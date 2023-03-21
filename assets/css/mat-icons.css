@@ -1,0 +1,29 @@
+.mat__ico{
+  position: relative;
+  top: 7px;
+  transition: font-size 0.5s ease;
+}
+
+
+.material-icons{
+  transition: font-size 0.5s ease;
+}
+
+#copyright__icon{
+  position:relative;
+  top: 3px !important;
+  font-size: 15px;
+}
+
+.mat__ico__big{
+  font-size: 40px !important;
+}
+
+.filt__and__sort__ico{
+  position: relative;
+  top: 6px;
+}
+
+/* .mat__ico__growing:hover{
+  font-size: 30px;
+} */

@@ -1,0 +1,28 @@
+<h1>Listing Notifications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>Seen</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for notification <- @notifications do %>
+    <tr>
+      <td><%= notification.content %></td>
+      <td><%= notification.seen %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.notification_path(@conn, :show, notification) %></span>
+        <span><%= link "Edit", to: Routes.notification_path(@conn, :edit, notification) %></span>
+        <span><%= link "Delete", to: Routes.notification_path(@conn, :delete, notification), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Notification", to: Routes.notification_path(@conn, :new) %></span>

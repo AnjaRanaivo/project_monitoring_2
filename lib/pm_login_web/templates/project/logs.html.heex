@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <body style="overflow-x: hidden; color: #696666; background-color: #fff">
+    <!-- Side Bar Menu BEGIN -->
+  <%= if @show_task_component == false do %>
+    <%=
+      live_component(
+        SidebarLiveComponent,
+        show_dashboard_component: @show_dashboard_component,
+        show_project_component: @show_project_component,
+        show_task_component: @show_task_component,
+        show_user_component: @show_user_component,
+        show_task_ismajor_false: @show_task_ismajor_false,
+        show_task_ismajor_true: @show_task_ismajor_true
+      )
+    %>
+  <% end %>
+  <%= if @show_task_component == true do %>
+    <%=
+      live_component(
+        SidebarLiveComponent,
+        show_dashboard_component: @show_dashboard_component,
+        show_project_component: @show_project_component,
+        show_task_component: @show_task_component,
+        show_user_component: @show_user_component,
+        show_task_ismajor_false: @show_task_ismajor_false,
+        show_task_ismajor_true: @show_task_ismajor_true
+      )
+    %>
+  <% end %>
+  <%= if @show_task_ismajor_true == true do %>
+    <%=
+      live_component(
+        SidebarTrueLiveComponent,
+        show_dashboard_component: @show_dashboard_component,
+        show_project_component: @show_project_component,
+        show_task_component: @show_task_component,
+        show_user_component: @show_user_component,
+        show_task_ismajor_false: @show_task_ismajor_false,
+        show_task_ismajor_true: @show_task_ismajor_true
+      )
+    %>
+  <% end %>
+  <%= if @show_task_ismajor_false == true do %>
+    <%=
+      live_component(
+        SidebarFalseLiveComponent,
+        show_dashboard_component: @show_dashboard_component,
+        show_project_component: @show_project_component,
+        show_task_component: @show_task_component,
+        show_user_component: @show_user_component,
+        show_task_ismajor_false: @show_task_ismajor_false,
+        show_task_ismajor_true: @show_task_ismajor_true
+      )
+    %>
+  <% end %>
+  
+    <!-- Side Bar Menu END -->
+
+    <!-- Right Menu BEGIN -->
+    <div class="right-menu">
+
+      <%= if @show_dashboard_component != false do %>
+        <!-- Icon Card - Row BEGIN -->
+        <div class="row list-user-card" style="padding: 0; width: auto">
+          <!-- Attributeurs -->
+          <%= 
+            live_component(
+              UserLiveComponent,
+              color: "#0069d9",
+              background_color: "#6365f117",
+              icon: "person-fill",
+              content_name: "Attributeurs",
+              content_list: @list_attributors,
+              font_color: "#1e293b"
+            )
+          %>
+
+          <!-- Contributeurs -->
+          <%= 
+            live_component(
+              UserLiveComponent,
+              color: "#0069d9",
+              background_color: "#6365f117",
+              icon: "people-fill",
+              content_name: "Contributeurs",
+              content_list: @list_contributors,
+              font_color: "#1e293b"
+            )
+          %>
+
+          <!-- Clients -->
+          <%= 
+            live_component(
+              UserLiveComponent,
+              color: "#0069d9",
+              background_color: "#6365f117",
+              icon: "person-workspace",
+              content_name: "Clients",
+              content_list: @list_clients,
+              font_color: "#1e293b"
+            )
+          %>
+
+          <!-- Non attribuées -->
+          <%= 
+            live_component(
+              UserLiveComponent,
+              color: "#0069d9",
+              background_color: "#6365f117",
+              icon: "person-x-fill",
+              content_name: "Non attribuées",
+              content_list: @list_unattributed,
+              font_color: "#1e293b"
+            )
+          %>
+      </div>
+
+      <%= if @show_dashboard_component != false do %>
+        <div class="row" id="chart">
+          <!--
+          <div class="column" style="width: 50%; padding: 0">
+            <div class="icon-card doughnut-chart">
+              <canvas phx-hook="DoughNutChart" 
+                      id="doughnut-chart"  
+                      data-chart-data={Jason.encode!(@chart_data)}>
+              </canvas>      
+            </div>
+          </div>
+
+          <div class="column" style="width: 50%; padding: 0">
+            <div class="icon-card horizontal-bar-chart">
+              <canvas phx-hook="LineChart" 
+                      id="line-chart"  
+                      data-chart-data={Jason.encode!(@chart_data)}>
+              </canvas>      
+            </div>
+          </div>
+          -->
+
+          <div class="column" style="width: 50%; padding: 0">
+            <div class="icon-card horizontal-bar-chart">
+              <canvas phx-hook="HorizontalBarChart" 
+                      id="horizontal-bar-chart"  
+                      data-chart-data={Jason.encode!(@chart_data)}>
+              </canvas>      
+            </div>
+          </div>
+
+          <div class="column" style="width: 50%; padding: 0">
+            <div class="icon-card stacked-bar-chart">
+              <canvas phx-hook="StackedBarChart" 
+                      id="stacked-bar-chart"  
+                      data-chart-data={Jason.encode!(@chart_data)}>
+              </canvas>      
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+
+
+
+      <div class="row list-activity-card" style="padding: 0; width: auto">
+          <!-- Activités des utilisateurs -->
+          <%= 
+            live_component(
+              ActivityLiveComponent,
+              list_notifications_updated_yesterday: @list_notifications_updated_yesterday,
+              list_notifications_updated_today: @list_notifications_updated_today,
+              list_tasks_updated_today: @list_tasks_updated_today,
+              list_tasks_updated_yesterday: @list_tasks_updated_yesterday,
+              list_tasks_updated_a_month_ago: @list_tasks_updated_a_month_ago
+            )
+          %>
+
+          <!-- Pourcentages des activités réalises -->
+          <%=
+            live_component(
+              CompletedActivitiesLiveComponent,
+              list: @list_tasks,
+              list_tasks_not_achieved: @list_tasks_not_achieved,
+              list_tasks_achieved: @list_tasks_achieved,
+              title: "Tâches effectuées",
+              content: "Tâches achevées"
+            )
+          %>
+
+          <%=
+          live_component(
+            CompletedActivitiesLiveComponent,
+            list_tasks: [],
+            list_tasks_not_achieved: [],
+            list_tasks_achieved: [],
+            list: @list_projects,
+            title: "Projets en cours",
+            content: "Projets en cours"
+          )
+        %>
+      </div>
+      <!-- Icon Card - Row END -->
+    <% end %>
+
+      <%= if @show_project_component == true do %>
+        <!-- Project Card - Row BEGIN -->
+        <%= 
+          live_component(
+            ProjectLiveComponent,
+            list_projects: @list_projects
+          )
+        %>
+        <!-- Project Card - Row END -->
+      <% end %>
+      
+      <%= if @show_task_component == true do %>
+        <!-- Task Card BEGIN -->
+        <div class="row list-user-card" style="padding: 0; width: auto">
+          <%= 
+          live_component(
+            CardTaskmajorAllLiveComponent,
+            color: "#0069d9",
+            background_color: "#6365f117",
+            icon: "bi bi-window-sidebar",
+            content_name: "Toutes les tâches",
+            content_list: @list_tasks,
+            font_color: "#1e293b"
+          )
+          %>
+          <%= 
+          live_component(
+            CardTaskmajorTrueLiveComponent,
+            color: "#0069d9",
+            background_color: "#6365f117",
+            icon: "bi bi-window-sidebar",
+            content_name: "Tâches majeures",
+            content_list: @values_tasks_ismajor_true,
+            font_color: "#de0a26",
+            phx_click: "Click_ismajor_true"
+          )
+          %>
+          <%= 
+          live_component(
+            CardTaskmajorFalseLiveComponent,
+            color: "#0069d9",
+            background_color: "#6365f117",
+            icon: "bi bi-window-sidebar",
+            content_name: "Tâches mineures",
+            content_list: @values_tasks_ismajor_false,
+            font_color: "#1e293b"
+          )
+          %>
+        </div>
+        
+
+        <%= 
+          live_component(
+            TaskLiveComponent,
+            list_tasks: @list_tasks,
+            list_tasks_by_contributor_id: @list_tasks_by_contributor_id,
+            list_tasks_by_date: @list_tasks_by_date,
+            list_tasks_not_achieved: @list_tasks_not_achieved,
+            list_contributors: @list_contributors,
+            list_tasks_ismajor_true: @values_tasks_ismajor_true,
+            list_tasks_ismajor_false: @values_tasks_ismajor_false
+          )
+        %>
+        <!-- Task Card END -->
+      <% end %>
+
+      <!-- Interventions majeurs -->
+      <%= if @show_task_ismajor_true == true do %>
+      <div class="row list-user-card" style="padding: 0; width: auto">
+        <%= 
+        live_component(
+          CardTaskmajorAllLiveComponent,
+          color: "#0069d9",
+          background_color: "#6365f117",
+          icon: "bi bi-window-sidebar",
+          content_name: "Toutes les tâches",
+          content_list: @list_tasks,
+          font_color: "#1e293b"
+        )
+        %>
+        <%= 
+        live_component(
+          CardTaskmajorTrueLiveComponent,
+          color: "#0069d9",
+          background_color: "#6365f117",
+          icon: "bi bi-window-sidebar",
+          content_name: "Tâches majeures",
+          content_list: @values_tasks_ismajor_true,
+          font_color: "#de0a26",
+          phx_click: "Click_ismajor_true"
+        )
+        %>
+        <%= 
+        live_component(
+          CardTaskmajorFalseLiveComponent,
+          color: "#0069d9",
+          background_color: "#6365f117",
+          icon: "bi bi-window-sidebar",
+          content_name: "Tâches mineures",
+          content_list: @values_tasks_ismajor_false,
+          font_color: "#1e293b"
+        )
+        %>
+      </div>
+
+        <%= 
+          live_component(
+            TaskmajorTrueLiveComponent,
+            list_tasks_ismajor_true: @values_tasks_ismajor_true,
+            list_tasks_by_date: @list_tasks_by_date,
+            list_tasks_by_contributor_id: @list_tasks_by_contributor_id,
+            list_tasks_not_achieved: @list_tasks_not_achieved,
+            list_contributors: @list_contributors
+          )
+        %>
+      <% end %>
+      <!-- END -->
+      <!-- Tache mineurs -->
+      <%= if @show_task_ismajor_false == true do %>
+      <div class="row list-user-card" style="padding: 0; width: auto">
+        <%= 
+        live_component(
+          CardTaskmajorAllLiveComponent,
+          color: "#0069d9",
+          background_color: "#6365f117",
+          icon: "bi bi-window-sidebar",
+          content_name: "Toutes les tâches",
+          content_list: @list_tasks,
+          font_color: "#1e293b"
+        )
+        %>
+        <%= 
+        live_component(
+          CardTaskmajorTrueLiveComponent,
+          color: "#0069d9",
+          background_color: "#6365f117",
+          icon: "bi bi-window-sidebar",
+          content_name: "Tâches majeures",
+          content_list: @values_tasks_ismajor_true,
+          font_color: "#de0a26",
+          phx_click: "Click_ismajor_true"
+        )
+        %>
+        <%= 
+        live_component(
+          CardTaskmajorFalseLiveComponent,
+          color: "#0069d9",
+          background_color: "#6365f117",
+          icon: "bi bi-window-sidebar",
+          content_name: "Tâches mineures",
+          content_list: @values_tasks_ismajor_false,
+          font_color: "#1e293b"
+        )
+        %>
+      </div>
+
+        <%= 
+          live_component(
+            TaskmajorFalseLiveComponent,
+            list_tasks_ismajor_false: @values_tasks_ismajor_false,
+            list_tasks_by_date: @list_tasks_by_date,
+            list_tasks_by_contributor_id: @list_tasks_by_contributor_id,
+            list_tasks_not_achieved: @list_tasks_not_achieved,
+            list_contributors: @list_contributors
+          )
+        %>
+      <% end %>
+      <!-- END -->
+    </div>
+    <%= if  @show_plus_modal == true  do %>
+      <%= 
+        live_component(
+            VoirModalLive,
+            id: "confirm-arch", 
+            title: "Détails", 
+            body: nil, 
+            right_button: nil,
+            right_button_action: nil, 
+            right_button_param: nil, 
+            left_button: "Retour" , 
+            left_button_action: "cancel-plus",
+            task_changeset: @task_changeset, 
+            curr_user_id: @curr_user_id, 
+            show_plus_modal: @show_plus_modal, 
+            card: @card
+        ) 
+      %>
+    <% end %>
+
+    <%= if @show_plus_modal == false do %>
+      <%= 
+        live_component(
+            VoirModalLive,
+            id: "confirm-arch", 
+            title: "Détails", 
+            body: nil, 
+            right_button: nil,
+            right_button_action: nil, 
+            right_button_param: nil, 
+            left_button: "Retour" , 
+            left_button_action: "cancel-plus",
+            task_changeset: @task_changeset, 
+            curr_user_id: @curr_user_id, 
+            show_plus_modal: @show_plus_modal, 
+            card: @card
+        )
+      %>
+    <% end %>
+    <!-- Right Menu END -->
+    
+  </body>
+</html>

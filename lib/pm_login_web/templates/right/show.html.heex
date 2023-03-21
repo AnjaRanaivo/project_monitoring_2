@@ -1,0 +1,17 @@
+<% undeletable_rights = [1,2,3,4,7] %>
+<h1><i class="bi bi-shield-exclamation"></i> Droit/ Statut</h1>
+
+<ul>
+
+  <li>
+    <strong>Titre: </strong>
+    <%= @right.title %>
+  </li>
+
+</ul>
+
+<%= if @right.id not in undeletable_rights do %>
+  <span><a href={Routes.right_path(@socket, :edit, @right)} class="btn btn-lg btn-warning"><i class="bi bi-pencil-square"></i> Modifier</a></span>
+
+<% end %>
+<span><a href={Routes.right_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

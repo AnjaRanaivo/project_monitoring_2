@@ -1,0 +1,66 @@
+#task-timer {
+    padding: 3px 0px 0 9px;
+    float: right;
+    background-color: dodgerblue;
+    color: #fff;
+    width: 110px;
+    font-size: 1.25rem;
+    border-radius: 10px;
+}
+
+#task-timer-timeout {
+    padding: 3px 0px 0 9px;
+    float: right;
+    background-color: #e74c3c;
+    color: #fff;
+    width: auto;
+    font-size: 1.25rem;
+    border-radius: 10px;
+}
+
+.task-timer-record {
+    color: #fff;
+    animation-name: bound;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+@keyframes bound {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.task-timer-stop {
+    color: #fff;
+    animation-name: stop;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+}
+
+@keyframes stop {
+    0% {
+        opacity: 0.75;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.75;
+    }
+}
+

@@ -1,0 +1,49 @@
+<div class="container profile-data" style="padding-top: 10px; border-radius: 5px;">
+<!-- [as: :user_params, multipart: true] -->
+<%= form_for @changeset, @action, [multipart: true],fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Vérifiez vos informations ci-dessous</p>
+    </div>
+  <% end %>
+<div class="row">
+  <div class="col-6 col60">
+    <h1><%= @user.username %></h1>
+    <%= text_input f, :username %>
+    <%= error_tag f, :username %>
+    <h2><p class="subtext"><%= @user.email %></p></h2>
+    <%= text_input f, :email %>
+    <%= error_tag f, :email %>
+  </div>
+  <div id="pic-sqr" class="col-6 col40">
+    <img class="profile-pic-edit" src="<%= Routes.static_path(@socket, "/#{@user.profile_picture}") %>" />
+  </div>
+</div>
+
+
+<div id="right-row" class="row">
+
+  <div class="col-6 col60">
+    <%= label f, "Changer photo de profil:" %>
+  </div>
+  <div id="right-select" class="col-6 col40" style="margin-right: 5%;">
+
+  <label class="btn btn-lg btn-primary file_input_btn">
+  <%= file_input f, :photo, class: "file_inputs" %>
+  Photo de profil
+  <i class="bi bi-camera-fill"></i>
+  </label>
+
+
+  </div>
+</div>
+
+  <br/>
+  <%= link "Modifier mot de passe",to: Routes.user_path(@socket, :edit_password, @user), class: "btn btn-outline-dark btn-lg ", id: "signin", style: "float: right;" %>
+  <br/>
+  <%= submit "Appliquer modifications", class: "submit", id: "signin" %>
+
+<% end %>
+
+
+</div>

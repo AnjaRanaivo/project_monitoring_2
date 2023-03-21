@@ -1,0 +1,23 @@
+<div style="min-width: 120rem !important; background: #1F2937; margin-left: -22rem;">
+    <table class="table-tasks" id="" style="font-size: 11px; margin-left: 0; padding: 5rem; margin-top: -9rem;">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Nom d'utilisateur</th>
+            <!-- <th>Description</th> -->
+            <th>Adresse e-mail</th>
+          </tr>
+        </thead>
+        <tbody>
+        <%= for ac <- @acs do %>
+          <tr>
+            <td><%= ac.user.username %></td>
+            <td><%= ac.user.email %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+</div>

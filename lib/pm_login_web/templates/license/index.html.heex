@@ -1,0 +1,48 @@
+<h1><span class="material-icons mat__ico__big">description</span>Licences</h1>
+
+<table id="tb-auth">
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Société</th>
+      <th>Date de début</th>
+      <th>Date de fin</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for license <- @licenses do %>
+    <tr>
+      <td><%= license.title %></td>
+      <td><%= license.company.name %></td>
+      <td><%= Utilities.simple_date_format(license.date_start) %></td>
+      <td><%= Utilities.simple_date_format(license.date_end) %></td>
+
+      <td>
+
+        <span><a href={ Routes.license_path(@socket, :show, license) }><i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i></a></span>
+        <span><a href={ Routes.license_path(@socket, :edit, license) }><i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i></a></span>
+        <span><a href="#" phx-click="go-del" phx-value-id={ license.id }><i class="bi bi-x btn btn-danger btn-lg" style="font-size: 20px;"></i></a></span>
+
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><a href={ Routes.license_path(@socket, :new) } class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Nouvelle licence</a></span>
+<span><a href={ Routes.company_path(@socket, :services) } class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Services</a></span>
+
+<%= live_component(@socket,
+                   ModalLive,
+                   id: "confirm-del",
+                   title: "Supprimer licence?",
+                   body: "Etes-vous sûr de supprimer la licence #{if not is_nil(@service_id),do: PmLogin.Services.get_license!(@service_id).title}?",
+                   right_button: "Oui",
+                   right_button_action: "del",
+                   right_button_param: @service_id,
+                   left_button: "Annuler",
+                   show_modal: @show_modal,
+                   left_button_action: "cancel-del")
+%>

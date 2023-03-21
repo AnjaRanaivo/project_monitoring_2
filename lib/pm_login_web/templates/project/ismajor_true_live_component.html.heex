@@ -1,0 +1,140 @@
+<style>
+    .content_tables{
+        width: auto;
+        height: auto;
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+</style>
+<div class="row" id={"#{@id}"}>
+    <div class="column" style="padding: 0 1rem 0 1rem;">
+       <!-- Task Card BEGIN -->
+      <div class="content_tables">
+        <div class="icon-card table-card-style" style="padding-top: 0; padding-bottom: 0;">
+          <div 
+            style="
+              max-height: 600px; 
+              overflow: auto; 
+              padding-right: 30px;
+              width: -webkit-fill-available;
+              width: -moz-available;"
+          >
+            <table style="font-size: 1.2rem">
+              <tbody>
+                <tr 
+                  style="
+                    position: sticky;
+                    top: 0;
+                    background: #fff;
+                  "
+                >
+                  <td class="title">
+                    <%= if @list_tasks_by_contributor_id == nil && @list_tasks_by_date == nil do %>
+                    Tâches majeures (<%= Enum.count(@list_tasks_ismajor_true) %>)
+                    <% else %>
+                    Tâches majeures(<%= Enum.count(@list_tasks_ismajor_true) %>)
+                    <% end %>
+                  </td>
+                  <td colspan="4" style="border:none;position:relative;"> 
+                    <form action="#" phx-submit="filter_by_date">  
+                      <div style="display:flex; height:100px;align-items:center;">
+                        <div class="datedebut" style="width:auto;display:flex;margin-top:50px;align-items:center">
+                          <label style="width:180px;">Date début : </label>
+                          <input type="date" id="date_start" name="datestart">
+                        </div>
+                        <div class="datefin" style="width:auto;display:flex;margin-left:20px;margin-top:50px;align-items:center">
+                          <label style="width:150px;">Date fin : </label>
+                          <input type="date" id="date_end" name="dateend">
+                        </div>
+                        <div class="datefin" style="width:auto; display:flex;margin-left:25px;margin-top:40px">
+                          <button type="submit">Filtre</button>
+                        </div>
+                      </div>
+                    </form>
+                  </td>
+                  <td class="select">
+                    <form phx-change="logs_filtered_by_contributors"  style="margin-bottom: -2rem;">
+                      <select
+                        id="task_filter"
+                        name="contributor_select"
+                        style="margin-bottom: O;"
+                      >
+                        <option value="" selected disabled hidden>Contributeurs</option>
+                        <option value="9000">Tout</option>
+  
+                        <%= for contributor <- @list_contributors do %>
+                          <option value={contributor.id}>
+                            <%= contributor.username %>
+                          </option>
+                        <% end %>
+  
+                        <option value="-1">Sans contributeur</option>
+                      </select>
+                    </form>
+                  </td>
+                  <td style="border: none;"></td>
+                  <td style="border: none;"></td>
+                  <td style="border: none;"></td>
+                  <td style="border: none;"></td>
+                </tr>
+  
+                <tr
+                  style="
+                    text-transform: uppercase;
+                    position: sticky;
+                    top: 51px;
+                    background: #fff;
+                  "
+                >
+                  <td>Titre</td>
+                  <td>Voir</td>
+                  <td>Progression</td>
+                  <td>Status</td>
+                  <td>Contributeurs</td>
+                  <td>Date de début</td>
+                  <td>Date de fin</td>
+                  <td>Priorité</td>
+                  <td>Date de mise à jour</td>
+                </tr>
+  
+                <%= for task <- @list_tasks_ismajor_true do %>
+                  <tr>
+                    <td style="font-weight: bold">
+                      <a href= {Routes.project_path(@socket, :board, task.project_id)}>
+                        <%= task.title %>
+                      </a>
+                    </td>
+                    <td>
+                      <div class="card-button" type="button" style="background-color: #1a9e51;">
+                        <i class="bi bi-eye" phx-click="show_plus_modal" phx-value-id={task.id}  style="font-size: 1.5rem; justify-content: center"></i>
+                      </div>
+                    </td>
+                    <td><%= task.progression %> %</td>
+                    <td>
+                      <%= PmLogin.Monitoring.list_statuses_by_id(task.status_id).title %>
+                    </td>
+                    <td>
+                      <%= if not is_nil(task.contributor_id) do %>
+                        <%= PmLogin.Login.list_contributors_users(task.contributor_id).username %>
+                      <% else %>
+                        <%= PmLogin.Login.list_attributors_users(task.attributor_id).username %>
+                      <% end %>
+                    </td>
+                    <td><%= PmLogin.Utilities.simple_date_format(task.date_start) %></td>
+                    <td><%= PmLogin.Utilities.simple_date_format(task.deadline) %></td>
+                    <td>
+                      <%= PmLogin.Monitoring.list_priorities(task.priority_id).title %>
+                    </td>
+                    <td>
+                      <%= PmLogin.Utilities.simple_date_format(task.updated_at) %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Task Card END -->
+    </div>
+  </div>

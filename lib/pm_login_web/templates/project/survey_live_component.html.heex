@@ -1,0 +1,205 @@
+<style>
+    textarea {
+        font-family: 'Axiforma' !important;
+        color: #3c3737 !important;
+        /* Mettre à la ligne si le texte dépasse la box */
+        overflow-wrap: break-word;
+    }
+    
+    
+    /*====== Breakpoints for Survey modal ======*/
+    @media (max-width: 1200px) {
+        .modal-card-task {
+            transform: scale(0.75) !important;
+        }
+    }
+
+    @media (max-width: 1366px) {
+        .modal-card-task {
+            transform: scale(0.8) !important;
+        }
+    }
+
+    @media (min-width: 1367px) {
+        .modal-card-task {
+            transform: scale(0.85) !important;
+        }
+    }
+    /*====== End of Breakpoints for Survey modal ======*/
+    
+</style>
+
+<div class="modal-container">
+    <div class="modal-inner-container">
+        <div class="modal-card-task" style="max-width: 80rem !important;">
+            <div class="modal-inner-card">
+                <div class="modal-title">
+                    Sondage de votre demande
+                    <a class="x__close" style="position: relative; left: 0; margin-top: -5px" title="Fermer"
+                        phx-click="close-survey">
+                        <i class="bi bi-x"></i>
+                    </a>
+                </div>
+
+                <!---------------------- Request Informations ------------------------>
+                <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0 1rem 0">
+                    <div>
+                        <strong>Demande: </strong> N°<%= @request.uuid %> 
+                    </div>
+                    <div>
+                        <strong>Titre:</strong> <%= @request.title %>
+                    </div>
+                    <div>
+                        <strong>Date de création: </strong> <%= @request.date_post %> 
+                    </div>
+                    <div>
+                        <strong>Date de finition:</strong> <%= @request.date_done %>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <!--------------- Form Begin ------------------>
+                    <form phx-submit="send-survey" phx-change="change-survey">
+                        <input type="hidden" name="request_id" value={@request.id}>
+
+                        <!------------------ One ---------------------->
+                        <div class="row">
+                            <div class="column">
+                                <label class="zoom-out"><%= @request.type %> créé a t-il répondu à votre demande ?</label>
+                                <select id="createdTools" 
+                                        name="created_tools"
+                                        style="width: -webkit-fill-available; width: -moz-available; height: 38px;"
+                                >
+                                    <option value="1" selected={@is_selected_created_tools}>Oui</option>
+                                    <option value="0" selected={@is_selected_created_tools}>Plus ou moins</option>
+                                    <option value="-1" selected={@is_selected_created_tools}>Non</option>
+                                </select>
+                            </div>
+    
+                            <%= if @is_selected_created_tools do %>
+                                <!---------------- Comments -------------------->
+                                <div class="column">
+                                    <label class="zoom-out">Commentaires</label>
+                                    <textarea style="resize: none;" 
+                                              name="client_comments_created_tools" 
+                                              id="clientCommentsCreatedTools" 
+                                              cols="30" 
+                                              rows="10"
+                                              required
+                                    ><%= @client_comments_created_tools %></textarea>
+                                </div>
+                            <% end %>
+                        </div>
+                      
+                        
+                        <!----------------- End One ------------------->
+
+                        <!------------------ Two ---------------------->
+                        <div class="row">
+                            <div class="column">
+                                <label class="zoom-out"><%= @request.type %> vous a-t-il permis de gagner du temps ?</label>
+                                <select id="timeSaved" 
+                                        name="time_saved"
+                                        style="width: -webkit-fill-available; width: -moz-available; height: 38px;"
+                                >
+                                    <option value="1" selected={@is_selected_time_saved}>Oui</option>
+                                    <option value="0" selected={@is_selected_time_saved}>Plus ou moins</option>
+                                    <option value="-1" selected={@is_selected_time_saved}>Non</option>
+                                </select>
+                            </div>
+    
+                            <%= if @is_selected_time_saved do %>
+                                <!---------------- Comments -------------------->
+                                <div class="column">
+                                    <label class="zoom-out">Commentaires</label>
+                                    <textarea style="resize: none;" 
+                                              name="client_comments_time_saved" 
+                                              id="clientCommentsTimeSaved" 
+                                              cols="30" 
+                                              rows="10"
+                                              required
+                                    ><%= @client_comments_time_saved %></textarea>
+                                </div>
+                            <% end %>
+                        </div>
+                       
+                        <!----------------- End Two ------------------->
+
+                        <!------------------ Three ---------------------->
+                        <div class="row">
+                            <div class="column">
+                                <label class="zoom-out">Le délai communiqué par nos équipes est-il respecté ?</label>
+                                <select id="deadlineCommunicated" 
+                                        name="deadline_communicated"
+                                        style="width: -webkit-fill-available; width: -moz-available; height: 38px;"
+                                >
+                                    <option value="1" selected={@is_selected_deadline_commmunicated}>Oui</option>
+                                    <option value="0" selected={@is_selected_deadline_commmunicated}>Plus ou moins</option>
+                                    <option value="-1" selected={@is_selected_deadline_commmunicated}>Non</option>
+                                </select>
+                            </div>
+    
+                            <%= if @is_selected_deadline_commmunicated do %>
+                                <!---------------- Comments -------------------->
+                                <div class="column">
+                                    <label class="zoom-out">Commentaires</label>
+                                    <textarea style="resize: none;" 
+                                              name="client_comments_deadline_commmunicated" 
+                                              id="clientCommentsDeadlineCommunicated" 
+                                              cols="30" 
+                                              rows="10"
+                                              required
+                                    ><%= @client_comments_deadline_commmunicated %></textarea>
+                                </div>
+                            <% end %>
+                        </div>
+                        
+                        <!----------------- End Three ------------------->
+
+                        <!------------------ Four ---------------------->
+                        <div class="row">
+                            <div class="column">
+                                <label class="zoom-out">Est-ce que l'équipe a bien repondu à toutes vos questions ?</label>
+                                <select id="teamResponse" 
+                                        name="team_response"
+                                        style="width: -webkit-fill-available; width: -moz-available; height: 38px;"
+                                >
+                                    <option value="1" selected={@is_selected_team_response}>Oui</option>
+                                    <option value="0" selected={@is_selected_team_response}>Plus ou moins</option>
+                                    <option value="-1" selected={@is_selected_team_response}>Non</option>
+                                </select>
+                            </div>
+    
+                            <%= if @is_selected_team_response do %>
+                                <!---------------- Comments -------------------->
+                                <div class="column">
+                                    <label class="zoom-out">Commentaires</label>
+                                    <textarea style="resize: none;" 
+                                              name="client_comments_team_response" 
+                                              id="clientCommentsTeamResponse" 
+                                              cols="30" 
+                                              rows="10"
+                                              required
+                                    ><%= @client_comments_team_response %></textarea>
+                                </div>
+                            <% end %>
+                        </div>
+                     
+                        <!----------------- End Four ------------------->
+
+                        <!------------------ Buttons ---------------------->
+                        <div class="modal-buttons">
+                            <div class="right-button">
+                                <button type="submit">Envoyer votre réponse</button>
+                            </div>
+                        </div>
+
+                    </form>
+                    <!--------------- Form End ------------------>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

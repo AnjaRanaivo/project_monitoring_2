@@ -1,0 +1,54 @@
+.exc-tick {
+    stroke: grey;
+    /* width: 200% !important;   */
+
+  }
+  
+  .exc-tick text {
+    fill: grey;
+    stroke: none;
+    color: blue;
+}
+
+.exc-tick > text {
+  font-size: 9px !important;
+}
+  
+  .exc-grid {
+    stroke: lightgrey;
+  }
+  
+  .exc-legend {
+    stroke: black;
+  }
+  
+  .exc-legend text {
+    fill: grey;
+    font-size: 2rem;
+    stroke: none;
+  }
+  
+  .exc-title {
+    fill: darkslategray;
+    font-size: 3.5rem;
+    stroke: none;
+  }
+  .exc-subtitle {
+    fill: gray;
+    font-size: 12px;
+    stroke: none;
+  }
+  
+  .exc-domain {
+    stroke:  rgb(207, 207, 207);
+  }
+  
+  .exc-barlabel-in {
+    fill: white;
+    font-size: 1.2rem;
+  }
+  
+  .exc-barlabel-out {
+    fill: grey;
+    font-size: 1.2rem;
+  }

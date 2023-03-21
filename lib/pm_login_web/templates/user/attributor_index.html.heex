@@ -1,0 +1,80 @@
+
+<div class="row" style="margin-top: 50px; padding: 0">
+  <div class="row">
+      <a href={Routes.project_path(@socket, :index)}
+      class="column" style="padding: 0">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover"
+          src={ Routes.static_path(@socket, "/images/1.jpg" )} 
+        />
+        <div style="padding: 20px;">
+          <p style="margin: 0 0 0 0">Mes projets</p>
+        </div>
+      </div>
+    </a>
+    <a href={Routes.project_path(@socket, :tasks)} class="column" style="padding: 0">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover" 
+          src={ Routes.static_path(@socket, "/images/9.jpg" )} 
+        />
+        <div style="padding: 20px;">
+          <p style="margin: 0 0 0 0">Mes tâches</p>
+        </div>
+      </div>
+    </a>
+    <a href={Routes.project_path(@socket, :attributed_tasks)} class="column" style="padding: 0">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover" 
+          src={ Routes.static_path(@socket, "/images/10.jpg" )} 
+        />
+        <div style="padding: 20px;">
+          <p style="margin: 0 0 0 0">Mes attributions</p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+
+</div>
+
+<div class="row" style="margin-left: -2rem; padding: 0">
+  <a href={Routes.project_path(@socket, :contributors)} class="column" style="padding: 0">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover" 
+        src={ Routes.static_path(@socket, "/images/8.jpg" )} 
+      />
+      <div style="padding: 20px;">
+        <p style="margin: 0 0 0 0">Listes des Contributeurs</p>
+      </div>
+    </div>
+  </a>
+
+  <a href={Routes.user_path(@socket, :show, @curr_user_id)} class="column" style="padding: 0">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover" 
+        src={ Routes.static_path(@socket, "/images/4.jpg" )} 
+      />
+      <div style="padding: 20px;">
+        <p style="margin: 0 0 0 0">Mon profil</p>
+      </div>
+    </div>
+  </a>
+
+  <a href={Routes.project_path(@socket, :logs)} class="column">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover"
+        src={ Routes.static_path(@socket, "/images/13.jpg" )}
+      />
+      <div style="padding: 20px; display: block ruby">
+        <span class="material-icons mat__ico">stacked_line_chart</span>
+        <p style="margin-top: revert;">Tableau de bord</p>
+      </div>
+    </div>
+  </a>
+</div>

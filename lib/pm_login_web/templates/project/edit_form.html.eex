@@ -1,0 +1,71 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Veuillez revérifier les informations de votre projet</p>
+    </div>
+  <% end %>
+  <%= label f, "Nom du projet" %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :description %>
+  <%= textarea f, :description %>
+  <%= error_tag f, :description %>
+
+  <!-- <%= label f, :progression %>
+  <%= number_input f, :progression %>
+  <%= error_tag f, :progression %> -->
+
+  <div class="row">
+    <div class="column">
+      <%= label f, "Date de début" %>
+      <%= date_input f, :date_start %>
+      <%= error_tag f, :date_start %>
+      <%= error_tag f, :date_start_lt %>
+    </div>
+
+    <div class="column">
+      <%= label f, "Date finale" %>
+      <%= date_input f, :date_end %>
+      <%= error_tag f, :date_end %>
+      <%= error_tag f, :date_end_lt %>
+      <%= error_tag f, :dt_end_lt_start %>
+    </div>
+
+  </div>
+
+
+  <%= label f, "Durée estimée (en heure(s))" %>
+  <%= number_input f, :estimated_duration %>
+  <%= error_tag f, :estimated_duration %>
+  <%= error_tag f, :negative_estimated %>
+
+
+  <!-- <%= label f, :performed_duration %>
+  <%= number_input f, :performed_duration %>
+  <%= error_tag f, :performed_duration %> -->
+  <div class="row">
+    <div class="column">
+      <%= label f, "Date d'échéance" %>
+      <%= date_input f, :deadline %>
+      <%= error_tag f, :deadline %>
+      <%= error_tag f, :deadline_lt %>
+      <%= error_tag f, :deadline_before_dtstart %>
+
+    </div>
+    <div class="column">
+      <%= label f, "Client attitré" %>
+      <%= select f, :active_client_id, @ac_ids, style: "width: -moz-available;" %>
+      <%= error_tag f, :active_client_id %>
+    </div>
+
+    <div class="column">
+      <%= label f, "Status" %>
+      <%= select f, :status_id, @status, style: "width: -moz-available;" %>
+      <%= error_tag f, :status_id %>
+    </div>
+  </div>
+  <div>
+    <%= submit "Valider projet",class: "btn btn-lg btn-primary" %>
+  </div>
+<% end %>

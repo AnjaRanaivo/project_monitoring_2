@@ -1,0 +1,296 @@
+<!-- <h1>Bienvenue contributeur, <%= @current_user.username %></h1> -->
+
+<div class="row" style="margin-top: 50px;">
+  <a href={Routes.contributor_path(@socket, :my_projects)} class="column">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover" 
+        src={ Routes.static_path(@socket, "/images/1.jpg" )} 
+      />
+      <div style="padding: 20px;">
+        <span class="material-icons mat__ico">insert_chart</span>
+        <p>Mes projets</p>
+      </div>
+    </div>
+  </a>
+  <a href={Routes.contributor_path(@socket, :my_records)} class="column">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover" 
+        src={ Routes.static_path(@socket, "/images/14.jpg" )} 
+      />
+      <div style="padding: 20px;">
+        <span class="material-icons mat__ico">insert_chart</span>
+        <p>Pointage</p>
+      </div>
+    </div>
+  </a>
+  <a href={Routes.contributor_path(@socket, :my_tasks)} class="column">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover" 
+        src={ Routes.static_path(@socket, "/images/9.jpg" )} 
+      />
+      <div style="padding: 20px;">
+        <span class="material-icons mat__ico">format_list_bulleted</span>
+        <p>Mes tâches</p>
+      </div>
+    </div>
+  </a>
+  <a href={Routes.user_path(@socket, :show, @curr_user_id)} class="column">
+    <div class="card-style">
+      <img 
+        class="image-fit-cover" 
+        src={ Routes.static_path(@socket, "/images/4.jpg" )} 
+      />
+      <div style="padding: 20px;">
+        <span class="material-icons mat__ico">account_circle</span>
+        <p>Mon profil</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+<h4 style="text-align: center; margin-top: 15px; color: rgb(237, 237, 237)">Mes tâches inachevées ayant une date d'échéance proche</h4>
+
+<%= if @unachieved == [] do %>
+  <div class="alert-primary" role="alert">
+    <i class="bi bi-info-circle" style="font-size: 20px"></i>
+    <div class="alert-text"> Aucune tâche inachevées ayant une date d'échéance proche... </div>
+  </div>
+<% else %>
+
+  <div style="border: 1px solid #E67E22;">
+    <table class="table-tasks-unachieved table-head-unachieved" id="" style="font-size: 11px; padding: 0px 0px 0px 10px; color: #fff">
+      <thead>
+        <tr>
+          <th>Projet</th>
+          <th>Nom</th>
+          <th>Statut</th>
+          <th>Priorité</th>
+          <th>Date d'échéance</th>
+        </tr>
+      </thead>
+    </table>
+
+    <div class="tbl-content">
+      <table class="table-tasks-unachieved" id="" style="font-size: 12px; padding: 0px 0px 0px 10px;">
+        <tbody style="color: #fff">
+          <%= for task <- @unachieved do %>
+            <%= if task.status_id != 5 and task.hidden != true do %>
+              <tr>
+                <%= cond do %>
+                <% length(@unachieved) <= 0 -> %>
+                <!-- <p class="my_alert alert-info none_alert">Aucune</p> -->
+                <div>
+                  <td data-label="Projet"> Aucune </td>
+                  <td data-label="Nom"> Aucune </td>
+                  <td data-label="Statut"> Aucune </td>
+                  <td data-label="Priorité"> Aucune </td>
+                  <td data-label="Date d'échéance"> Aucune </td>
+                </div>
+                <% true -> %>
+                <!-- <p class="my_alert alert-danger row">
+                      </p> -->
+                <td data-label="Projet">
+                  <%= task.project.title %>
+                </td>
+                <td data-label="Nom">
+                  <%= link "#{task.title}", to: Routes.project_path(@socket, :board, task.project_id)  %>
+                </td>
+                <td data-label="Status">
+                  <%= case task.status_id do %>
+                  <% 1 -> %> A faire
+                  <% 2 -> %> En blocage
+                  <% 3 -> %> En cours
+                  <% 4 -> %> En contrôle
+                  <% _ -> %>
+                  <% end %>
+                </td>
+                <td data-label="Priority">
+                  <%= case task.priority_id do %>
+                  <% 1 -> %>
+                  <div class="low__priority__point__bg">
+                    <span class="low__priority__point__t"></span>
+                    Faible
+                  </div>
+                  <% 2 -> %>
+                  <div class="avg__priority__point__bg">
+                    <span class="avg__priority__point__t"></span>
+                    Moyenne
+                  </div>
+                  <% 3 -> %>
+                  <div class="high__priority__point__bg">
+                    <span class="high__priority__point__t"></span>
+                    Importante
+                  </div>
+                  <% 4 -> %>
+                  <div class="urg__priority__point__bg">
+                    <span class="urg__priority__point__t"></span>
+                    Urgente
+                  </div>
+                  <% _ -> %>
+                  <div class="priority__point__bg">
+                    <span class="priority__point__t"></span>
+                  </div>
+                  <% end %>
+                </td>
+                <td data-label="Date d'échéance">
+                  <%= PmLogin.Monitoring.warning_text(task) %>
+                </td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+
+<h4 style="text-align: center; margin-top: 25px; color: rgb(237, 237, 237)">Tâches inachevées mais date d'échéance déjà écoulée</h4>
+
+<%= if @past_unachieved == [] do %>
+  <div class="alert-primary" role="alert">
+    <i class="bi bi-info-circle" style="font-size: 20px"></i>
+    <div class="alert-text"> Aucune tâche inachevées ayant une date d'échéance déjà écoulée... </div>
+  </div>
+<% else %>
+
+  <div style="border: 1px solid #E74C3C; color: #fff">
+    <table class="table-tasks-unachieved table-head-past-unachieved" id="" style="font-size: 12px; padding: 0px 0px 0px 10px;">
+      <thead>
+        <tr>
+          <th>Projet</th>
+          <th>Nom</th>
+          <th>Statut</th>
+          <th>Priorité</th>
+          <th>Date d'échéance</th>
+        </tr>
+      </thead>
+    </table>
+
+    <div class="tbl-content">
+      <table class="table-tasks-unachieved" id="" style="font-size: 12px; padding: 0px 0px 0px 10px;">
+        <tbody style="color: #fff">
+          <%= for task <- @past_unachieved do %>
+            <%= if task.status_id != 5 and task.hidden != true do %>
+              <tr>
+                <%= cond do %>
+                <% length(@past_unachieved) <= 0 -> %>
+                <!-- <p class="my_alert alert-info none_alert">Aucune</p> -->
+                <div>
+                  <td data-label="Projet"> Aucune </td>
+                  <td data-label="Nom"> Aucune </td>
+                  <td data-label="Statut"> Aucune </td>
+                  <td data-label="Priorité"> Aucune </td>
+                  <td data-label="Date d'échéance"> Aucune </td>
+                </div>
+                <% true -> %>
+                <!-- <p class="my_alert alert-danger row">
+                          </p> -->
+                <td data-label="Projet">
+                  <%= task.project.title %>
+                </td>
+                <td data-label="Nom">
+                  <%= link "#{task.title}", to: Routes.project_path(@socket, :board, task.project_id)  %>
+                </td>
+                <td data-label="Status">
+                  <%= case task.status_id do %>
+                  <% 1 -> %> A faire
+                  <% 2 -> %> En blocage
+                  <% 3 -> %> En cours
+                  <% 4 -> %> En contrôle
+                  <% _ -> %>
+                  <% end %>
+                </td>
+                <td data-label="Priority">
+                  <%= case task.priority_id do %>
+                  <% 1 -> %>
+                  <div class="low__priority__point__bg">
+                    <span class="low__priority__point__t"></span>
+                    Faible
+                  </div>
+                  <% 2 -> %>
+                  <div class="avg__priority__point__bg">
+                    <span class="avg__priority__point__t"></span>
+                    Moyenne
+                  </div>
+                  <% 3 -> %>
+                  <div class="high__priority__point__bg">
+                    <span class="high__priority__point__t"></span>
+                    Importante
+                  </div>
+                  <% 4 -> %>
+                  <div class="urg__priority__point__bg">
+                    <span class="urg__priority__point__t"></span>
+                    Urgente
+                  </div>
+                  <% _ -> %>
+                  <div class="priority__point__bg">
+                    <span class="priority__point__t"></span>
+                  </div>
+                  <% end %>
+                </td>
+                <td data-label="Date d'échéance">
+                  <%= PmLogin.Utilities.simple_date_format(task.deadline) %>
+                </td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+<% end %>
+
+
+<!-- <br>
+<h2>Mes tâches inachevées ayant une date d'échéance proche</h2>
+<%= cond do %>
+  <% length(@unachieved) <= 0 -> %> 
+    <p class="my_alert alert-info none_alert">Aucune</p>
+  <% true -> %>
+    <%= for task <- @unachieved do %>
+      <p class="my_alert alert-danger row">
+        <span class="column">
+          ><%= task.title %>
+        </span>
+        <span class="column">
+          Projet: <%= task.project.title %>
+        </span>
+        <span class="column">
+          Date d'échéance: <%= PmLogin.Monitoring.warning_text(task) %>
+        </span>
+      </p>
+    <% end %>
+<% end %>
+
+<br>
+<h2>Tâches inachevées mais date d'échéance déjà écoulée</h2>
+<%= cond do %>
+<% length(@past_unachieved) <= 0 -> %>
+<p class="my_alert alert-warning none_alert">Aucune</p>
+
+<% true -> %>
+<%= for task <- @past_unachieved do %>
+<p class="my_alert alert-warning row">
+  <span class="column">
+    ><%= task.title %>
+  </span>
+  <span class="column">
+    Projet: <%= task.project.title %>
+  </span>
+  <span class="column">
+    Date d'échéance: <%= PmLogin.Utilities.simple_date_format(task.deadline) %>
+  </span>
+</p>
+<% end %>
+
+
+<% end %>
+--->

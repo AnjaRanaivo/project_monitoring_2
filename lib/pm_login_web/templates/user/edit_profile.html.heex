@@ -1,0 +1,3 @@
+
+<span><a href={Routes.user_path(@socket, :show, @user)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>
+<%= render "edit_form2.html", Map.put(assigns, :action, Routes.user_path(@socket, :update_profile, @user)) %>

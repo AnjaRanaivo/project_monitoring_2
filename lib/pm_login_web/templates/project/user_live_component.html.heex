@@ -1,0 +1,14 @@
+<div class="column" style="padding: 0">
+    <div class="icon-card list-user-card-component" style="margin: 0 1rem 0 0">
+      <div
+        class="icon"
+        style={"color: #{@color}; background-color: #{@background_color};"}
+      >
+        <i class={"bi bi-#{@icon}"}></i>
+      </div>
+      <div class="content">
+        <h6><%= @content_name %></h6>
+       <h3 style={"color: #{@font_color}"}><%= Enum.count(@content_list) %></h3>
+      </div>
+    </div>
+</div>

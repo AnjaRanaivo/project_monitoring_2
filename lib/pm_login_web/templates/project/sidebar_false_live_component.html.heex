@@ -1,0 +1,81 @@
+<aside class="sidebar">
+
+    <!-- Side Bar Navigation BEGIN -->
+    <nav class="sidebar-nav">
+
+      <div class="sidebar-nav__title">
+        <img 
+          class="profile-pic-header" 
+          src="/images/profiles/Mgbi-profile.png" 
+          style="min-width: 75px; min-height: 75px;"
+        >
+      </div>
+
+      <ul>
+        <li>
+          <a phx-click="show-dashboard-component">
+            <div 
+              title="Tableau de bord"
+              class={"icon-card-sidebar sidebar-nav-menu #{if @show_dashboard_component, do: "dashboard-active active", else: ""}"}
+              style={"border: #{if @show_dashboard_component, do: "1px", else: "none"}; margin-top: 6rem; padding-top: 10px; padding-bottom: 10px; box-shadow: none !important;"}
+            >
+              <div class="icon nav-icon">
+                <i class="bi bi-house"></i>
+              </div>
+              <span class="sidebar-menu__title">Tableau de bord</span>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a phx-click="show-project-component"> 
+            <div 
+              title="Projet"
+              class={"icon-card-sidebar sidebar-nav-menu #{if @show_project_component, do: "project-active active", else: ""}"}
+              style={"border: #{if @show_project_component, do: "1px", else: "none"}; padding-top: 10px; padding-bottom: 10px; box-shadow: none !important;"}
+            >
+              <div class="icon nav-icon">
+                <i class="bi bi-kanban"></i>
+              </div>
+              <span class="sidebar-menu__title">Projets</span>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a phx-click="show-task-ismajor-false-component">
+            <div 
+              title="Tâches"
+              class={"icon-card-sidebar sidebar-nav-menu #{if @show_task_ismajor_false, do: "task-active active", else: ""}"}
+              style={"border: #{if @show_task_ismajor_false, do: "1px", else: "none"}; padding-top: 10px; padding-bottom: 10px; box-shadow: none !important;"}
+            >
+              <div class="icon nav-icon">
+                <i class="bi bi-window-sidebar"></i>
+              </div>
+              <span class="sidebar-menu__title">Tâches</span>
+            </div>
+          </a>
+        </li>
+
+        <!--
+        <li>
+          <a phx-click="show-user-component">
+            <div
+              title="Utilisateurs"
+              class={"icon-card-sidebar sidebar-nav-menu #{if @show_user_component, do: "user-active", else: ""}"}
+              style={"border: #{if @show_user_component, do: "1px", else: "none"}; padding-top: 10px; padding-bottom: 10px; box-shadow: none !important;"}
+            >
+              <div class="icon nav-icon">
+                <i class="bi bi-person-circle"></i>
+              </div>
+              <span class="sidebar-menu__title">Utilisateurs</span>
+            </div>
+          </a>
+        </li>
+        -->
+      </ul>
+
+    </nav>
+    <!-- Side Bar Navigation END -->
+
+</aside>

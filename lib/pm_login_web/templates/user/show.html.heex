@@ -1,0 +1,24 @@
+
+<div class="container profile-data" style="padding-top: 5px;border-radius: 5px;">
+
+
+<div class="row">
+  <div class="col-6 col60">
+    <h1><%= @user.username %></h1>
+    <h2><p class="subtext"><%= @user.email %></p></h2>
+    <h2><p class="subtext"><%= @user.title %></p></h2>
+  </div>
+  <div id="pic-sqr-prof" class="col-6 col40">
+    <img class="profile-pic-pro" src={ Routes.static_path(@socket, "/#{@user.profile_picture}") }/>
+  </div>
+</div>
+
+
+<br/>
+  <%= link "Modifier informations",to: Routes.user_path(@socket, :edit_profile, @user), class: "btn btn-outline-dark btn-lg ", id: "signin" %>
+
+
+
+
+</div>
+<!-- <span><a href="<%= Routes.user_path(@socket, :index) %>" class="btn btn-primary btn-lg"><i class="bi bi-house-fill"></i> Accueil</a></span> -->

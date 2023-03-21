@@ -1,0 +1,6 @@
+/* Important */
+.image-fit-cover {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+}

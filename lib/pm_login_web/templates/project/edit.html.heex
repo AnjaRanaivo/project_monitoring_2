@@ -1,0 +1,7 @@
+<h1><i class="bi bi-pencil-square"></i> Modifier projet: <%= @project.title %></h1>
+
+<div class="basecontents__without__radius">
+<%= render "edit_form.html", Map.put(assigns, :action, Routes.project_path(@socket, :update, @project)) %>
+</div>
+
+<span><a href={ Routes.project_path(@socket, :index) } class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

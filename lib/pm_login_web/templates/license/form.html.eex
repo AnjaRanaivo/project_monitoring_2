@@ -1,0 +1,38 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Vérifiez vos informations ci-dessous</p>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="column">
+      <%= label f, "Titre" %>
+      <%= text_input f, :title %>
+      <%= error_tag f, :title %>
+    </div>
+    <div class="column">
+      <%= label f, "pour société" %>
+      <%= select f, :company_id, @companies, style: "width: -moz-available;" %>
+      <%= error_tag f, :company_id %>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="column">
+      <%= label f, "Date de début" %>
+      <%= date_input f, :date_start %>
+      <%= error_tag f, :date_start %>
+    </div>
+    <div class="column">
+      <%= label f, "Date de fin" %>
+      <%= date_input f, :date_end %>
+      <%= error_tag f, :date_end %>
+    </div>
+  </div>
+
+  <div>
+    <%= submit "Enregistrer", class: "btn btn-lg btn-primary right-button" %>
+  </div>
+<% end %>

@@ -1,0 +1,200 @@
+<div>
+    <h2 style="text-align: center;">GESTION DE POINTAGE</h2>
+</div>
+
+<div class="row" style="
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+        padding: 50px;">
+        <div class="column">
+            <b><%= @user.username %> - <%= @user.email %></b>
+        </div>
+
+        <div class="column">
+            <b style="float: right;">Fonction - <%= @user.function.title %></b>
+        </div>
+</div>
+
+<div class="row" style="padding-right: 50px;
+    padding-left: 50px;">
+    <div class="column">
+        <div class="form-check form-switch" style="margin-top: 3px;">
+            <form class="vue__form__resized" phx-change="switch_page">
+                <div class="row">
+                <p style="font-size: 15px; margin-right: 5px; margin-bottom: 0px;">Mes tâches</p>
+                <label class="switch" style="margin-right: 5px;">
+                    <input class="vues__fs__content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
+                    checked={@showing_tasks}>
+                    <span class="slider round"></span>
+                </label>
+                <p style="font-size: 15px; margin-right: 5px; margin-bottom: 0px;">Actions du jour</p>
+                <label class="switch">
+                    <input class="vues__fs__content" type="radio" id="secondary" name="task_view" value="activity" style="margin-top: 0;"
+                    checked={@showing_activities}>
+                    <span class="slider round"></span>
+                </label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style={"#{if @showing_activities, do: "display: none;"}padding: 20px;"}>
+    <div class="row">
+        <div class="column column-20">
+            <h3>MES TÂCHES</h3>
+        </div>
+        <div class="column column-80">
+            <div class="card-info-fit">
+                <div 
+                      class="card-button-green" 
+                      type="button" 
+                      phx-click="show_task_modal"
+                      style="height: 30px;"
+                    >
+                     <i class="bi bi-plus-circle"></i>Créer une tâche
+                    </div>
+
+                <div 
+                    class="card-button" 
+                    type="button" 
+                    phx-click="start-meeting"
+                    style="height: 30px;"
+                    >
+                    <i class="bi bi-play-fill"></i>Démarrer réunion
+                    </div>
+                <div 
+                      class="card-button-yellow" 
+                      type="button" 
+                      phx-click="start-pause"
+                      style="height: 30px;"
+                    >
+                     <i class="bi bi-play-fill"></i>Faire une pause
+                    </div>
+                    <div 
+                      class="card-button-orange" 
+                      type="button" 
+                      phx-click="start-incident"
+                      style="height: 30px;"
+                    >
+                     <i class="bi bi-play-fill"></i>Incident
+                    </div>
+
+                <p style="margin-bottom: 0px;">Filtres</p>
+
+                <form class="form_under_fieldset" phx-change="status-selected" style="margin-left: 10px;">
+        
+                    <select class="field_under_form_under_fieldset" id="task_filter" name="status_select" style="margin-bottom: 0px !important;">
+                      <option value="0" selected>Non achevées</option>
+                      <option value="1">Achevées</option>
+                      <option value="2">Toutes les tâches</option>
+                    </select>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+    <div style="height: 700px; overflow: auto;">
+        <table id="record-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Projet</th>
+                    <th>Démarrer</th>
+                    <th>A faire</th>
+                    <th>En cours</th>
+                    <th>En contrôle</th>
+                    <th>En blocage</th>
+                    <th>Achevées</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= for task <- @my_tasks do %>
+                        <% displayed = cond do
+                            @task_display_status == 0 and task.status_id != 5 ->
+                                ""
+                            @task_display_status == 1 and task.status_id == 5 ->
+                                ""
+                            @task_display_status == 2 ->
+                                ""
+                            true -> 
+                                "none"
+                        end %>
+                        <tr style={"display: #{displayed};"}>
+                            <td><%= task.title %></td>
+                            <td>
+                                <%= link "#{task.project.title}", to: Routes.project_path(@socket, :board, task.project_id) %>
+                            </td>
+                            <td>
+                                <%= if task.status_id not in [2,4,5] do %>
+                                    <%= if not is_nil(@user.current_record) and task.id == @user.current_record.task_id do %>
+                                        <button phx-click="stop-record" phx-value-record_id={@user.current_record.id} class="btn btn-danger" style="width: 40px;height: 30px;display: block; margin: 0 auto;">
+                                            <i class="bi bi-pause-fill" style="font-size: 20px;"></i>
+                                        </button>
+                                    <% else %>
+                                        <button phx-click="start-record" phx-value-task_id={task.id} class="btn btn-primary" style="width: 40px;height: 30px;display: block; margin: 0 auto;">
+                                            <i class="bi bi-play-fill" style="font-size: 20px;"></i>
+                                        </button>
+                                    <% end %>
+                                <% end %>
+                            </td>
+                            <td class="td-record-status"><%= if task.status_id==1 do %><i class="bi bi-circle-fill" style></i><% end %></td>
+                            <td class="td-record-status"><%= if task.status_id==3 do %><i class="bi bi-circle-fill"></i><% end %></td>
+                            <td class="td-record-status"><%= if task.status_id==4 do %><i class="bi bi-circle-fill"></i><% end %></td>
+                            <td class="td-record-status"><%= if task.status_id==2 do %><i class="bi bi-circle-fill"></i><% end %></td>
+                            <td class="td-record-status"><%= if task.status_id==5 do %><i class="bi bi-check-lg" style="font-size: 25px; color: green;"></i><% end %></td>
+                        </tr>
+
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style={"#{if @showing_tasks, do: "display: none;"}padding: 20px;"}>
+    <div class="row">
+        <div class="column column-20">
+            <h3>MES ACTIONS DU JOUR</h3>
+        </div>
+    </div>
+    <div style="height: 700px; overflow: auto;">
+        <table id="record-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Heure début</th>
+                    <th>Heure fin</th>
+                    <th>Durée</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= for action <- @my_actions do %>
+                    <tr>
+                        <td><%= action.task.title %></td>
+                        <td><%= NaiveDateTime.to_time(action.start) %></td>
+                        <td><%= if not is_nil(action.end), do: NaiveDateTime.to_time(action.end), else: "-" %></td>
+                        <td><%= if not is_nil(action.duration), do: "#{action.duration} minutes", else: "-" %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+        <%= live_component(
+          PmLoginWeb.LiveComponent.TaskModalFromRecordLive, 
+          id: "confirm-arch", 
+          title: "Créer tâche", 
+          body: nil, 
+          right_button: nil, 
+          right_button_action: nil, 
+          right_button_param: nil, 
+          left_button: "Annuler", 
+          left_button_action: "cancel",
+          task_changeset: @task_changeset, 
+          show_task_modal: @show_task_modal, 
+          curr_user_id: @curr_user_id, 
+          list_projects: @list_projects
+          ) 
+        %>
+

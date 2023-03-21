@@ -1,0 +1,25 @@
+<h1>Contributeurs</h1>
+<div class="contributors__container">
+
+    <%= for contributor <- @contributors do %>
+    <div class="contrib__card__container">
+        <a href={ Routes.project_path(@socket, :show_contributor, contributor) } class="basecontents__without__radius contrib__card">
+            <div class="contrib__head__container" style="height: 40%;">
+                <div class="contrib__pic__container" style="30%">
+                    <img class="profile-pic-header" src={ Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(contributor.id) }") } width="50"/>
+                </div>
+                <div style="width: 90%;">
+                    <h3><%= contributor.username %></h3>
+                </div>
+            </div>
+            <div class="contrib__bottom__container" style="height: 60%;">
+                <p class="contrib__recs__text">Tâches en cours: <%= Monitoring.my_unachieved_length(contributor.id) %></p>
+                <p class="contrib__recs__text">Tâches effectuées: <%= Monitoring.my_achieved_length(contributor.id) %></p>
+            </div>
+        </a>
+    </div>
+    <% end %>
+
+</div>
+
+<span><a href={ Routes.user_path(@socket, :index) } class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Accueil</a></span>

@@ -1,0 +1,82 @@
+#adm{
+  border-bottom: 1px solid rgba(192, 192, 192, 0);
+ /* ^- the important bit. RGB 192,192,192 is the same as #C0C0C0*/
+
+ -webkit-transition: border 500ms ease;
+ -moz-transition: border 500ms ease;
+ -ms-transition: border 500ms ease;
+ -o-transition: border 500ms ease;
+ transition: border 500ms ease;
+ transition: font-size 0.5s ease;
+}
+
+#space__adm{
+  border-bottom: 1px solid rgba(192, 192, 192, 0);
+ /* ^- the important bit. RGB 192,192,192 is the same as #C0C0C0*/
+
+ -webkit-transition: border 500ms ease;
+ -moz-transition: border 500ms ease;
+ -ms-transition: border 500ms ease;
+ -o-transition: border 500ms ease;
+ transition: border 500ms ease;
+ transition: font-size 0.5s ease;
+}
+
+
+#adm:hover{
+  border-bottom: 1px solid rgba(192, 192, 192, 1);
+}
+
+#space__adm{
+  font-size: 20px;
+}
+
+#space__adm:hover{
+  border-bottom: 1px solid rgba(192, 192, 192, 1);
+}
+
+#adm:hover>span{
+}
+
+#esp__adm__row{
+  color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.esp__adm__col{
+  margin: 15px;
+  height: 150px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: width 0.5s, height 1s;
+  /* transition: height 0.5s ease; */
+}
+
+.my__company__title{
+  margin: 15px;
+  height: 150px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: width 0.5s, height 1s;
+  /* transition: height 0.5s ease; */
+}
+
+.h__company__title{
+ text-decoration: underline gray;
+}
+
+.header__link__title{
+  text-align: center;
+}
+
+/* .hover__growing{
+  transition: width 0.5s ease;
+  transition: height 0.5s ease;
+} */
+.esp__adm__col:hover{
+  background-color: lightsteelblue;
+}

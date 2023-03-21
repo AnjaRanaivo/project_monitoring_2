@@ -1,0 +1,185 @@
+<div class="row">
+   <div class="column column-30">
+      <h3 style="text-align: left;"><a href={ Routes.user_path(@socket, :index) } class="" style="padding-bottom: : 10px;" id="adm"><%= "<<Espace administrateur<<" %></a></h3>
+    </div>
+  <div class="column column-70" style="text-align: right;" phx-window-keydown="key_cancel">
+    <h1>Récapitulatif des tâches effectuées</h1>
+    <span class="material-icons" style="font-size: 50px; margin-top: -20px;margin-bottom: 10px; text-align: center;">table_chart</span>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="column basecontents__without__radius desktop__header">
+    <h2>ce jour,<p class="recap__length"><a href="#" phx-click="show_day"><i class="bi bi-bar-chart-steps gantt__icon"></i></a><%= length(@todays) %></p></h2>
+  </div>
+  <div class="column basecontents__without__radius desktop__header">
+    <h2>cette semaine,<p class="recap__length"><a href="#" phx-click="show_week"><i class="bi bi-bar-chart-steps gantt__icon"></i></a><%= length(@weeks) %></p></h2>
+  </div>
+  <div class="column basecontents__without__radius desktop__header">
+    <h2>ce mois,<p class="recap__length"><a href="#" phx-click="show_month"><i class="bi bi-bar-chart-steps gantt__icon"></i></a><%= length(@months) %></p></h2>
+  </div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+  <div class="column basecontents__without__radius recaps__chart">
+    <div class="mobile__header basecontents__without__radius">
+      <h2>ce jour,<p class="recap__length"><a href="#" phx-click="show_day"><i class="bi bi-bar-chart-steps gantt__icon"></i></a><%= length(@todays) %></p></h2>
+    </div>
+
+    <%= if length(@todays)!=0 do %>
+
+    <%= for task <- @todays do %>
+    <div class="card__recap basecontents__without__radius">
+      <div class="row" style="">
+        <div class="column column-10">
+
+          <%= case task.priority_id do %>
+            <% 1 -> %><div class="low__priority__point__rec"></div>
+            <% 2 -> %><div class="avg__priority__point__rec"></div>
+            <% 3 -> %><div class="high__priority__point__rec"></div>
+            <% 4 -> %><div class="urg__priority__point__rec"></div>
+            <% _ -> %><div class="priority__point__rec"></div>
+          <% end %>
+
+        </div>
+        <div class="column column-40 recap__cols">
+          <div>Tâche: <%= task.title %></div>
+          <div>Projet: <%= task.project.title %></div>
+        </div>
+        <div class="column column-50 recap__cols">
+        <%= if not is_nil(task.contributor) do %>
+        <div class="row">Intervenant: <img class="profile-pic-notif" src={ Routes.static_path(@socket, "/#{task.contributor.profile_picture}") } width="50" style="margin-left: 10px;margin-right: 10px;"/>  <%= task.contributor.username %></div>
+        <% end %>
+        <div>Attributeur: <%= task.attributor.username %></div>
+        </div>
+
+      </div>
+    </div>
+    <% end %>
+
+    <% else %>
+    <h2 style="text-align: center;">Aucune</h2>
+    <% end %>
+
+  </div>
+
+  <div class="column basecontents__without__radius recaps__chart">
+    <div class="mobile__header basecontents__without__radius">
+      <h2>cette semaine,<p class="recap__length"><a href="#" phx-click="show_week"><i class="bi bi-bar-chart-steps gantt__icon"></i></a><%= length(@weeks) %></p></h2>
+    </div>
+    <%= if length(@weeks)!=0 do %>
+
+    <%= for task <- @weeks do %>
+    <div class="card__recap basecontents__without__radius">
+      <div class="row" style="">
+        <div class="column column-10">
+
+          <%= case task.priority_id do %>
+            <% 1 -> %><div class="low__priority__point__rec"></div>
+            <% 2 -> %><div class="avg__priority__point__rec"></div>
+            <% 3 -> %><div class="high__priority__point__rec"></div>
+            <% 4 -> %><div class="urg__priority__point__rec"></div>
+            <% _ -> %><div class="priority__point__rec"></div>
+          <% end %>
+
+        </div>
+        <div class="column column-40 recap__cols">
+          <div>Tâche: <%= task.title %></div>
+          <div>Projet: <%= task.project.title %></div>
+        </div>
+        <div class="column column-50 recap__cols">
+        <%= if not is_nil(task.contributor) do %>
+        <div class="row">Intervenant: <img class="profile-pic-notif" src={ Routes.static_path(@socket, "/#{task.contributor.profile_picture}") } width="50" style="margin-left: 10px;margin-right: 10px;"/>  <%= task.contributor.username %></div>
+        <% end %>
+        <div>Attributeur: <%= task.attributor.username %></div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <% else %>
+    <h2 style="text-align: center;">Aucune</h2>
+    <% end %>
+
+  </div>
+
+  <div class="column basecontents__without__radius recaps__chart">
+    <div class="mobile__header basecontents__without__radius">
+      <h2>ce mois,<p class="recap__length"><a href="#" phx-click="show_month"><i class="bi bi-bar-chart-steps gantt__icon"></i></a><%= length(@months) %></p></h2>
+    </div>
+    <%= if length(@months)!=0 do %>
+
+    <%= for task <- @months do %>
+    <div class="card__recap basecontents__without__radius">
+      <div class="row" style="">
+        <div class="column column-10">
+
+          <%= case task.priority_id do %>
+            <% 1 -> %><div class="low__priority__point__rec"></div>
+            <% 2 -> %><div class="avg__priority__point__rec"></div>
+            <% 3 -> %><div class="high__priority__point__rec"></div>
+            <% 4 -> %><div class="urg__priority__point__rec"></div>
+            <% _ -> %><div class="priority__point__rec"></div>
+          <% end %>
+
+        </div>
+        <div class="column column-40 recap__cols">
+          <div>Tâche: <%= task.title %></div>
+          <div>Projet: <%= task.project.title %></div>
+        </div>
+        <div class="column column-50 recap__cols">
+          <%= if not is_nil(task.contributor) do %>
+          <div class="row">Intervenant: <img class="profile-pic-notif" src={ Routes.static_path(@socket, "/#{task.contributor.profile_picture}") } width="50" style="margin-left: 10px;margin-right: 10px;"/>  <%= task.contributor.username %></div>
+          <% end %>
+          <div>Attributeur: <%= task.attributor.username %></div>
+        </div>
+
+      </div>
+    </div>
+    <% end %>
+
+    <% else %>
+    <h2 style="text-align: center;">Aucune</h2>
+    <% end %>
+
+  </div>
+
+</div>
+
+<div class="my__modal__container" style={"visibility: #{ if @gantt_day, do: "visible", else: "hidden" }; opacity: #{ if @gantt_day, do: "1 !important", else: "0" };"}>
+  <div class="container my__modal__card gantt__card">
+  <a class="x__close" title="Fermer" phx-click="close_day"><i class="bi bi-x"></i></a>
+    <div class="row">
+      <div class="column">
+        <h3 style="text-align: center;">Diagramme de Gantt pour les tâches effectuées ce jour</h3>
+        <%= @output_todays %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="my__modal__container" style={"visibility: #{ if @gantt_week, do: "visible", else: "hidden" }; opacity: #{ if @gantt_week, do: "1 !important", else: "0" };"}>
+  <div class="container my__modal__card gantt__card">
+  <a class="x__close" title="Fermer" phx-click="close_week"><i class="bi bi-x"></i></a>
+    <div class="row">
+      <div class="column">
+        <h3 style="text-align: center;">Diagramme de Gantt pour les tâches effectuées cette semaine</h3>
+        <%= @output_week %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="my__modal__container" style={"visibility: #{ if @gantt_month, do: "visible", else: "hidden" }; opacity: #{ if @gantt_month, do: "1 !important", else: "0" };"}>
+  <div class="container my__modal__card gantt__card">
+  <a class="x__close" title="Fermer" phx-click="close_month"><i class="bi bi-x"></i></a>
+    <div class="row">
+      <div class="column">
+        <h3 style="text-align: center;">Diagramme de Gantt pour les tâches effectuées ce mois-ci</h3>
+        <%= @output_month %>
+      </div>
+    </div>
+  </div>
+</div>

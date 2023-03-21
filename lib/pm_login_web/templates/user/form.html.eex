@@ -1,0 +1,37 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Vérifiez vos informations ci-dessous</p>
+    </div>
+  <% end %>
+  <%= label f, "Nom d'utilisateur" %>
+  <%= text_input f, :username, class: "un", id: "iu" %>
+  <%= error_tag f, :req_uname_error %>
+  <%= error_tag f, :username %>
+
+
+  <%= label f, "Adresse e-mail" %>
+  <%= text_input f, :email, class: "un" %>
+  <%= error_tag f, :email %>
+  <%= error_tag f, :req_email_error %>
+
+  <%= label f, "Confirmer adresse e-mail" %>
+  <%= text_input f, :email_confirmation, class: "un" %>
+  <%= error_tag f, :email_confirmation %>
+
+
+  <%= label f, "Mot de passe" %>
+  <%= password_input f, :password, class: "pass" %>
+  <%= error_tag f, :req_pass_error %>
+  <%= error_tag f, :password %>
+
+  <%= label f, "Confirmez le mot de passe" %>
+  <%= password_input f, :password_confirmation, class: "pass" %>
+  <%= error_tag f, :password_confirmation %>
+
+
+  <%= submit "S'inscrire", class: "submit", id: "signin" %>
+  <p id="signup">Vous avez déjà un compte? <%= link "connectez-vous.", to: Routes.page_path(@conn, :index) %></p>
+
+
+<% end %>

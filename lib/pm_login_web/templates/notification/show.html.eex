@@ -1,0 +1,18 @@
+<h1>Show Notification</h1>
+
+<ul>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @notification.content %>
+  </li>
+
+  <li>
+    <strong>Seen:</strong>
+    <%= @notification.seen %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.notification_path(@conn, :edit, @notification) %></span>
+<span><%= link "Back", to: Routes.notification_path(@conn, :index) %></span>

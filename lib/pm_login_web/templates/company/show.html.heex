@@ -1,0 +1,17 @@
+<h1><span class="material-icons mat__ico__big">maps_home_work</span> Société <%= @company.name %></h1>
+<div class="basecontents__without__radius project-show">
+
+  <ul>
+
+    <li>
+      <strong>Nom de la société: </strong>
+      <%= @company.name %>
+    </li>
+
+  </ul>
+</div>
+
+<span>
+  <a href={Routes.company_path(@socket, :edit, @company)} class="btn btn-lg btn-warning"><i class="bi bi-pencil-square"></i> Modifier informations</a>
+</span>
+<span><a href={Routes.company_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

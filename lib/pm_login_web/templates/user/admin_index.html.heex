@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="column">
+    <h3 style="text-align: left;"><a href={ Routes.company_path(@socket, :services) } class=""
+        style="padding-bottom: : 10px;" id="adm"><%= "<<Services<<" %></a></h3>
+  </div>
+  <div class="column">
+    <h3 style="text-align: right;"><a href={Routes.project_path(@socket, :recaps)} class=""
+        style="padding-bottom: : 10px;" id="adm">>>Récapitulatifs>></a></h3>
+  </div>
+</div>
+
+<div class="container">
+  <div id="esp__adm__row" class="row basecontents__without__radius">
+    <div class="column">
+      <a id="adm" href={Routes.user_path(@socket, :index)}>
+        <h2>Espace administrateur</h2>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <a href={Routes.project_path(@socket, :index)}
+      class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title">
+        <p id="adm">Projets <br /><span class="material-icons mat__ico mat__ico__growing">insert_chart</span></p>
+      </h3>
+    </a>
+    <a href={Routes.company_path(@socket, :index)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Sociétés / Financeurs <br /><span class="material-icons mat__ico">maps_home_work</span></p>
+      </h3>
+    </a>
+  </div>
+
+  <div class="row">
+    <a href={Routes.user_path(@socket, :list)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Utilisateurs <br /><span class="material-icons mat__ico">supervisor_account</span></p>
+      </h3>
+    </a>
+    <a href={Routes.right_path(@socket, :index)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Droits/Statuts <br /><span class="material-icons mat__ico">shield</span></p>
+      </h3>
+    </a>
+  </div>
+
+  <div class="row">
+    <!--
+    <a href={Routes.project_path(@socket, :logs)} class="column">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover"
+          src={ Routes.static_path(@socket, "/images/13.jpg" )}
+        />
+        <div>
+          <span class="material-icons mat__ico">stacked_line_chart</span>
+          <p style="margin-top: revert;">Tableau de bord</p>
+        </div>
+      </div>
+    </a>
+  -->
+
+    <a href={Routes.active_client_path(@socket, :index)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Clients <br /><i class="bi bi-people-fill mat__ico"></i></p>
+      </h3>
+    </a>
+
+    <a href={Routes.project_path(@socket, :logs)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Tableau de bord <br /><span class="material-icons mat__ico">stacked_line_chart</span></p>
+      </h3>
+    </a>
+
+ 
+
+    <!--
+    <a href={Routes.active_client_path(@socket, :index)} class="column">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover"
+          src="https://static.vecteezy.com/system/resources/previews/006/230/301/non_2x/illustration-of-a-woman-doing-a-presentation-or-training-to-a-client-free-vector.jpg"
+        />
+        <div>
+          <i class="bi bi-people-fill mat__ico"></i>
+          <p style="margin-top: revert;">Clients</p>
+        </div>
+      </div>
+    </a>
+  -->
+    <!--
+    <a href={Routes.active_client_path(@socket, :new)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Inactifs <br /><i class="bi bi-people"></i></p>
+      </h3>
+    </a>
+    -->
+  </div>
+
+  <div class="row">
+    <a href={Routes.company_path(@socket, :services)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Services <br /><span class="material-icons mat__ico">miscellaneous_services</span></p>
+      </h3>
+    </a>
+    <!--
+    <a href={Routes.company_path(@socket, :services)}  class="column">
+      <div class="card-style">
+        <img
+          class="image-fit-cover" 
+          src={ Routes.static_path(@socket, "/images/6.jpg" )}
+        />
+        <div>
+          <span class="material-icons mat__ico">miscellaneous_services</span>
+          <p style="margin-top: revert;">Services</p>
+        </div>
+      </div>
+    </a>
+  -->
+  </div>
+
+  <!--
+  <div class="row">
+    <a href={Routes.project_path(@socket, :contributors)} class="column basecontents__without__radius esp__adm__col">
+      <h3 class="header__link__title">
+        <p id="adm">Tâches des contributeurs</p>
+      </h3>
+    </a>
+  </div>
+  -->
+
+</div>

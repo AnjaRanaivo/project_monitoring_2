@@ -1,0 +1,49 @@
+<h1><i class="bi bi-info-circle"></i> <%= @project.title %></h1>
+<div class="basecontents__without__radius project-show">
+<ul>
+
+  <li>
+    <strong>Nom: </strong>
+    <%= @project.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @project.description %>
+  </li>
+
+  <li>
+    <strong>Progression:</strong>
+    <%= @project.progression %> %
+  </li>
+
+  <li>
+    <strong>Début du projet</strong>
+    <%= Utilities.letters_date_format(@project.date_start) %>
+  </li>
+
+  <li>
+    <strong>Fin du projet</strong>
+    <%= if not is_nil(@project.date_end) do Utilities.letters_date_format(@project.date_end) else "-" end %>
+
+  </li>
+
+  <li>
+    <strong>Durée estimée</strong>
+    <%= @project.estimated_duration %> h
+  </li>
+
+  <li>
+    <strong>Durée effectuée:</strong>
+    <%= @project.performed_duration %> h
+  </li>
+
+  <li>
+    <strong>Date d'échéance:</strong>
+    <%= Utilities.letters_date_format(@project.deadline) %>
+  </li>
+
+</ul>
+</div>
+<span><a href={Routes.project_path(@socket, :edit, @project)} class="btn btn-lg btn-warning"><i class="bi bi-pencil-square"></i> Modifier informations</a></span>
+<span><a href={Routes.project_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

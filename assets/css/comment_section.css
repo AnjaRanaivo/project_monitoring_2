@@ -1,0 +1,187 @@
+.comments-section{
+  overflow-y: scroll;
+  height: 400px;
+  width: 425px;
+  padding: 20px;
+  /* white-space: nowrap; */
+}
+
+.new__inner__card{
+  padding-right: 0px !important;
+}
+
+.pp__comment{
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+  border: 1px solid gray;
+  border-style: solid;
+  border-radius: 60%;
+}
+
+.username__comment, .username__comment__you {
+  margin-left: 5px;
+  font-size: 9px;
+}
+
+.comment__div{
+  background-color: #3498db;
+  clear: both;
+  display: block;
+  font-size: 15px;
+  line-height: 15pt;
+  margin: 1pt 0;
+  max-width: 80%;
+  outline: none;
+  padding: 6pt 9pt;
+  border-radius: 1.3em;
+  color: #fff;
+  float: right;
+  position: relative;
+  right: 10px;
+}
+
+.comment__header{
+  height: 25px;
+}
+
+.comment__content{
+  width: 300px;
+}
+
+.textc__content{
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.textc__content_user{
+  text-align: right;
+  word-wrap: break-word;
+}
+
+.date__footer{
+  font-size: 12px;
+}
+
+.comment__modal__footer{
+  /* white-space: nowrap !important; */
+  margin-top: 10px;
+  margin-bottom: -15px;
+}
+
+@media (max-width: 638px){
+  .comment__modal__footer{
+    white-space: nowrap !important;
+    /* max-width: 300px !important; */
+  }
+  .col__com__footer{
+    /* background-color: black; */
+    white-space: nowrap !important;
+  }
+}
+
+.form__wrapper{
+  white-space: nowrap;
+}
+
+.form__wrapper>*{
+  display: inline-block;
+}
+.comment__back{
+  font-size: 30px;
+  color: gray;
+}
+.comment__back:hover{
+  cursor: pointer;
+  color: lightgray;
+}
+
+.bt__com__form{
+  position: relative;
+  top: 5px;
+  border: none;
+  width: 10px;
+  background-color: transparent !important;
+  /* margin-left: 10px; */
+
+}
+
+.bt__com__form:hover{
+  background-color: transparent;
+}
+
+.bt__com__form:active{
+  background-color: transparent;
+}
+
+.bt__com__form__ico{
+  font-size: 25px;
+  color: darkblue;
+}
+
+.bt__com__form__ico:hover{
+  /* font-size: 30px; */
+  color: gray;
+}
+
+
+.load__icons{
+  margin-top: -27px;
+  margin-left: 320px;
+}
+
+.quit__link p {
+  display: none;
+}
+
+#comment_content{
+  width: 320px;
+}
+
+.upload__ico__label{
+  margin-left: 20px;
+}
+.upload__com__icon{
+  font-size: 20px;
+  color:darkblue;
+}
+
+.upload__com__icon:hover{
+  cursor: pointer;
+  color: gray;
+}
+
+.file_preview_container{
+  width: 525px;
+  max-width: 525px;
+  overflow-x: auto;
+}
+
+.file_preview_container>*{
+  display: inline-block;
+}
+
+.comment__preview>*{
+  display: block;
+}
+
+.progress__comment{
+  width: 80px;
+  /* background-color: #90ee90;
+  background-color: #4361ee;
+  background-color: #f8961e;
+  background-color: #ff0000; */
+  
+}
+
+/* MY COLOUR PALETTE */
+/* "90ee90", "4361ee", "f8961e", "ff0000", */
+
+/* .quit__link:hover {
+  display: block;
+} */
+
+/* .quit__link:hover p {
+  display: block;
+} */

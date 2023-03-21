@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <title>Inscription</title>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+  </head>
+  <body class="body-bg">
+    <script>0</script>
+
+    <main role="main" class="container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+      <p id="log_alert" class="alert alert-info basecontents" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p id="log_danger" class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= @inner_content %>
+    </main>
+  </body>
+  <script type="text/javascript">
+    var alert = document.querySelector("#log_alert");
+    console.log(alert);
+    alert.style.opacity = 1
+    alert.onload = window.setTimeout(function(){alert.style.opacity = 0;}, 2000);
+
+    var alert_danger = document.querySelector("#log_danger");
+    console.log(alert_danger);
+    alert_danger.style.opacity = 1
+    alert_danger.onload = window.setTimeout(function(){alert_danger.style.opacity = 0;}, 2000);
+  </script>
+</html>

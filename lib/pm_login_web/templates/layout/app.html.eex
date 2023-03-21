@@ -1,0 +1,45 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+    <title>MGBI/ Monitoring</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrapper site-header__wrapper">
+
+        <img class="profile-pic-header" src="<%= Routes.static_path(@conn, "/#{PmLogin.Login.get_profile_picture(Plug.Conn.get_session(@conn, :curr_user_id)) }") %>" width="50"/>
+        <%= link "Mgbi", to: Routes.user_path(@conn, :index), class: "brand" %>
+        <nav class="nav">
+          <input id="hamburger" type="image"  src="<%= Routes.static_path(@conn, "/images/hamburger.png") %>" class="nav__toggle">
+          <ul class="nav__wrapper">
+            <li class="nav__item"><%= link "Accueil", to: Routes.user_path(@conn, :index) %></li>
+            <li class="nav__item"><%= link "Profil", to: Routes.user_path(@conn, :show, Plug.Conn.get_session(@conn, :curr_user_id))%></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main" role="main" class="container">
+      <p class="alert alert-info basecontents" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p> -->
+
+      <%= @inner_content %>
+      <!-- <br/>
+      <br/>
+      <span>
+        <a href="<%= Routes.auth_path(@conn, :sign_out) %>" class="btn btn-outline-danger btn-lg"><i class="bi bi-box-arrow-left"></i> Déconnexion</a>
+      </span>
+        </main>
+  </body>
+  <footer id="foot" class="container-fluid">
+    <div id="footcont" class="container">
+        <p>copyright @Cleemzy / Project monitoring</p>
+    </div>
+
+  </footer>
+</html> -->

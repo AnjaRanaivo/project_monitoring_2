@@ -1,0 +1,15 @@
+<%= if @projects == [] do %>
+  <div class="alert-primary" role="alert">
+    <i class="bi bi-info-circle" style="font-size: 20px"></i>
+    <div class="alert-text"> Aucun projet n'a été assignée pour le moment... </div>
+  </div>
+<% else %>
+  <div class="basecontents__without__radius">
+    <%= for project <- @projects do %>
+        <div style="padding: 10px;">
+          <span class="material-icons-round arr__sorted">keyboard_arrow_right</span>
+          <%= link "#{project.title}", to: Routes.project_path(@socket, :board, project) %>
+        </div>
+    <% end %>
+  </div>
+<% end %>

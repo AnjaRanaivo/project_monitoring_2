@@ -1,0 +1,5 @@
+<h1>New Clients request</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.clients_request_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.clients_request_path(@conn, :index) %></span>

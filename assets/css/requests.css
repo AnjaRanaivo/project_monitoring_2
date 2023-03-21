@@ -1,0 +1,159 @@
+.recap__length{
+  float: right;
+}
+
+.recap__cols{
+  word-break: break-word;
+}
+
+.my__requests{
+  /* background-color: #F8F1F1; */
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.5px;
+  text-decoration-color: gray;
+  margin-bottom: -5px;
+}
+
+.request__form__container{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: visibility 0.2s, opacity 0.2s linear;
+}
+
+.request__form{
+  position: fixed;
+  /* top: 25%;
+  left: 30%; */
+  margin: 0 auto;
+  /* filter: blur(0px) !important; */
+  /* display: block; */
+  /* margin: auto; */
+  /* height: 400px; */
+  /* max-height: 500px; */
+  width: 500px;
+  max-width: 500px;
+  white-space: normal;
+  word-wrap: break-word;
+  z-index: 999;
+  /* transition: visibility 0.2s, opacity 0.2s linear; */
+
+  /* height: auto;
+  width: 28rem;
+  max-width: 51rem;
+  margin: 0.5rem; */
+  /* border-radius: 0.4rem; */
+
+  /* border-radius: 1.5em; */
+
+  /* background-color: #fff; */
+}
+.request__container{
+  padding-top: 50px;
+  min-height: 750px;
+  background-color: #F8F1F1;
+  padding-bottom: 50px;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+  max-height: 1000px;
+  overflow-y: scroll;
+
+}
+
+.request__panel{
+  margin: auto;
+  max-width: 500px;
+  white-space: normal;
+  word-wrap: break-word;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 650px) {
+  .request__pp{
+    position: relative;
+    top: -50px;
+  }
+}
+
+
+/* supprimer l'overflow pour l'ajout de nouveau projet */
+.request__form__content{
+  /* overflow-y: scroll;
+  overflow-x: hidden;
+  margin-left: -13px; */
+  height: 500px;
+  max-height: auto;
+  direction: rtl;
+}
+.request__form__content>*{
+  direction: ltr;
+}
+
+.profile-pic-ultramini{
+  width: 20px;
+  height: 20px;
+  max-width: 20px;
+  max-height: 20px;
+  border: 1px solid gray;
+  border-style: solid;
+  border-radius: 60%;
+}
+
+.form__open{
+  position: fixed;
+  float: right;
+  transition: font-size 0.5s ease;
+}
+
+.form__open:hover{
+  cursor: pointer;
+  font-size: 50px;
+}
+
+@media (max-width: 950px) {
+  /* .request__form{
+    top: 5%;
+    left: 0%;
+  } */
+}
+
+.form__close{
+  font-size: 20px;
+  float: right;
+  transition: font-size 0.5s ease;
+}
+
+.form__close:hover{
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.file__name__upload{
+  max-width: 200px;
+  max-height: 50px;
+  overflow-y: hidden;
+}
+
+/* GONNA UNCOMMENT THIS WHEN STYLING IS OVER */
+/* input[type="file"] {
+  display: none;
+} */
+
+.file_inputs{
+  display: none;
+}
+
+.file_input_btn:hover{
+  cursor: pointer;
+}
+
+/* .request__checkbox__col>*{
+  display: inline-block;
+} */

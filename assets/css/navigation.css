@@ -1,0 +1,64 @@
+.navbar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    margin-bottom: 10px;
+    list-style: none;
+    font-size: 13px;
+}
+
+.nav-link {
+    display: block;
+    padding: .5em 1em
+}
+
+.nav-link:focus,
+.nav-link:hover {
+    cursor: pointer;
+    text-decoration: none
+}
+
+.nav-link.disabled {
+    color: #636c72;
+    cursor: not-allowed
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #ddd
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: -1px
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-right-radius: .25rem;
+    border-top-left-radius: .25rem
+}
+
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover {
+    border-color: #eceeef #eceeef #ddd
+}
+
+.nav-tabs .nav-link.disabled {
+    color: #636c72;
+    background-color: transparent;
+    border-color: transparent
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #464a4c;
+    background-color: #fff;
+    border-color: #ddd #ddd #fff
+}
+
+.nav-tabs .dropdown-menu {
+    margin-top: -1px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0
+}

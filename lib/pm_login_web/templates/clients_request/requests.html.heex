@@ -1,0 +1,430 @@
+<style>
+  button.survey {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    max-width: 175px;
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #4070f4 !important;
+    transition: all 0.1s linear;
+    cursor: pointer;
+    text-transform: initial;
+    margin-bottom: -5px;
+  }
+
+  button:hover {
+    background-color: #3a66de !important;
+  }
+
+  .bi.bi-eye-fill {
+    font-size: 17px;
+    margin-right: 5px;
+  }
+</style>
+
+<div style="transform: scale(0.8); margin-top: -11rem !important;">
+  <div class="card-info" style="max-width: 750px;">
+    <span class="material-icons mat__ico__big">
+      receipt_long
+    </span>Requêtes des clients
+  </div>
+  <!-- 
+  <div class="container request__container"> 
+    <%= for request <- @requests do %>
+      <div class="basecontents__without__radius request__panel">
+        <div class="row">
+          <div class="column">
+            <h2><%= request.title %></h2>
+          </div>
+          <div class="column">
+            <img class="profile-pic-header request__pp" src={Routes.static_path(@socket, "/#{request.active_client.company.logo}")} alt="" style="float: right;">
+          </div>
+        </div>
+  
+          <p><%= request.content %></p>
+  
+          <div class="column" style="margin-bottom: 20px;">
+            <%= for url <- request.file_urls do %>
+            <%= if Path.extname(url)==".jpg" or Path.extname(url)==".png" or Path.extname(url)==".jpeg" do %>
+              <a href={url} style="margin-bottom: 10px;"><img src={url} alt="" height="150"/></a>
+              <% else %>
+              <a href={url} download><%= Path.basename(url) %></a>
+              <br>
+              <% end %>
+            <% end %>
+          </div>
+  
+          <i><img class="profile-pic-ultramini" src={Routes.static_path(@socket, "/#{request.active_client.user.profile_picture}")} width="20"/> <%= request.active_client.user.username %></i>
+    <br/>
+          <i><%= request.active_client.user.email %></i><br/>
+          <i>le <%= Utilities.letters_date_format_with_hours(request.date_post) %></i>
+  
+          <div class="my_row" style="padding-left: 3em">
+              <div class="my_col request__checkbox__col">
+                <label for="vu">Vue</label>
+                <input id="vu" type="checkbox" phx-click="switch-seen" phx-value-id={request.id} checked={request.seen}>
+              </div>
+              <div class="my_col">
+                <label for="encours">En cours</label>
+                <input id="encours" type="checkbox" phx-click="switch-ongoing" phx-value-id={request.id} checked={request.ongoing}>
+              </div>
+  
+          </div>
+      </div>
+    <% end %>
+  </div>
+  -->
+  
+  <div style="display: flex; align-items: center; margin-bottom: 2rem; gap: 1rem;">
+    <form phx-change="request-search" style="margin-bottom: -2rem;">
+      <div class="request-search">
+        <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem; color: #fff !important;"></i>
+        
+        <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem; color: #fff !important;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+      </div>
+    </form>
+  
+    <form phx-change="request-status" style="margin-bottom: -2rem;">
+      <select id="request_status_id" name="status_id" 
+      style="width: -moz-available;
+      height: 3.8rem; 
+      background: #1F2937;
+      color: #fff;">
+        <option value="-1" selected>Filtrer des requêtes</option>
+        <option value="0">Tout</option>
+        <option value="1">Vue</option>
+        <option value="2">En cours</option>
+        <option value="3">Accomplie</option>
+        <option value="4">Cloturée</option>
+        <option value="5">Pas encore vue</option>
+      </select>
+    </form>
+  
+    <button 
+      class="survey"
+      phx-click="show_survey_request" 
+    >
+      <i class="bi bi-eye-fill"></i>
+      Voir les sondages
+    </button>
+  </div>
+  
+  <%= for request <- @requests do %>
+  <div style="display: flex;">
+    <div class="card-info" style="width: 750px;" data-id={request.id}>
+      <!--
+      <div class="card-avatar">
+        <i class="bi bi-person"></i>
+      </div>
+      -->
+  
+      <div class="col" style="display: flex; align-items: center;">
+        <div class="card-info-text">
+          <!--
+          <div class="card-text-username">
+            <%= PmLogin.Services.get_active_client!(request.active_client_id).user.username %>
+          </div>
+          -->
+          <div class="card-text-username">
+            <%= request.title %>
+          </div>
+          <div 
+            style="
+              display: inline-block;
+              background: #2980b9;
+              color: #fff;
+              padding: 3px 5px 3px 5px;
+              margin: 5px 0 5px 0;
+            "
+          >
+            #<%= request.uuid %>
+          </div>
+          <!--
+          <div class="card-text-content">
+            <%= request.content %>
+          </div>
+          -->
+          <div class="card-text-date">
+            <%= Utilities.letters_date_format_with_hours request.date_post %>
+          </div>
+          <div class="card-image">
+            <!--
+           <div class="column" style="margin: 10px 0 20px 0; display: flex;">
+              <%= for url <- request.file_urls do %>
+                <%= if Path.extname(url)==".jpg" or Path.extname(url)==".png" or Path.extname(url)==".jpeg" do %>
+                  <a href={url} style="margin-bottom: 10px;"><img src={url} alt="" height="150"/></a>
+                <% else %>
+                  <a href={url} download style="font-size: 4rem; margin: 0 0 0 15px">
+                    <%= cond do %>
+                      <% String.ends_with?(Path.basename(url), ".pdf")   -> %> <i class="bi bi-filetype-pdf" title={Path.basename(url)} style="color: #e13f2d;"></i>
+                      <% String.ends_with?(Path.basename(url), ".txt")   -> %> <i class="bi bi-filetype-txt" title={Path.basename(url)} style="color: #7f8c8d;"></i>
+                      <% String.ends_with?(Path.basename(url), ".odt")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50"></i>
+                      <% String.ends_with?(Path.basename(url), ".ods")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                      <% String.ends_with?(Path.basename(url), ".odp ")  -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                      <% String.ends_with?(Path.basename(url), ".csv")   -> %> <i class="bi bi-filetype-csv" title={Path.basename(url)} style="color: #1da355;"></i>
+                      <% String.ends_with?(Path.basename(url), ".xml")   -> %> <i class="bi bi-filetype-xml" title={Path.basename(url)} style="color: #f39c12;"></i>
+                      <% String.ends_with?(Path.basename(url), ".xls ")  -> %> <i class="bi bi-filetype-xls" title={Path.basename(url)} style="color: #27ae60;"></i>
+                      <% String.ends_with?(Path.basename(url), ".xlsx")  -> %> <i class="bi bi-filetype-xlsx" title={Path.basename(url)} style="color: #27ae60;"></i>
+                      <% String.ends_with?(Path.basename(url), ".ppt")   -> %> <i class="bi bi-filetype-ppt" title={Path.basename(url)} style="color: #e67e22;"></i>
+                      <% String.ends_with?(Path.basename(url), ".pptx ") -> %> <i class="bi bi-filetype-pptx" title={Path.basename(url)} style="color: #e67e22;"></i>
+                      <% String.ends_with?(Path.basename(url), ".doc")   -> %> <i class="bi bi-filetype-doc" title={Path.basename(url)} style="color: #2980b9;"></i>
+                      <% String.ends_with?(Path.basename(url), ".docx")  -> %> <i class="bi bi-filetype-docx" title={Path.basename(url)} style="color: #2980b9;"></i>
+                      <% true -> %>
+                    <% end %>
+                  </a>
+                  <br>
+                <% end %>
+              <% end %>
+            </div>
+          -->
+          </div>
+        </div>
+  
+        <div class="button-cr">
+          <button 
+            class="button-cr-see"
+            phx-click="show_detail_request_modal" 
+            phx-value-id={request.id}
+          >
+            <i class="bi bi-eye-fill"></i>
+            Voir 
+          </button>
+  
+          <%= if request.seen and request.ongoing and request.done and not request.finished do %>
+            <button 
+              class="button-cr-modify"
+              phx-click="cloture-request" 
+              phx-value-id={request.id}
+            >
+              <i class="bi bi-check-all"></i>
+              Cloturer 
+            </button>
+          <% end %>
+        </div>
+  
+    
+  
+        <!-- Vérifier si task_id ou project_id est nul ou non dans les requêtes -->
+        <%= cond do %>
+          <% not is_nil(request.task_id) and is_nil(request.project_id) -> %>
+            <%= if PmLogin.Monitoring.list_tasks_by_project_and_task!(request.task_id) == 5 do %>
+              <%= if request.seen and request.ongoing and request.done and request.finished do %>
+                <div class="card-button clients_requests" style="background-color: #27ae60;">
+                  <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                  Cloturée
+                </div>  
+  
+                <%= if not is_nil(request.date_finished) do %>
+                  <div class="date-seen clients_requests">
+                    <%= Utilities.letters_date_format_with_only_month_and_hours request.date_finished %>
+                  </div>
+                <% end %>
+  
+              <% else %>
+                <div class="card-button clients_requests" style="background-color: #cbba21;">
+                  <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                  Accomplie
+                </div>
+  
+                <%= if not is_nil(request.date_done) do %>
+                  <div class="date-seen clients_requests">
+                    <%= Utilities.letters_date_format_with_only_month_and_hours request.date_done %>
+                  </div>
+                <% end %>
+  
+              <% end %>  
+  
+            <% else %>
+              <%= if request.seen and request.ongoing and not request.done do %>
+                <div class="card-button clients_requests" style="background-color: #e67e22;">
+                  <i class="bi bi-clock-history" style="font-size: 1.5rem; margin-right: 6px"></i>
+                  En cours
+                </div>
+  
+                <%= if not is_nil(request.date_ongoing) do %>
+                  <div class="date-seen clients_requests">
+                    <%= Utilities.letters_date_format_with_only_month_and_hours request.date_ongoing %>
+                  </div>
+                <% end %>
+              <% end %>
+            <% end %>
+  
+          <% not is_nil(request.task_id) and not is_nil(request.project_id) -> %>
+            <%= if PmLogin.Monitoring.list_tasks_by_project_and_task!(request.task_id, request.project_id) == 5 do %>
+              <%= if request.seen and request.ongoing and request.done and request.finished do %>
+                <div class="card-button clients_requests" style="background-color: #27ae60;">
+                  <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                  Cloturée
+                </div>  
+  
+                <%= if not is_nil(request.date_finished) do %>
+                  <div class="date-seen clients_requests">
+                    <%= Utilities.letters_date_format_with_only_month_and_hours request.date_finished %>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="card-button clients_requests" style="background-color: #cbba21;">
+                  <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                  Accomplie
+                </div>
+  
+                <%= if not is_nil(request.date_done) do %>
+                  <div class="date-seen clients_requests">
+                    <%= Utilities.letters_date_format_with_only_month_and_hours request.date_done %>
+                  </div>
+                <% end %>
+              <% end %>           
+  
+             
+            <% else %>
+              <%= cond do %>
+                <% request.seen and not request.ongoing and not request.done and not request.finished -> %>
+                  <div class="card-button clients_requests" style="background-color: #2980b9;">
+                    <i class="bi bi-eye" style="font-size: 1.5rem; margin-right: 6px"></i>
+                    Vue
+                  </div>
+  
+                  <%= if not is_nil(request.date_seen) do %>
+                    <div class="date-seen clients_requests">
+                      <%= Utilities.letters_date_format_with_only_month_and_hours request.date_seen %>
+                    </div>
+                  <% end %>
+  
+                <% request.seen and request.ongoing and not request.done and not request.finished -> %>
+                  <div class="card-button clients_requests" style="background-color: #e67e22;">
+                    <i class="bi bi-clock-history" style="font-size: 1.5rem; margin-right: 6px"></i>
+                    En cours
+                  </div>
+  
+                  <%= if not is_nil(request.date_ongoing) do %>
+                    <div class="date-seen clients_requests">
+                      <%= Utilities.letters_date_format_with_only_month_and_hours request.date_ongoing %>
+                    </div>
+                  <% end %>
+  
+                <% request.seen and request.ongoing and request.done and not request.finished -> %>
+                  <div class="card-button clients_requests" style="background-color: #cbba21;">
+                    <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                    Accomplie
+                  </div>
+  
+                  <%= if not is_nil(request.date_done) do %>
+                    <div class="date-seen clients_requests">
+                      <%= Utilities.letters_date_format_with_only_month_and_hours request.date_done %>
+                    </div>
+                  <% end %>
+  
+                <% request.seen and request.ongoing and request.done and request.finished -> %>
+                  <div class="card-button clients_requests" style="background-color: #27ae60;">
+                    <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                    Cloturée
+                  </div>
+  
+                  <%= if not is_nil(request.date_finished) do %>
+                    <div class="date-seen clients_requests">
+                      <%= Utilities.letters_date_format_with_only_month_and_hours request.date_finished %>
+                    </div>
+                  <% end %>
+  
+              <% true -> %>
+                <div class="card-button clients_requests" style="background-color: #cb4331ea;">
+                  <i class="bi bi-eye-slash" style="font-size: 1.5rem; margin-right: 6px"></i>
+                  Pas encore vue
+                </div>
+            <% end %>
+          <% end %>
+  
+        <% true -> %>
+  
+          <%= cond do %>
+            <% request.seen and not request.ongoing and not request.done and not request.finished -> %>
+              <div class="card-button clients_requests" style="background-color: #2980b9;">
+                <i class="bi bi-eye" style="font-size: 1.5rem; margin-right: 6px"></i>
+                Vue
+              </div>
+  
+              <%= if not is_nil(request.date_seen) do %>
+                <div class="date-seen clients_requests">
+                  <%= Utilities.letters_date_format_with_only_month_and_hours request.date_seen %>
+                </div>
+              <% end %>
+  
+            <% request.seen and request.ongoing and not request.done and not request.finished -> %>
+              <div class="card-button clients_requests" style="background-color: #e67e22;">
+                <i class="bi bi-clock-history" style="font-size: 1.5rem; margin-right: 6px"></i>
+                En cours
+              </div>
+  
+              <%= if not is_nil(request.date_ongoing) do %>
+                <div class="date-seen clients_requests">
+                  <%= Utilities.letters_date_format_with_only_month_and_hours request.date_ongoing %>
+                </div>
+              <% end %>
+  
+            <% request.seen and request.ongoing and request.done and not request.finished -> %>
+              <div class="card-button clients_requests" style="background-color: #cbba21;">
+                <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                Accomplie
+              </div>
+  
+              <%= if not is_nil(request.date_done) do %>
+                <div class="date-seen clients_requests">
+                  <%= Utilities.letters_date_format_with_only_month_and_hours request.date_done %>
+                </div>
+              <% end %>
+  
+            <% request.seen and request.ongoing and request.done and request.finished -> %>
+              <div class="card-button clients_requests" style="background-color: #27ae60;">
+                <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
+                Cloturée
+              </div>
+  
+              <%= if not is_nil(request.date_finished) do %>
+                <div class="date-seen clients_requests">
+                  <%= Utilities.letters_date_format_with_only_month_and_hours request.date_finished %>
+                </div>
+              <% end %>
+  
+            <% true -> %>
+              <div class="card-button clients_requests" style="background-color: #cb4331ea;">
+                <i class="bi bi-eye-slash" style="font-size: 1.5rem; margin-right: 6px"></i>
+                Pas encore vue
+              </div>
+          <% end %>
+        <% end %>
+      </div>
+  
+  
+    </div>
+  </div>
+  <% end %>
+  
+  <br>
+  <span><a href={Routes.company_path(@socket, :services)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Services</a></span>
+  
+  <%= live_component(
+    PmLoginWeb.LiveComponent.DetailModalRequestLive, 
+    id: "confirm-arch", 
+    title: "Détails du requête", 
+    body: nil, 
+    right_button: nil, 
+    right_button_action: nil, 
+    right_button_param: nil, 
+    left_button: "Retour", 
+    left_button_action: "cancel",
+    task_changeset: nil, 
+    contributors: nil, 
+    attributors: nil,
+    show_detail_request_modal: @show_detail_request_modal, 
+    is_contributor: nil, 
+    curr_user_id: nil, 
+    list_projects: nil, 
+    client_request: @client_request
+    ) 
+  %>
+</div>

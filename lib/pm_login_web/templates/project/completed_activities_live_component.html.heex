@@ -1,0 +1,41 @@
+
+<div class="row" id={"#{@id}"}>
+    <div class="column" style="padding: 0 1rem 0 1rem;">
+      <div style="margin: 1rem 0 0 0rem">
+        <div class="icon-card table-card-style" style="padding: 0">
+          <div 
+            style="
+              margin: 0 auto;
+              width: 90%;
+              height: 400px; 
+              overflow: auto;"
+          >
+            <div class="title" style="padding: 1rem 0 1rem 0;">
+              <%= @title %>
+            </div>
+            <div class="counter">
+              <div class="counter__total">
+                <%= Enum.count(@list) %>
+              </div>
+              <div class="counter__text">
+                <%= if @list_tasks_achieved == [] do %>
+                  <%= @content %>
+                <% else %>
+                  <%= Enum.count(@list_tasks_achieved) %> <%= @content %>
+                <% end %>
+              </div>
+              <div class="counter__progression"> 
+                <%= if @list_tasks_achieved == [] do %>
+                <% else %>
+                  <progress max="100" value={Integer.floor_div(Enum.count(@list_tasks_achieved) * 100, Enum.count(@list))}>            
+                  </progress>
+
+                  <%= Integer.floor_div(Enum.count(@list_tasks_achieved) * 100, Enum.count(@list)) %> % 
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

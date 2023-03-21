@@ -1,0 +1,77 @@
+.btn__resized{
+    font-size: 9px;
+}
+
+.select__resized{
+    height: 27px !important;
+    font-size: 10px;
+    margin-bottom: 0px !important;
+}
+
+.filter__icon__resized{
+    font-size: 18px !important;
+}
+
+.generic_fieldset{
+    border: 1px solid gray; 
+    padding: 5px;
+    margin-bottom: 0px;
+}
+
+.fs_legend_resized{
+    font-size: 12px;
+}
+
+.form_under_fieldset{
+    display: inline;
+    margin-bottom: 0px;
+  }
+
+.vue__form__resized{
+    margin-bottom: 0px;
+}
+
+.vues__fs__content{
+    margin-bottom: 8px;
+}
+  
+/* .field_under_form_under_fieldset{
+    height: 30px;
+    margin-bottom: 0px !important; 
+} */
+
+.profile-pic-mini-resized{
+    width: auto;
+    height: 30px;
+
+    max-height: 30px;
+    clip-path: circle();
+  }
+
+  .deconnexion__icon{
+      color: red;
+      position: relative;
+      top: 5px;
+      font-size: 25px;
+  }
+
+  .my-profile-icons{
+    font-size: 25px;
+  }
+
+  /* .deconnexion__icon:hover{
+      color: lightgray;
+  } */
+
+  .deconnexion__link{
+    position: relative;
+  }
+
+  .deconnexion__link[title]:hover:after {
+      color: red;
+      font-size: 20px;
+      content: attr(title);
+      position: absolute;
+      top: 70px;
+      left: -140px;
+  }

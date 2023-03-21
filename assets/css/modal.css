@@ -1,0 +1,157 @@
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: red; */
+  transition: visibility 0.2s, opacity 0.2s linear;
+}
+
+.modal-container-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.7);
+  /* background-color: red; */
+}
+
+/* .task__modal{
+  transition: visibility 0.2s, opacity 0.2s linear;
+} */
+
+.outter-modal{
+  background-color: red;
+}
+
+.modal-inner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 999;
+}
+
+@media (max-width: 638px) {
+  .modal-inner-container {
+    margin: auto;
+  }
+}
+
+/* Ajouter un scroll auto pour les modals (archive, comments, modif, détail */
+@media (max-width: 1366px) {
+  .modal-inner-container {
+    width: auto;
+    height: 625px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+  }
+}
+
+.modal-card {
+  height: auto;
+  width: 28rem;
+  max-width: 51rem;
+  margin: 0.5rem;
+  /*border-radius: 6px;*/
+
+  border-radius: 0.6rem;
+
+  /* border-radius: 1.5em; */
+
+  background-color: #fff;
+}
+
+.modal-card-comments {
+  background-color: #fff;
+  border-radius: 0.6rem;
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, .15);
+  display: flex;
+  flex-direction: column;
+  /* height: calc(100% - 24px); */
+  justify-content: flex-end;
+  left: -8px;
+  max-height: 708px;
+  overflow: hidden;
+  top: 90%;
+  width: 450px;
+}
+
+.modal-card-task {
+  height: auto;
+  width: auto;
+  max-width: 50rem;
+  border-radius: 0.4rem;
+  /* margin: 0.5rem;
+  
+
+  /* border-radius: 6px; */
+  background-color: #fff;
+  /* background-color: red; */
+}
+
+.modal-inner-card {
+  padding: 15px;
+}
+
+.modal-title {
+  font-size: 15px;
+  font-weight: bold;
+  word-break: break-all;
+  color: #1c1e21;
+  text-align: center;
+  letter-spacing: 0.075em;
+}
+
+.modal-form-title {
+  color: #000;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.075em;
+  margin-bottom: 1.75rem;
+}
+
+.modal-body {
+  margin-top: 0.8rem;
+  text-align: center;
+  font-size: 1.6rem;
+}
+
+.modal-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+
+.left-button {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.right-button {
+  margin-left: 0.6rem;
+}
+
+.fix-position {
+  position: fixed;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+}

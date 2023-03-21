@@ -1,0 +1,177 @@
+<!-- Project Card - Row BEGIN -->
+<div class="row" id={"#{@id}"}>
+    <div class="column" style="padding: 0 1rem 0 1rem;">
+      <div class="activity-component" style="margin: 1rem 0 0 0rem">
+        <div class="icon-card table-card-style" style="padding: 0;">
+          <div 
+            style="
+              height: 400px; 
+              overflow: auto; 
+              width: -webkit-fill-available;
+              width: -moz-available;"
+          >
+          <%= if @list_notifications_updated_today == [] and @list_notifications_updated_yesterday == [] do %>
+            <div style="position: relative; animation: fadeInDownBig; animation-duration: 1s;">
+              <div style="position: absolute; top: 19.5rem; left: 50%; transform: translate(-50%,-50%);">
+                <img src={Routes.static_path(@socket, "/images/14.jpg")} alt="">
+                <p style="text-align: center;">Aucune notification</p> 
+              </div>
+            </div>
+          <% else %>
+
+            <table style="font-size: 1.2rem; width: 90%; margin: 0 auto;">
+              <tbody>
+                <tr
+                  style="
+                    position: sticky;
+                    top: 0;
+                    background: #fff;
+                    z-index: 2;
+                  "
+                >
+                  <td class="title">Activités récentes</td>
+                </tr>
+
+                <%= if @list_notifications_updated_today != [] do %>
+                  <!-- Notification - Aujourd'hui -->
+                  <tr style="margin-top: 1.5rem">
+                    <td>Aujourd'hui</td>
+                  </tr>
+            
+                  <%= for notification <- @list_notifications_updated_today do %>
+                    <tr>
+                      <td style="border-bottom: none; padding: 0 0 10px 0;">
+                        <div 
+                          style="
+                            display: flex; /* make main axis vertical */
+                            align-items: center;     /* center items horizontally, in this case */
+                            margin-top: 1rem;
+                          "
+                        >
+                          <div title="Tâche">
+                            <%= case notification.notifications_type_id do %>
+                              <% 1 -> %> 
+                                <div class="activity-task__icon">
+                                  <i class="bi bi-box-arrow-right"></i>
+                                </div>
+                              <% 2 -> %>
+                                <div class="activity-task__icon archived">
+                                  <i class="bi bi-archive"></i>
+                                </div>
+                              <% 3 -> %>
+                                <div class="activity-task__icon deleted">
+                                  <i class="bi bi-trash3"></i>
+                                </div> 
+                              <% 4 -> %>
+                                <div class="activity-task__icon achieved">
+                                  <i class="bi bi-check-circle"></i>
+                                </div>
+                              <% 5 -> %>
+                                <div class="activity-task__icon created">
+                                  <i class="bi bi-flag"></i>
+                                </div>
+                              <% 6 -> %>
+                                <div class="activity-task__icon assigned">
+                                  <i class="bi bi-person-plus"></i>
+                                </div>
+                              <% 7 -> %>
+                                <div class="activity-task__icon updated">
+                                  <i class="bi bi-arrow-repeat"></i>
+                                </div> 
+                              <% 8 -> %>
+                                <div class="activity-task__icon requested">
+                                  <i class="bi bi-star"></i>
+                                </div> 
+                              <% _ -> %>
+                            <% end %>
+                             
+                          </div>
+                          <div>
+                            <%= notification.content %>
+                            <div>
+                              <%= PmLogin.Monitoring.difference_between_updated_at_and_local_time(notification.updated_at) %>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+
+                <%= if @list_notifications_updated_yesterday != [] do %>
+                  <!-- Notification - Hier -->
+                  <tr style="margin-top: 1.5rem">
+                    <td>Hier</td>
+                  </tr>
+                
+                  <%= for notification <- @list_notifications_updated_yesterday do %>
+                    <tr>
+                      <td style="border-bottom: none; padding: 0 0 10px 0;">
+                        <div 
+                          style="
+                            display: flex; /* make main axis vertical */
+                            align-items: center;     /* center items horizontally, in this case */
+                            margin-top: 1rem;
+                          "
+                        >
+                          <div title="Tâche">
+                            <%= case notification.notifications_type_id do %>
+                            <% 1 -> %> 
+                              <div class="activity-task__icon">
+                                <i class="bi bi-box-arrow-right"></i>
+                              </div>
+                            <% 2 -> %>
+                              <div class="activity-task__icon archived">
+                                <i class="bi bi-archive"></i>
+                              </div>
+                            <% 3 -> %>
+                              <div class="activity-task__icon deleted">
+                                <i class="bi bi-trash3"></i>
+                              </div> 
+                            <% 4 -> %>
+                              <div class="activity-task__icon achieved">
+                                <i class="bi bi-check-circle"></i>
+                              </div>
+                            <% 5 -> %>
+                              <div class="activity-task__icon created">
+                                <i class="bi bi-flag"></i>
+                              </div>
+                            <% 6 -> %>
+                              <div class="activity-task__icon assigned">
+                                <i class="bi bi-person-plus"></i>
+                              </div>
+                            <% 7 -> %>
+                              <div class="activity-task__icon updated">
+                                <i class="bi bi-arrow-repeat"></i>
+                              </div> 
+                            <% 8 -> %>
+                              <div class="activity-task__icon requested">
+                                <i class="bi bi-star"></i>
+                              </div> 
+                            <% _ -> %>
+                            <% end %>
+                          </div>
+
+                        <div>
+                          <%= notification.content %>
+                          <div>
+                            le <%= PmLogin.Utilities.letters_date_format_with_only_month_and_hours(notification.updated_at) %>
+                          </div>
+                        </div>
+                        </div>
+                      </td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          
+          <% end %>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Project Card - Row END -->
+  

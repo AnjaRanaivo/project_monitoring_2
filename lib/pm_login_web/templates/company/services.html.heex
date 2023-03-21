@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="column" style="display: flex">
+    <span class="material-icons mat__ico">miscellaneous_services</span>
+    <h3 style="margin-top: 5px; margin-left: 2px;">Services</h3>
+  </div>
+   <div class="column">
+      <h3 style="text-align: right; font-size: 18px;white-space: nowrap;"><a href={Routes.user_path(@socket, :index)} class="" style="padding-bottom: : 10px;" id="adm">>>Espace administrateur>></a></h3>
+  </div>
+</div>
+<div class="row">
+  <a href={Routes.clients_request_path(@socket, :requests)} class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Requêtes client <br/><span class="material-icons mat__ico">receipt_long</span></p></h3>
+  </a>
+</div>
+<div class="row">
+  <a href={Routes.assist_contract_path(@socket, :index)} class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Contrats d'assistance <br/><span class="material-icons mat__ico">content_paste</span></p></h3>
+  </a>
+  <a href={Routes.editor_path(@socket, :index)} class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Editeurs <br/><span class="material-icons mat__ico">fit_screen</span></p></h3>
+  </a>
+</div>
+
+<div class="row">
+  <a href={Routes.license_path(@socket, :index)}  class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Licences <br/><span class="material-icons mat__ico">description</span></p></h3>
+  </a>
+  <a href={Routes.software_path(@socket, :index)} class="column basecontents__without__radius esp__adm__col hover__growing">
+    <h3 class="header__link__title"><p id="adm">Logiciels <br/><span class="material-icons mat__ico">computer</span></p></h3>
+  </a>
+</div>

@@ -1,0 +1,9 @@
+<div id="login" class="container">
+  <p id="title" align="center">MGBI/ MONITORING</p>
+   <p class="sign" align="center">Connexion</p>
+
+   <%= render "form.html", Map.put(assigns, :action, Routes.auth_path(@conn, :auth)) %>
+
+
+   <a id="signup" href="<%= Routes.user_path(@conn, :new) %>">Inscription</a>
+   </div>

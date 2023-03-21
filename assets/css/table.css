@@ -1,0 +1,238 @@
+.table-tasks {
+  margin-left: -200px;
+  margin-bottom: 1rem;
+  border-spacing: 0 10px;
+  border-collapse: separate;
+}
+
+.table-list-users {
+  margin-left: -30px;
+  margin-bottom: 1rem;
+  border-spacing: 0 10px;
+  border-collapse: separate;
+}
+
+.table-button {
+  margin-top: 10px;
+}
+
+.tt-actions {
+  font-size: 25px;
+  color: #fff;
+}
+
+.tt-actions:hover {
+  color: #0284C7;
+}
+
+.table-tasks th,
+.table-list-users th {
+  font-size: 14px;
+  padding: 15px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.table-tasks tbody tr,
+.table-list-users tbody tr {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  background-color: #ffffff21;
+  color: #fff;
+}
+
+.table-tasks td, 
+.table-list-users td {
+  padding: 15px;
+}
+
+
+
+.table-tasks select,
+.table-tasks input,
+.table-list-users select,
+.table-list-users input {
+  margin-bottom: 0;
+}
+
+/*.table-tasks>tbody>tr:hover>* {
+  background-color: rgba(204, 204, 204, 0.849);
+} */
+
+.table-tasks-unachieved {
+  margin: 0;
+  table-layout: fixed;
+}
+
+.table-head-unachieved {
+  background-color: #E67E22;
+  color: #fff;
+}
+
+.table-head-past-unachieved {
+  background-color: #E74C3C;
+  color: #fff;
+}
+
+.tbl-content {
+  max-height: 200px;
+  overflow-x: auto;
+  margin-top: 0px;
+}
+
+.table-tasks td, th,
+.table-list-users td,
+th,
+.table-head-past-unachieved td,
+th,
+.table-head-unachieved td,
+th {
+  border-bottom: none;
+}
+
+.btn-mobile {
+  display: none;
+}
+
+.table-tasks .d-action {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+
+  .table-tasks .btn-table {
+    display: none;
+  }
+
+  .table-tasks .d-action {
+    display: block;
+  }
+
+  .btn-mobile {
+    display: block;
+    background-color: #0069d9;
+    border: 0.1rem solid #0069d9;
+    border-radius: .4rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    height: 3.8rem;
+    margin: 0;
+    letter-spacing: .1rem;
+    line-height: 3.8rem;
+    padding: 0 3.0rem;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap
+  }
+
+  .btn-mobile:hover {
+    background-color: #606c76;
+    border-color: #606c76;
+  }
+
+  .table-tasks td, th,
+  .table-list-users td,
+  th,
+  .table-head-past-unachieved td,
+  th,
+  .table-head-unachieved td,
+  th {
+    border-bottom: 1px solid #fff;
+  }
+
+  .table-tasks,
+  .table-list-users,
+  .table-tasks-unachieved {
+    display: table;
+    margin: 0;
+  }
+
+  .table-head-unachieved {
+    background-color: #E67E22;
+  }
+
+  .table-head-past-unachieved {
+    background-color: #E74C3C;
+  }
+
+  .table-tasks thead,
+  .table-list-users thead,
+  .table-tasks-unachieved thead,
+  .table-head-unachieved thead,
+  .table-head-past-unachieved thead {
+    display: none;
+  }
+
+  .table-tasks tr,
+  .table-list-users tr,
+  .table-tasks-unachieved tr {
+    display: block;
+    margin-bottom: 40px;
+  }
+
+  .table-tasks td,
+  .table-list-users td,
+  .table-tasks-unachieved td {
+    display: block;
+    text-align: right;
+  }
+
+  .table-tasks td:before,
+  .table-list-users td:before,
+  .table-tasks-unachieved td:before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+
+  td,
+  th {
+    padding: 1.2rem 0;
+  }
+}
+
+.table-tasks-mobile {
+  display: table;
+}
+
+.table-tasks-mobile tr > td > input, 
+.table-tasks-mobile tr > td > select {
+  font-size: 12px;
+}
+
+.table-tasks-mobile thead {
+  display: none;
+}
+
+.table-tasks-mobile tr {
+  display: block;
+}
+
+.table-tasks-mobile td {
+  display: block;
+  text-align: right;
+}
+
+.table-tasks-mobile td,
+.table-tasks-mobile th {
+  padding: 6px;
+}
+
+.table-tasks-mobile tr>td>input,
+select {
+  height: auto;
+}
+
+.table-tasks-mobile td:before {
+  content: attr(data-label);
+  float: left;
+  font-weight: bold;
+}
+
+.table-tasks-unachieved {
+  margin: 0;
+}

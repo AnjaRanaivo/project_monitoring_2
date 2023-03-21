@@ -1,0 +1,18 @@
+.body-bg {
+    background: #f9f9f9; 
+    /* background: #111827; */ 
+    margin: 0;
+    padding: 0;
+}
+
+.body-bg-dark {
+    /* background: #f9f9f9; */
+    background: #111827; 
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    font-family: "Montserrat";
+}
+

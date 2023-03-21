@@ -1,0 +1,114 @@
+<h1 class="my__requests"><span class="material-icons mat__ico__big">receipt_long</span>Mes requêtes</h1>
+<div class="container request__container" style="">
+  <h1 class="form__open"><a id="show_request_form_btn" title="Faire une requête" phx-click="form-on" phx-hook="blurHook"><i class="bi bi-pencil-square"></i></a></h1>
+<%= for request <- @requests do %>
+  <div class="basecontents__without__radius request__panel">
+    <div class="row">
+      <div class="column">
+        <h2><%= request.title %></h2>
+      </div>
+      <div class="column">
+        <img class="profile-pic-header request__pp" src={Routes.static_path(@socket, '/#{request.active_client.company.logo}')} alt="" style="float: right;">
+      </div>
+    </div>
+
+      <p><%= request.content %></p>
+
+      <div class="column" style="margin-bottom: 20px;">
+        <%= for url <- request.file_urls do %>
+        <%= if Path.extname(url)==".jpg" or Path.extname(url)==".png" or Path.extname(url)==".jpeg" do %>
+          <a href={url} style="margin-bottom: 10px;"><img src={url} alt="" height="150"/></a>
+          <% else %>
+          <a href={url} download><%= Path.basename(url) %></a>
+          <br>
+          <% end %>
+        <% end %>
+      </div>
+
+      <i><img class="profile-pic-ultramini" src={Routes.static_path(@socket, "/#{request.active_client.user.profile_picture}")} width="20"/> <%= request.active_client.user.username %></i>
+<br/>
+      <i><%= request.active_client.user.email %></i><br/>
+      <i>le <%= Utilities.letters_date_format_with_hours(request.date_post) %></i>
+
+      <div class="my_row" style="padding-left: 3em">
+          <div class="my_col request__checkbox__col">
+            <label for="vu">Vue</label>
+            <input id="vu" type="checkbox" { if request.seen, do: "checked" } disabled>
+          </div>
+          <div class="my_col">
+            <label for="encours">En cours</label>
+            <input id="encours" type="checkbox" { if request.ongoing, do: "checked" } disabled>
+          </div>
+          <div class="my_col">
+            <label for="accomplie">Accomplie</label>
+            <input id="accomplie" type="checkbox" { if request.done, do: "checked" } disabled>
+          </div>
+      </div>
+
+  </div>
+<% end %>
+
+  <div class="request__form__container" style={"visibility: #{ if @display_form, do: 'visible', else: 'hidden' }; opacity: #{ if @display_form, do: '1 !important', else: '0' };"}>
+    <div id="the_request_form" phx-window-keydown="cancel-request" class="basecontents__without__radius request__form">
+      <div class="column">
+        <a class="form__close" title="Fermer" phx-click="form-off"><i class="bi bi-x"></i></a>
+        <h2><i class="bi bi-pencil-square"></i> Faire une requête</h2>
+        <div class="request__form__content">
+          <.form let={f} for={@changeset} phx-change="change-request" phx-submit="end-request">
+          <label for="title"><h3>Titre</h3></label>
+          <%= text_input f, :title %>
+          <%= error_tag f, :title %>
+          <%= hidden_input f, :active_client_id, value: Services.get_active_client_from_userid!(@curr_user_id).id %>
+          <label for="content"><h3>Contenu</h3></label>
+          <div class="row">
+            <%= textarea f, :content, style: "max-width: 400px;" %>
+            <%= error_tag f, :content %>
+          </div>
+          <label class="btn btn-lg btn-primary file_input_btn">
+          <%=  live_file_input(@uploads.file, class: "file_inputs") %>
+          <i class="bi bi-upload"></i>
+          Charger fichiers
+          </label>
+          <%= for {_ref, msg} <- @uploads.file.errors do %>
+          <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
+          <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
+          <% end %>
+          <% end %>
+
+
+          <%= for entry <- @uploads.file.entries do %>
+          <div class="row">
+            <div class="column">
+
+              <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
+              <%= live_img_preview entry, height: 50 %>
+              <% else %>
+              <p class="file__name__upload"><%= entry.client_name %></p>
+              <% end %>
+
+            </div>
+            <div class="column">
+              <progress value={entry.progress} max="100"/>
+              </div>
+              <div class="column">
+                <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
+              </div>
+            </div>
+            <% end %>
+            <div class="column">
+              <button type="submit" style="float: right;" class="bt__com__form"><span class="material-icons bt__com__form__ico">send</span></button>
+            </div>
+
+          </.form>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+<br>

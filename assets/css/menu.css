@@ -1,0 +1,126 @@
+.board-menu-button {
+    margin: 0 auto;
+    padding: 10px;
+    width: inherit;
+    width: -moz-available;
+    max-width: 1200px;
+    max-height: 80px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+}
+
+@media (max-width: 750px) {
+    .board-menu-button {
+        height: auto;
+    }
+  }
+
+.rounded-circle,
+.rounded-circle-gray,
+.rounded-circle-green {
+    border-radius: 50%;
+    padding: 6px;
+    margin-top: -9px;
+    height: 3rem;
+    margin-right: 5px;
+}
+
+.rounded-circle:hover {
+    padding: 7px;
+    background-color: #0069d9c0;
+    border: #0069d9c0;
+}
+
+.rounded-circle-gray {
+    background-color: #6c757d;
+    border: #6c757d
+}
+
+.rounded-circle-gray:hover {
+    background-color: #6c757dc9;
+    border: #6c757dc9;
+}
+
+.rounded-circle-green {
+    background-color: #2ecc71;
+    border: #2ecc71;
+}
+
+.rounded-circle-green:hover {
+    background-color: #2ecc70c9;
+    border: #2ecc70c9;
+}
+
+
+
+.loading {
+    margin: 100px auto;
+    width: 40px;
+    height: 40px;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Circular Progression */
+    @property --p{
+        syntax: '<number>';
+        inherits: true;
+        initial-value: 0;
+    }
+  
+  .pie {
+    --p:20;
+    --b:22px;
+    --c:darkred;
+    --w:40px;
+    
+    width:var(--w);
+    aspect-ratio:1;
+    position:relative;
+    display:inline-grid;
+    margin:5px;
+    place-content:center;
+    font-size:9px;
+    font-weight:bold;
+    font-family:sans-serif;
+  }
+  .pie:before,
+  .pie:after {
+    content:"";
+    position:absolute;
+    border-radius:50%;
+  }
+  .pie:before {
+    inset:0;
+    background:
+      radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
+      conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+            mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+  }
+  .pie:after {
+    inset:calc(50% - var(--b)/2);
+    background:var(--c);
+    transform:rotate(calc(var(--p)*3.6deg)) translateY(calc(50% - var(--w)/2));
+  }
+  .animate {
+    animation:p 1s .5s both;
+  }
+  .no-round:before {
+    background-size:0 0,auto;
+  }
+  .no-round:after {
+    content:none;
+  }
+  @keyframes p {
+    from{--p:0}
+  }

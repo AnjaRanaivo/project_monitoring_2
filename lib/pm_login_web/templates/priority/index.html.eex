@@ -1,0 +1,26 @@
+<h1>Listing Priorities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for priority <- @priorities do %>
+    <tr>
+      <td><%= priority.title %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.priority_path(@conn, :show, priority) %></span>
+        <span><%= link "Edit", to: Routes.priority_path(@conn, :edit, priority) %></span>
+        <span><%= link "Delete", to: Routes.priority_path(@conn, :delete, priority), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Priority", to: Routes.priority_path(@conn, :new) %></span>

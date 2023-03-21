@@ -1,0 +1,123 @@
+<div class="conboard__container basecontents__without__radius">
+    <div class="conboard__inner__container">
+        <div class="conboard__head">
+            <div class="conboard__pic__section basecontents__without__radius">
+                <img class="conboard__pro__pic" src={ Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(@contributor_id) }") }/>
+                <h1><%= @contributor.username %></h1>
+            </div>
+            <div class="conboard__bar__section">
+                <h3 class="conboard__bar__title">Tâches achevées ces 7 derniers jours</h3>
+                <div class="container conboard__bar__container">
+                    <%= @seven_chart %>
+                </div>
+            </div>
+        </div>
+        <div class="basecontents__without__radius conboard__foot">
+            <h1 class="conboard__foot__title">Comparatif des tâches</h1>
+            <table>
+                    <thead>
+                        <th>
+                           <h2 class="onboard__estimation__header">estimées</h2>
+                        </th>
+                        <th>
+                           <h2 class="onboard__estimation__header">achevées</h2>
+                        </th>
+                    </thead>
+            </table>
+            <div class="task__section">
+                <table>
+                    <tbody>
+                    <%= for task <- @tasks do %>
+                    <tr>
+                        <td class="estimated__div">
+
+                                <div class="card__onboard_recap basecontents__without__radius">
+                                    <div class="" style="">
+                                        <div class=" column-10">
+
+
+                                    <%= case task.priority_id do %>
+                                        <% 1 -> %><div class="low__priority__point__conboard"></div>
+                                        <% 2 -> %><div class="avg__priority__point__conboard"></div>
+                                        <% 3 -> %><div class="high__priority__point__conboard"></div>
+                                        <% 4 -> %><div class="urg__priority__point__conboard"></div>
+                                        <% _ -> %><div class="priority__point__rec"></div>
+                                    <% end %>
+
+                                        </div>
+                                        <div class=" column-40 recap__cols">
+                                        <div>Tâche: <p class="onboard__text__descri"><%= task.title %></p></div>
+                                        <div>Projet: <p class="onboard__text__descri"><%= task.project.title %></p></div>
+                                        </div>
+                                        <div class=" column-50 recap__cols">
+                                        <div>Durée estimée: 
+                                                <%
+                                                    estimated_duration = task.estimated_duration / 60
+                                                                    # trunc, retourne la partie entier
+                                                    i_hour             = trunc(estimated_duration)
+                                                    e                  = estimated_duration - i_hour
+                                                    i_minutes          = round(e * 60)
+                                                %>
+                                            <p class="onboard__text__descri">
+                                                <%=
+                                                    cond do
+                                                        i_hour == 0 and i_minutes >= 0 -> if i_minutes > 1, do: "#{i_minutes} minutes", else: "#{i_minutes} minute"
+                                                        i_hour >= 0 and i_minutes == 0 -> if i_hour > 1, do: "#{i_hour} heures", else: "#{i_hour} heure"
+                                                        i_hour > 0  and i_minutes > 0  -> "#{i_hour} h #{i_minutes} m"
+                                                        true                           -> ""
+                                                    end
+                                                 %>
+                                            </p>
+                                        </div>
+                                        <div>Date d'échéance: <p class="onboard__text__descri"><%= Utilities.simple_date_format(task.deadline) %></p></div>
+                                        <div>Attributeur: <p class="onboard__text__descri"><%= task.attributor.username %></p></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                        </td>
+                        <td>
+                                <div class="arrow__change__div">
+                                    <span class="material-icons-round arrow__conboard__icon">double_arrow</span>
+                                </div>
+                        </td>
+                        <td>
+                            <div class="card__onboard_recap basecontents__without__radius">
+                                <div class="" style="">
+                                    <div class=" column-10">
+
+
+                                    <%= case task.priority_id do %>
+                                        <% 1 -> %><div class="low__priority__point__conboard"></div>
+                                        <% 2 -> %><div class="avg__priority__point__conboard"></div>
+                                        <% 3 -> %><div class="high__priority__point__conboard"></div>
+                                        <% 4 -> %><div class="urg__priority__point__conboard"></div>
+                                        <% _ -> %><div class="priority__point__rec"></div>
+                                    <% end %>
+
+
+                                    </div>
+                                    <div class=" column-40 recap__cols">
+                                    <div>Tâche: <p class="onboard__text__descri"><%= task.title %></p></div>
+                                    <div>Projet: <p class="onboard__text__descri"><%= task.project.title %></p></div>
+                                    </div>
+                                    <div class=" column-50 recap__cols">
+                                    <div>Durée effectuée: <p class="onboard__text__descri"><%= if task.performed_duration  > 1, do: "#{task.performed_duration} minutes", else: "#{task.performed_duration} minute" %></p> <p class={ Monitoring.duration_diff_color_class(task) }><%= Monitoring.duration_diff(task) %></p></div>
+                                    <div>Date d'achèvement: <p class="onboard__text__descri"><%= Utilities.simple_date_format_with_hours_onboard(task.achieved_at) %></p><p class={ Monitoring.date_diff_color_class(task) }><%= Monitoring.date_diff(task) %></p></div>
+                                    <div>Attributeur: <p class="onboard__text__descri"><%= task.attributor.username %></p></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<span><a href={ Routes.project_path(@socket, :contributors) } class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>

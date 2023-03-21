@@ -1,0 +1,235 @@
+.page-title {
+  color: #fff;
+  text-align: center;
+}
+.boardheader {
+  /* margin-bottom: 20px; */
+  margin-top: -1.5%;
+}
+
+.boardpage {
+  position: relative;
+  left: -8%;
+}
+
+@media (max-width: 750px) {
+  .hide__task__button {
+    /* margin-top: 10px;
+    margin-bottom: 10px;
+    float: left !important; */
+  }
+}
+
+.board {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  overflow-x: scroll;
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 1rem;
+  height: 75vh;
+  position: relative;
+  /* left: -0; */
+  /* width: 130.0rem; */
+  /* max-height: 500px; */
+  background-color: #f3ebf6;
+}
+
+.stage {
+  min-width: 240px;
+  max-width: 240px;
+  /* overflow: auto; */
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #f5f5f5;
+  /* border: 1px solid rgb(238, 238, 238); */
+  border-radius: 3px;
+  margin-right: 1.5rem;
+  /* min-height: 800px; */
+  /* height: auto !important; */
+  
+}
+
+.stage__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em;
+  border-bottom: 1px solid rgb(238, 238, 238);
+  background-color: rgb(228, 228, 228);
+  /* border: 1px solid gray; */
+  margin-bottom: 20px;
+  border-radius: 8px;
+  height: 35px;
+  width: auto;
+}
+
+#stage__header__sticked {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+}
+
+.stage__name {
+  color: #666;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+
+.stage__counter {
+  background-color: rgb(131, 193, 164);
+  color: white;
+  font-weight: bold;
+  /* font-size: 20px; */
+  padding: 0.2rem 1rem;
+  border-radius: 9999px;
+}
+
+.counter__nb {
+  position: relative;
+  top: 2px;
+  font-size: 12px;
+}
+
+.delete__icon,
+.modif__icon,
+.comment__icon,
+.plus__icon {
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.plus__icon {
+  font-size: 23px;
+}
+
+.comment__icon,
+.modif__icon,
+.delete__icon {
+  font-size: 15px;
+}
+
+.delete__icon:hover,
+.modif__icon:hover,
+.comment__icon:hover,
+.plus__icon:hover {
+  color: #c9c9c9;
+}
+
+.card__plus {
+  cursor: pointer;
+  position: relative;
+  font-size: 150%;
+  /* background-color: lightblue;
+  color: white;
+  font-size: 110%;
+  font-weight: bold;
+  padding: 0.2rem 1rem; */
+  border-radius: 9999px;
+  left: 220px;
+  top: -100px;
+}
+
+.card__modif {
+  cursor: pointer;
+  position: relative;
+  /* background-color: lightgray; */
+  /* color: white; */
+  font-size: 105%;
+  font-weight: bold;
+  /* padding: 0.2rem 1rem; */
+  border-radius: 9999px;
+  left: 150px;
+  top: -32px;
+}
+
+.card__comments {
+  position: relative;
+  background-color: lightgray;
+  color: white;
+  font-size: 110%;
+  font-weight: bold;
+  padding: 0.2rem 1rem;
+  border-radius: 9999px;
+  left: 185px;
+  top: -72px;
+}
+
+.card__date {
+  font-size: 65%;
+}
+
+/* .stage__cards {
+  padding: 0.3rem;
+} */
+
+.card {
+  list-style: none;
+  /* border: 1px solid rgb(181, 181, 181); */
+  border-radius: 3px;
+  /* background-color: #ffffff; */
+  background-color: #1F2937;
+  padding: 1em;
+  cursor: grabbing;
+  width: 98%;
+  height: auto;
+  margin: 0;
+  z-index: 50;
+}
+
+.card__recap {
+  list-style: none;
+  /* border: 1px solid rgb(181, 181, 181); */
+  border-radius: 3px;
+  background-color: #ffffff;
+  /* padding: -5em; */
+  /* cursor: move; */
+  /* width: 90%; */
+  height: auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  /* margin-bottom: -10px; */
+}
+
+.card__name {
+  font-size: 12px;
+  font-weight: normal;
+  word-wrap: anywhere;
+}
+
+.draggable-handle {
+  cursor: grab;
+}
+
+.draggable-mirror {
+  border: 1px dotted #eee;
+}
+
+.draggable-container--is-dragging {
+  @apply shadow-inner;
+}
+
+.draggable-source--is-dragging {
+  background: #ccc;
+  opacity: 0.25;
+}
+
+.secondary__kanban {
+  background-color: lightgray !important;
+}
+
+@media (min-width: 1500px) {
+  .stage {
+    margin-right: 75px !important;
+  }
+}
+
+#stage__height {
+  height: 55vh;
+  min-height: 325px;
+  margin-bottom: 0;
+}

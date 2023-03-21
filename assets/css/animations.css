@@ -1,0 +1,35 @@
+.pink_test{
+    color: yellowgreen; 
+}
+#p_test:hover{
+    -webkit-animation:spinning 0.5s linear 0s;
+    -moz-animation:spinning 0.5s linear 0s;
+    animation:spinning 0.5s linear 0s;
+}
+
+.rotate__icon{
+display: inline-block;
+-webkit-animation:spinning 0.5s linear 0s;
+-moz-animation:spinning 0.5s linear 0s;
+animation:spinning 0.5s linear 0s;
+}
+
+.new__rotate__icon{
+display: inline-block;
+text-align: center;
+-webkit-animation:spinning 0.5s linear 0s;
+-moz-animation:spinning 0.5s linear 0s;
+animation:spinning 0.5s linear 0s;
+}
+
+.my_rotation{
+display: inline-block;
+-webkit-animation:spinning 0.5s linear 0s;
+-moz-animation:spinning 0.5s linear 0s;
+animation:spinning 0.5s linear 0s;
+}
+
+
+@-moz-keyframes spinning { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spinning { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spinning { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

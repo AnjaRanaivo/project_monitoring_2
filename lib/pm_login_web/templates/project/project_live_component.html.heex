@@ -1,0 +1,87 @@
+<!-- Project Card - Row BEGIN -->
+<div class="row" id={"#{@id}"}>
+    <div class="column">
+      <div style="margin: 0 1rem 0 -1rem">
+        <div class="icon-card table-card-style" style="padding-top: 0; padding-bottom: 0;">
+          <div 
+            style="
+              max-height: 400px; 
+              overflow: auto; 
+              width: -webkit-fill-available;
+              width: -moz-available;"
+          >
+            <table style="font-size: 1.2rem">
+              <tbody>
+                <tr
+                  style="
+                    position: sticky;
+                    top: 0;
+                    background: #fff;
+                  "
+                >
+                  <td class="title">Projets (<%= Enum.count(@list_projects) %>)</td>
+                  <td style="border: none;"></td>
+                  <td style="border: none;"></td>
+                </tr>
+                <tr
+                  style="
+                    text-transform: uppercase;
+                    position: sticky;
+                    top: 66px;
+                    background: #fff;
+                  "
+                >
+                  <!--
+                  <td>Titre</td>
+                  -->
+                </tr>
+                <%= for project <- @list_projects do %>
+                <tr>
+                  <td style="font-weight: bold">
+                    <div 
+                      style="
+                        display: flex; /* make main axis vertical */
+                        align-items: center;     /* center items horizontally, in this case */
+                      "
+                    >
+                      <div
+                        title={PmLogin.Services.get_active_client!(project.active_client_id).user.username}
+                        style="
+                          cursor: pointer;
+                          text-align: center;
+                          background: darkgray;
+                          color: #fff;
+                          width: 46px;
+                          clip-path: circle;
+                          padding: 14px 12px 12px 12px;
+                          margin-right: 15px;
+                          border-radius: 50%;"
+                      >
+                        <%=
+                          username = PmLogin.Services.get_active_client!(project.active_client_id).user.username
+  
+                          PmLogin.Monitoring.get_first_and_third_name(username)
+                        %>
+                      </div>
+                      <a href={Routes.project_path(@socket, :board, project.id)}>
+                        <%= project.title %>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="column" style="padding-left: 0">
+      <div style="margin: 1rem 1rem 0 -1rem">
+        <div id="myfirstchart" style="height: 250px;"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Project Card - Row END -->
+  
