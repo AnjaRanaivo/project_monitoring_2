@@ -439,6 +439,6 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
   end
 
   def render(assigns) do
-    PmLoginWeb.ClientsRequestView.render("my_demands.html", assigns)
+    PmLoginWeb.ClientsRequestView.render("my_demands_2.html", assigns)
   end
 end
