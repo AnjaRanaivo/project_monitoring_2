@@ -35,7 +35,7 @@
 
 
       <div style="">
-        <div class="button-project-list" style="">
+        <div class="button-project-list" style="display: flex;margin-top:30px ">
 
           <form phx-change="search-project" style="margin-bottom: -2rem;">
             <div class="project-search">
@@ -64,6 +64,7 @@
       </div>
      
 
+</div>
         <table id="tb-auth" class="table-sortable" style="margin-top: 10px; font-size: 13px">
           <thead>
             <%= length(@projects) %>
@@ -71,7 +72,8 @@
               <th>Nom</th>
               <th>Description</th>
               <th>Prog.</th>
-              <th></th>
+              <th>Mes requêtes</th>
+              <th>Faire une nouvelle demande</th>
             </tr>
           </thead>
           <tbody>
@@ -86,9 +88,7 @@
                 end
               }"}>
                 <td>
-                  <a href={Routes.project_path(@socket, :board, project)}>
-                    <%= "#{project.title}" %>
-                  </a>
+                  <%= "#{project.title}" %>
                 </td>
                 <td>
                   <%= project.description %>
@@ -96,23 +96,110 @@
                 <td>
                   <%= project.progression %> %
                 </td>
-                <td style="display: flex; gap: 0.75rem;">
-                  <span>
-                    <a href={ Routes.project_path(@socket, :show, project) }>
-                      <i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i>
-                    </a>
-                  </span>
-                  <span>
-                    <a href={ Routes.project_path(@socket, :edit, project) }>
-                      <i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i>
-                    </a>
-                  </span>
+                <td style="">
+                 <a id="" title="Faire une requête" phx-click=""
+                    style="
+                    background: #2980B9;
+                    padding: 1rem 1.25rem;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    width:40px;"
+                  
+                  >
+                 <span class="material-icons mat__ico" style="margin-top:-10px;margin-left:-5px">receipt_long</span>
+                 </a>
+                </td>
+                <td>
+                 <a id="" title="Faire une requête" phx-click="form-on"
+                  style="
+                  background: #2980B9;
+                  padding: 1rem 1.25rem;
+                  color: #fff;
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  width:45px;
+                 "
+                  
+                >
+                  <i class="bi bi-pencil-square" style="font-size: 2rem; align-items: center;"></i>
+                </a>
                 </td>
               </tr>
               <% end %>
           </tbody>
         </table>
+    
 
+     <div class="request__form__container" style={"visibility: #{if @display_form, do: 'visible' , else: 'hidden' };
+    opacity: #{ if @display_form, do: '1 !important' , else: '0' }; display: #{ if @display_form, do: 'flex !important' , else: 'none' };"}>
+    <div id="the_request_form" phx-window-keydown="cancel-request" class="basecontents__without__radius request__form">
+      <div class="column">
+        <a class="form__close" title="Fermer" phx-click="form-off"><i class="bi bi-x"></i></a>
+        <h2><i class="bi bi-pencil-square"></i> Faire une requête</h2>
+        <div class="request__form__content">
+          <.form let={f} for={@changeset} phx-change="change-request" phx-submit="send-request">
+
+            <label for="title">
+              <h3>Titre</h3>
+            </label>
+            <%= text_input f, :title %>
+            <%= error_tag f, :title %>
+            <label for="content">
+              <h3>Contenu</h3>
+            </label>
+            <%= textarea f, :content, style: "max-width: auto; resize: none;" %>
+            <%= error_tag f, :content %>
+            <label for="title">
+              <h3>Nom du projet</h3>
+            </label>
+            <input type="text" id="name" name="name" value="Ma requête">
+            <%= error_tag f, :title %>
+            <label class="btn btn-lg btn-primary file_input_btn">
+              <%=  live_file_input(@uploads.file, class: "file_inputs") %>
+              <i class="bi bi-upload"></i>
+              Charger fichiers
+            </label>
+            <%= for {_ref, msg} <- @uploads.file.errors do %>
+            <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
+            <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
+            <% end %>
+            <% end %>
+
+
+            <%= for entry <- @uploads.file.entries do %>
+            <div class="row">
+              <div class="column">
+
+                <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
+                <%= live_img_preview entry, height: 50 %>
+                <% else %>
+                <p class="file__name__upload"><%= entry.client_name %></p>
+                <% end %>
+
+              </div>
+              <div class="column">
+                <progress value={entry.progress } max="100" />
+              </div>
+              <div class="column">
+                <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
+              </div>
+            </div>
+            <% end %>
+            <div class="column">
+              <button type="submit" style="float: right;" class="bt__com__form"><span
+                  class="material-icons bt__com__form__ico">send</span></button>
+            </div>
+
+          </.form>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 
 <script>
   function sortTableByColumn(table, column, asc = true) {
