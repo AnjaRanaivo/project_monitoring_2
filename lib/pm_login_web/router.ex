@@ -84,7 +84,7 @@ defmodule PmLoginWeb.Router do
     get "/signout", AuthController, :sign_out
 
     #activeclient2
-
+    get "/my_company_2", CompanyController, :my_company_2
   end
 
   # Other scopes may use custom stacks.

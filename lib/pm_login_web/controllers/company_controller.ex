@@ -62,6 +62,24 @@ defmodule PmLoginWeb.CompanyController do
 
   end
 
+  def my_company_2(conn, _params) do
+
+    if Login.is_connected?(conn) do
+      cond do
+        Login.is_active_client?(conn) ->
+          LiveView.Controller.live_render(conn, PmLoginWeb.Services.MyCompany2Live, session: %{"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
+
+        true ->
+          conn
+            |> Login.not_active_client_redirection
+      end
+    else
+      conn
+      |> Login.not_connected_redirection
+    end
+
+  end
+
   def new(conn, _params) do
 
     if Login.is_connected?(conn) do
