@@ -66,7 +66,7 @@
                   <a href="" class="admin__links" style="display: flex;justify-content: space-between;">
                     <p>Mon profil</p><p><i class="bi bi-person my-profile-icons"></i></p>
                   </a>
-                  <a href="" class="admin__links" style="display: flex;justify-content: space-between;">
+                  <a href={ Routes.auth_path(@socket, :sign_out) } class="admin__links" style="display: flex;justify-content: space-between;">
                     <p style="color: red;">Se déconnecter</p><p style="color: red;"><i class="bi bi-box-arrow-right deconnexion__icon"></i></p>
                   </a>
                 </div>
