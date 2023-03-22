@@ -25,7 +25,8 @@ defmodule PmLoginWeb.UserController do
 
           Login.is_contributor?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ContributorIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
-          Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+          # Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+          Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClient2IndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           Login.is_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ClientIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 

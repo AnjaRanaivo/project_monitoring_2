@@ -82,6 +82,9 @@ defmodule PmLoginWeb.Router do
     post "/auth", AuthController, :auth
     post "/test_auth", AuthController, :test_auth
     get "/signout", AuthController, :sign_out
+
+    #activeclient2
+
   end
 
   # Other scopes may use custom stacks.
