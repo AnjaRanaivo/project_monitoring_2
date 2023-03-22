@@ -96,4 +96,25 @@ defmodule PmLoginWeb.ActiveClientController do
     |> put_flash(:info, "Client actif supprimé.")
     |> redirect(to: Routes.active_client_path(conn, :index))
   end
+
+  def my_projects_clients_2(conn, _params) do
+    if Login.is_connected?(conn) do
+      cond do
+        Login.is_active_client?(conn) ->
+          LiveView.Controller.live_render(conn, PmLoginWeb.Project.MyProjectsClients2Live, session: %{"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
+
+          # BY THE OLD WAY
+          # projects = Monitoring.list_projects()
+          # render(conn, "index.html", projects: projects, layout: {PmLoginWeb.LayoutView, "board_layout_live.html"})
+
+        true ->
+          conn
+            |> Login.not_admin_redirection
+      end
+    else
+      conn
+      |> Login.not_connected_redirection
+    end
+  end
+
 end
