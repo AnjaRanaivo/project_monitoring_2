@@ -1,0 +1,158 @@
+<!--<h3><i class="bi bi-kanban"></i> Les projets</h3>-->
+
+<style>
+  th, td {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  th {
+    cursor: pointer !important;
+  }
+
+  .table-sortable th {
+  cursor: pointer;
+}
+
+.table-sortable .th-sort-asc::after {
+  content: "\25b4";
+}
+
+.table-sortable .th-sort-desc::after {
+  content: "\25be";
+}
+
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+  margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+</style>
+
+<div class="responsive-customer-request">
+
+      <div style="">
+        <div class="button-project-list" style="">
+
+          <form phx-change="search-project" style="margin-bottom: -2rem;">
+            <div class="project-search">
+              <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
+              
+              <input type="text" name="project_search" id="projectSearch" placeholder="Rechercher un projet" style="width: 22rem;">
+            </div>
+          </form>
+
+          <form phx-change="status-project" style="margin-bottom: -2rem;">
+            <select id="project_status_id" name="status_id" style="width: -moz-available;
+            margin-left: 2rem;
+            height: 3.8rem;">
+              <option value="0">Tout</option>
+              <option value="1">A faire</option>
+              <option value="2">En blocage</option>
+              <option value="3">En cours</option>
+              <option value="4">En contrôle</option>
+              <option value="5">Achevée(s)</option>
+            </select>
+          </form>
+        </div>
+  
+  
+       
+      </div>
+     
+
+</div>
+        <table id="tb-auth" class="table-sortable" style="margin-top: 10px; font-size: 13px">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Description</th>
+              <th>Prog.</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for project <- @projects do %>
+              <tr style={"background: #{
+                case project.status_id do
+                  1 -> ""
+                  2 -> "#e74c3c"
+                  3 -> "#f1c40f91"
+                  4 -> "#be5e0aad"
+                  _ -> "#1abc9c"
+                end
+              }"}>
+                <td>
+                  <a href={Routes.project_path(@socket, :board, project)}>
+                    <%= "#{project.title}" %>
+                  </a>
+                </td>
+                <td>
+                  <%= project.description %>
+                </td>
+                <td>
+                  <%= project.progression %> %
+                </td>
+                <td style="display: flex; gap: 0.75rem;">
+                  <span>
+                    <a href={ Routes.project_path(@socket, :show, project) }>
+                      <i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i>
+                    </a>
+                  </span>
+                  <span>
+                    <a href={ Routes.project_path(@socket, :edit, project) }>
+                      <i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i>
+                    </a>
+                  </span>
+                </td>
+              </tr>
+              <% end %>
+          </tbody>
+        </table>
+
+
+<script>
+  function sortTableByColumn(table, column, asc = true) {
+    const dirModifier = asc ? 1 : -1;
+    const tBody = table.tBodies[0];
+
+    console.log(tBody)
+    const rows = Array.from(tBody.querySelectorAll("tr"));
+
+    // Sort each row
+    const sortedRows = rows.sort((a, b) => {
+        const aColText = a.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+        const bColText = b.querySelector(`td:nth-child(${ column + 1 })`).textContent.trim();
+
+        return aColText > bColText ? (1 * dirModifier) : (-1 * dirModifier);
+    });
+
+    // Remove all existing TRs from the table
+    while (tBody.firstChild) {
+        tBody.removeChild(tBody.firstChild);
+    }
+
+    // Re-add the newly sorted rows
+    tBody.append(...sortedRows);
+
+    // Remember how the column is currently sorted
+    table.querySelectorAll("th").forEach(th => th.classList.remove("th-sort-asc", "th-sort-desc"));
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-asc", asc);
+    table.querySelector(`th:nth-child(${ column + 1})`).classList.toggle("th-sort-desc", !asc);
+}
+
+document.querySelectorAll(".table-sortable th").forEach(headerCell => {
+    headerCell.addEventListener("click", () => {
+        const tableElement = headerCell.parentElement.parentElement.parentElement;
+        const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+        const currentIsAscending = headerCell.classList.contains("th-sort-asc");
+
+        sortTableByColumn(tableElement, headerIndex, !currentIsAscending);
+    });
+});
+
+</script>

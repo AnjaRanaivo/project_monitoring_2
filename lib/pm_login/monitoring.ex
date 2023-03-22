@@ -8,6 +8,8 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Repo
   alias PmLogin.Kanban
   alias PmLogin.Monitoring.{Status, Task, Planified, Priority, TaskRecord}
+  alias PmLogin.Services.ActiveClient
+  alias PmLogin.Login.User
   alias PmLogin.Login
   alias PmLogin.Services
   alias PmLogin.Login.User
@@ -602,6 +604,8 @@ defmodule PmLogin.Monitoring do
 
     Repo.all(query)
   end
+
+
 
   def list_projects_by_contributor(con_id) do
     tasks_query =
@@ -2323,4 +2327,45 @@ defmodule PmLogin.Monitoring do
             select: t
     Repo.all(query)
   end
+
+
+  def list_projects_by_clients_user_id(con_id) do
+    query =
+      from p in Project,
+        join: a in ActiveClient,
+        on: p.active_client_id == a.id,
+        join: u in User,
+        on: u.id == a.user_id,
+        where: u.id == ^con_id,
+        order_by: [desc: :inserted_at]
+
+    Repo.all(query)
+  end
+
+  def list_project_by_status_and_user_client!(status_id,con_id) do
+    query = from p in Project,
+            join: a in ActiveClient,
+            on: p.active_client_id == a.id,
+            join: u in User,
+            on: u.id == a.user_id,
+            where: p.status_id == ^status_id and u.id == ^con_id,
+            order_by: [desc: :inserted_at]
+
+    Repo.all(query)
+  end
+
+  def list_project_by_title_and_user_client!(project_title,con_id) do
+    project_search = "%#{project_title}%"
+
+    query = from p in Project,
+            join: a in ActiveClient,
+            on: p.active_client_id == a.id,
+            join: u in User,
+            on: u.id == a.user_id,
+            where: (ilike(p.title, ^project_search) or ilike(p.description, ^project_search)) and u.id == ^con_id,
+            order_by: [desc: :inserted_at]
+
+    Repo.all(query)
+  end
+
 end
