@@ -27,6 +27,8 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     {:ok,
       socket
       |> assign(
+        display_form: false,
+        changeset: Services.change_clients_request(%ClientsRequest{}),
         projects: Monitoring.list_projects(),
         curr_user_id: curr_user_id,
         show_project_modal: false,
