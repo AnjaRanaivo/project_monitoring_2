@@ -20,21 +20,19 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     # IO.inspect not_ongoing_requests |> Enum.at(10)
 
     projects = Monitoring.list_projects_by_clients_user_id(curr_user_id)
-    list_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
 
     layout = {PmLoginWeb.LayoutView, "active_client_2_layout_live.html"}
 
     {:ok,
       socket
       |> assign(
-        projects: Monitoring.list_projects(),
+        projects: projects,
         curr_user_id: curr_user_id,
         show_project_modal: false,
         show_notif: false,
         search_text: nil,
         notifs: Services.list_my_notifications_with_limit(curr_user_id, 4),
-        list_projects: list_projects,
-        client_request: nil,
+        client_request: nil
         )
         |> allow_upload(:file,
           accept:
@@ -70,8 +68,6 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     length = socket.assigns.notifs |> length
     {:noreply, socket |> assign(notifs: Services.list_my_notifications_with_limit(curr_user_id, length))}
   end
-
-
 
   def render(assigns) do
     ProjectView.render("active_client_2_index.html", assigns)
