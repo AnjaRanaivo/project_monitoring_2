@@ -13,7 +13,7 @@
           </div>
         </div>
       </a>
-      <a href={Routes.clients_request_path(@socket, :my_requests)} class="column" style="padding: 0">
+      <a href={Routes.clients_request_path(@socket, :my_requests_2)} class="column" style="padding: 0">
         <div class="card-style">
           <img 
             class="image-fit-cover" 
@@ -41,7 +41,7 @@
   </div>
   
   <div class="row" style="margin-left: -2rem; padding: 0">
-    <a href={Routes.clients_request_path(@socket, :client_tasks)} class="column" style="padding: 0">
+    <a href={Routes.clients_request_path(@socket, :client_tasks_2)} class="column" style="padding: 0">
       <div class="card-style">
         <img 
           class="image-fit-cover" 
@@ -53,7 +53,7 @@
       </div>
     </a>
   
-    <a href="" class="column" style="padding: 0">
+    <a href={Routes.user_path(@socket, :show, @curr_user_id)} class="column" style="padding: 0">
       <div class="card-style">
         <img 
           class="image-fit-cover" 

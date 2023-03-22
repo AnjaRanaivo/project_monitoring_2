@@ -85,6 +85,8 @@ defmodule PmLoginWeb.Router do
 
     #activeclient2
     get "/my_company_2", CompanyController, :my_company_2
+    get "/my_requests_2", ClientsRequestController, :my_requests_2
+    get "/client_tasks_2", ClientsRequestController, :client_tasks_2
   end
 
   # Other scopes may use custom stacks.

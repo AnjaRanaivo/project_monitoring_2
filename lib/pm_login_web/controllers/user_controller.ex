@@ -114,7 +114,8 @@ defmodule PmLoginWeb.UserController do
         1 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.AdminProfileLive, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
         2 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.AttributorProfileLive, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
         3 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ContributorProfileLive, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
-        4 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ClientProfileLive, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
+        # 4 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ClientProfileLive, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
+        4 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ClientProfile2Live, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
         5 -> LiveView.Controller.live_render(conn, PmLoginWeb.User.UnattributedProfileLive, session: %{"user" => user,"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
 
         _ -> render(conn, "show.html", user: user)
