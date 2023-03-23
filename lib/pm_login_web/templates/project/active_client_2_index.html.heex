@@ -72,8 +72,7 @@
               <th>Nom</th>
               <th>Description</th>
               <th>Prog.</th>
-              <th>Mes requêtes</th>
-              <th>Faire une nouvelle demande</th>
+              <th>Nouvelle demande</th>
             </tr>
           </thead>
           <tbody>
@@ -96,22 +95,8 @@
                 <td>
                   <%= project.progression %> %
                 </td>
-                <td style="">
-                 <a id="" title="Faire une requête" phx-click=""
-                    style="
-                    background: #2980B9;
-                    padding: 1rem 1.25rem;
-                    color: #fff;
-                    display: flex;
-                    align-items: center;
-                    width:40px;"
-                  
-                  >
-                 <span class="material-icons mat__ico" style="margin-top:-10px;margin-left:-5px">receipt_long</span>
-                 </a>
-                </td>
                 <td>
-                 <a id="" title="Faire une requête" phx-click="form-on" phx-value-title={project.title}
+                 <a id="" title="Faire une requête" phx-click="form-on" phx-value-title={project.title} 
                   style="
                   background: #2980B9;
                   padding: 1rem 1.25rem;
@@ -120,6 +105,7 @@
                   align-items: center;
                   gap: 1rem;
                   width:45px;
+                  margin-left:30px;
                  "
                   
                 >
@@ -154,7 +140,7 @@
             <label for="title">
               <h3>Nom du projet</h3>
             </label>
-            <input type="text" id="name" name="name" value={@project_title}>
+            <input type="text" id="name" name="name" value={@project_title} disabled="true">
             <%= error_tag f, :title %>
             <label class="btn btn-lg btn-primary file_input_btn">
               <%=  live_file_input(@uploads.file, class: "file_inputs") %>
