@@ -36,10 +36,11 @@
 <div class="responsive-customer-request">
 
       <div class="card-info" style="max-width: 750px; cursor: pointer; display: flex; align-items: center;">
-        <button class="btn-project-client"><span class="material-icons">
+
+        <button class="btn-project-client" data-switch="#my_projects"><span class="material-icons">
             insert_chart
         </span>Mes projets</button>
-        <button style="margin-left: 20px;" class="btn-project-client"><span class="material-icons">
+        <button style="margin-left: 20px;" data-switch="#my_demands" class="btn-project-client"><span class="material-icons">
           receipt_long
         </span>Mes demandes envoyées</button>
         <a id="" title="Faire une requête" phx-click="form-on-new"
@@ -87,56 +88,63 @@
      
 
 </div>
-        <table id="tb-auth" class="table-sortable" style="margin-top: 50px; font-size: 13px;">
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Description</th>
-              <th>Prog.</th>
-              <th>Nouvelle demande</th>
-            </tr>
-          </thead>
-          <tbody>
-            <%= for project <- @projects do %>
-              <tr style={"background: #{
-                case project.status_id do
-                  1 -> ""
-                  2 -> "#e74c3c"
-                  3 -> "#f1c40f91"
-                  4 -> "#be5e0aad"
-                  _ -> "#1abc9c"
-                end
-              }"}>
-                <td>
-                  <%= "#{project.title}" %>
-                </td>
-                <td>
-                  <%= project.description %>
-                </td>
-                <td>
-                  <%= project.progression %> %
-                </td>
-                <td>
-                 <a id="" title="Faire une requête" phx-click="form-on" phx-value-title={project.title} 
-                  style="
-                  background: #2980B9;
-                  padding: 1rem 1.25rem;
-                  color: #fff;
-                  display: flex;
-                  align-items: center;
-                  gap: 1rem;
-                  width:45px;
-                  margin-left:30px;
-                 "
-                  
-                >
-                  <i class="bi bi-pencil-square" style="font-size: 2rem; align-items: center;"></i>
-                </a>
-                </td>
+<div id="projects_demands">
+        <section id="my_projects">
+          <table id="tb-auth" class="table-sortable" style="margin-top: 50px; font-size: 13px;">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Prog.</th>
+                <th>Nouvelle demande</th>
               </tr>
-              <% end %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <%= for project <- @projects do %>
+                <tr style={"background: #{
+                  case project.status_id do
+                    1 -> ""
+                    2 -> "#e74c3c"
+                    3 -> "#f1c40f91"
+                    4 -> "#be5e0aad"
+                    _ -> "#1abc9c"
+                  end
+                }"}>
+                  <td>
+                    <%= "#{project.title}" %>
+                  </td>
+                  <td>
+                    <%= project.description %>
+                  </td>
+                  <td>
+                    <%= project.progression %> %
+                  </td>
+                  <td>
+                  <a id="" title="Faire une requête" phx-click="form-on" phx-value-id={project.id} 
+                    style="
+                    background: #2980B9;
+                    padding: 1rem 1.25rem;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    width:45px;
+                    margin-left:30px;
+                  "
+                    
+                  >
+                    <i class="bi bi-pencil-square" style="font-size: 2rem; align-items: center;"></i>
+                  </a>
+                  </td>
+                </tr>
+                <% end %>
+            </tbody>
+          </table>
+        </section>
+        <section id="my_demands" style="display:none">
+          Mes demandes
+        </section>
+      </div>
     
   <!--Modal pour créer une nouvelle requête de tache -->
   <div class="request__form__container" style={"visibility: #{if @display_form, do: 'visible' , else: 'hidden' };
@@ -153,6 +161,8 @@
             </label>
             <%= text_input f, :title %>
             <%= error_tag f, :title %>
+            <%= hidden_input f, :active_client_id, value: @active_client.id %>
+            <%= hidden_input f, :project_id, value: @project_id %>
             <label for="content">
               <h3>Contenu</h3>
             </label>
@@ -162,7 +172,6 @@
               <h3>Nom du projet</h3>
             </label>
             <input type="text" id="name" name="name" value={@project_title} disabled="true">
-            <%= error_tag f, :title %>
             <label class="btn btn-lg btn-primary file_input_btn">
               <%=  live_file_input(@uploads.file, class: "file_inputs") %>
               <i class="bi bi-upload"></i>
@@ -216,6 +225,7 @@
         <div class="request__form__content">
           <.form let={f} for={@changeset} phx-change="change-request-new" phx-submit="send-request-new">
 
+
             <label for="title">
               <h3>Titre</h3>
             </label>
@@ -269,7 +279,20 @@
       </div>
     </div>
   </div>
+
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
+
+  $('[data-switch]').on('click', function (e) {
+      var $page = $('#projects_demands'),
+          blockToShow = e.currentTarget.getAttribute('data-switch');
+
+      $page.children().hide();
+
+      $page.children(blockToShow).show();
+  });
   function sortTableByColumn(table, column, asc = true) {
     const dirModifier = asc ? 1 : -1;
     const tBody = table.tBodies[0];

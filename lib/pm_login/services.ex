@@ -1076,6 +1076,12 @@ defmodule PmLogin.Services do
     |> Repo.insert()
   end
 
+  def create_clients_request_with_project(attrs \\ %{}) do
+    %ClientsRequest{}
+    |> ClientsRequest.create_changeset_with_project(attrs)
+    |> Repo.insert()
+  end
+
   def broadcast_request(tuple) do
     broadcast_request_change(tuple, [:request , :sent])
   end
