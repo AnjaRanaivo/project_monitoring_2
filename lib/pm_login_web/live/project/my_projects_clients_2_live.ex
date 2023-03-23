@@ -10,6 +10,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
   alias PmLoginWeb.LiveComponent.{ClientModalRequestLive, DetailModalRequestLive, ProjectModalLive}
   alias PmLogin.Email
   alias PmLogin.Services.ClientsRequest
+  alias PmLogin.Uuid
 
   def mount(_params, %{"curr_user_id" => curr_user_id}, socket) do
     Services.subscribe()
@@ -20,6 +21,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     # IO.inspect not_ongoing_requests |> length()
     # IO.inspect not_ongoing_requests |> Enum.at(10)
 
+    active_client = Services.get_active_client_from_userid!(curr_user_id)
     projects = Monitoring.list_projects_by_clients_user_id(curr_user_id)
 
     layout = {PmLoginWeb.LayoutView, "active_client_2_layout_live.html"}
@@ -29,9 +31,12 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
       |> assign(
         display_form: false,
         project_title: '',
+        project_id: nil,
         changeset: Services.change_clients_request(%ClientsRequest{}),
         projects: projects,
+        project: nil,
         curr_user_id: curr_user_id,
+        active_client: active_client,
         show_project_modal: false,
         show_notif: false,
         search_text: nil,
@@ -76,12 +81,12 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     ProjectView.render("active_client_2_index.html", assigns)
   end
 
-  def handle_event("form-on", %{"title" => title}, socket) do
-    IO.inspect(title)
+  def handle_event("form-on", %{"id" => id}, socket) do
+    project = Monitoring.list_project_by_id!(id)
     {:noreply,
       socket
       |> clear_flash()
-      |> assign(display_form: true,project_title: title)}
+      |> assign(display_form: true,project_title: project.title, project_id: project.id, project: project)}
   end
 
   def handle_event("form-on-new", _params, socket) do
@@ -119,7 +124,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     #  end)
     # IO.inspect socket.assigns.uploads[:file].entries
 
-    case Services.create_clients_request(params) do
+    case Services.create_clients_request_with_project(params) do
       {:ok, result} ->
         consume_uploaded_entries(socket, :file, fn meta, entry ->
           ext = Path.extname(entry.client_name)

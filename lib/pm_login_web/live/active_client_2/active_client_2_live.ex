@@ -1,4 +1,4 @@
-defmodule PmLogin.ActiveClient.ActiveClientLive do
+defmodule PmLogin.ActiveClient2.ActiveClientLive do
   use Phoenix.LiveView
 
   alias PmLogin.Login

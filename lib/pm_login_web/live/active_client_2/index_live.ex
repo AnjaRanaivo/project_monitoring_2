@@ -1,4 +1,4 @@
-defmodule PmLogin.ActiveClient.IndexLive do
+defmodule PmLogin.ActiveClient2.IndexLive do
   use Phoenix.LiveView
   alias PmLogin.{Services, Login}
 
