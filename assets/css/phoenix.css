@@ -926,3 +926,26 @@ header nav a {
   margin-right: 5px;
   display: inline-block;
 }
+
+.btn-project-client {
+  background-color: #17A2B8;
+  border-color: #17A2B8;
+  color: #fff;
+}
+
+.btn-project-client:focus,.btn-project-client:hover {
+  background-color: #606c76;
+  border-color: #606c76;
+  color: #fff;
+  outline: 0
+}
+
+.btn-project-client[disabled]{
+  cursor: default;
+  opacity: .5
+}
+ .btn-project-client[disabled]:focus,.btn-project-client[disabled]:hover{
+  background-color: #17A2B8;
+  border-color: #17A2B8;
+ }
+

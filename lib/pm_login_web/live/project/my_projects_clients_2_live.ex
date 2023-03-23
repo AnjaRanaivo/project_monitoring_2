@@ -28,6 +28,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
       socket
       |> assign(
         display_form: false,
+        display_form_new: false,
         project_title: '',
         changeset: Services.change_clients_request(%ClientsRequest{}),
         projects: projects,
@@ -85,14 +86,18 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
   end
 
   def handle_event("form-on-new", _params, socket) do
-    # {:noreply,
-    #   socket
-    #   |> clear_flash()
-    #   |> assign(display_form: true)}
+    {:noreply,
+      socket
+      |> clear_flash()
+      |> assign(display_form_new: true)}
   end
 
   def handle_event("form-off", _params, socket) do
     {:noreply, socket |> assign(display_form: false)}
+  end
+
+  def handle_event("form-off-new", _params, socket) do
+    {:noreply, socket |> assign(display_form_new: false)}
   end
 
   def handle_event("change-request", params, socket) do
@@ -100,7 +105,78 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     {:noreply, socket}
   end
 
+  def handle_event("change-request-new", params, socket) do
+    # IO.inspect(params)
+    {:noreply, socket}
+  end
+
   def handle_event("send-request", %{"clients_request" => params}, socket) do
+    # Added uuid to the current params
+    params = Map.put_new(params, "uuid", Uuid.generate)
+
+    {entries, []} = uploaded_entries(socket, :file)
+    # IO.inspect(entries)
+
+    # urls = for entry <- entries do
+    #   Routes.static_path(socket, "/uploads/#{entry.uuid}#{Path.extname(entry.client_name)}")
+    # end
+
+    # IO.inspect urls
+
+    # consume_uploaded_entries(socket, :file, fn meta, entry ->
+    #   dest = Path.join("priv/static/uploads", "#{entry.uuid}#{Path.extname(entry.client_name)}")
+    #   File.cp!(meta.path, dest)
+    #  end)
+    # IO.inspect socket.assigns.uploads[:file].entries
+
+    case Services.create_clients_request(params) do
+      {:ok, result} ->
+        consume_uploaded_entries(socket, :file, fn meta, entry ->
+          ext = Path.extname(entry.client_name)
+          file_name = Path.basename(entry.client_name, ext)
+          dest = Path.join("priv/static/uploads", "#{file_name}#{entry.uuid}#{ext}")
+          File.cp!(meta.path, dest)
+        end)
+
+        {entries, []} = uploaded_entries(socket, :file)
+
+        urls =
+          for entry <- entries do
+            ext = Path.extname(entry.client_name)
+            file_name = Path.basename(entry.client_name, ext)
+            Routes.static_path(socket, "/uploads/#{file_name}#{entry.uuid}#{ext}")
+          end
+
+        Services.update_request_files(result, %{"file_urls" => urls})
+
+        {:ok, result} |> Services.broadcast_request()
+        # sending notifs to admins
+        curr_user_id = socket.assigns.curr_user_id
+        the_client = Services.get_active_client_from_userid!(curr_user_id)
+
+        Services.send_notifs_to_admins(
+          curr_user_id,
+          "Le client #{the_client.user.username} de la société #{the_client.company.name} a envoyé une requête intitulée \"#{result.title}\".",
+          5
+        )
+
+        Monitoring.broadcast_clients_requests({:ok, :clients_requests})
+
+        {:noreply,
+         socket
+         |> assign(
+           display_form: false,
+           changeset: Services.change_clients_request(%ClientsRequest{})
+         )
+         |> put_flash(:info, "Requête envoyée")
+         |> push_event("AnimateAlert", %{})}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, socket |> assign(changeset: changeset)}
+    end
+  end
+
+  def handle_event("send-request-new", %{"clients_request" => params}, socket) do
     # Added uuid to the current params
     params = Map.put_new(params, "uuid", Uuid.generate)
 

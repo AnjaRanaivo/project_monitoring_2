@@ -36,18 +36,18 @@
 <div class="responsive-customer-request">
 
       <div class="card-info" style="max-width: 750px; cursor: pointer; display: flex; align-items: center;">
-        <button ><span class="material-icons">
-          insert_chart
+        <button class="btn-project-client"><span class="material-icons">
+            insert_chart
         </span>Mes projets</button>
-        <button style="margin-left: 20px"><span class="material-icons">
+        <button style="margin-left: 20px;" class="btn-project-client"><span class="material-icons">
           receipt_long
         </span>Mes demandes envoyées</button>
         <a id="" title="Faire une requête" phx-click="form-on-new"
           style="
           margin-left: 10rem;
-          background: #16a085;
+          background: #FFC107;
           padding: 1rem 1.25rem;
-          color: #fff;
+          color: #393E46;
           display: flex;
           align-items: center;
           gap: 1rem;"
@@ -138,8 +138,8 @@
           </tbody>
         </table>
     
-
-     <div class="request__form__container" style={"visibility: #{if @display_form, do: 'visible' , else: 'hidden' };
+  <!--Modal pour créer une nouvelle requête de tache -->
+  <div class="request__form__container" style={"visibility: #{if @display_form, do: 'visible' , else: 'hidden' };
     opacity: #{ if @display_form, do: '1 !important' , else: '0' }; display: #{ if @display_form, do: 'flex !important' , else: 'none' };"}>
     <div id="the_request_form" class="basecontents__without__radius request__form">
       <div class="column">
@@ -205,9 +205,70 @@
 
       </div>
     </div>
-
   </div>
+  <!--Modal pour créer un nouveau projet  -->
+  <div class="request__form__container" style={"visibility: #{if @display_form_new, do: 'visible' , else: 'hidden' };
+    opacity: #{ if @display_form_new, do: '1 !important' , else: '0' }; display: #{ if @display_form_new, do: 'flex !important' , else: 'none' };"}>
+    <div id="the_request_form" class="basecontents__without__radius request__form">
+      <div class="column">
+        <a class="form__close" title="Fermer" phx-click="form-off-new"><i class="bi bi-x"></i></a>
+        <h2><i class="bi bi-pencil-square"></i> Faire une requête</h2>
+        <div class="request__form__content">
+          <.form let={f} for={@changeset} phx-change="change-request-new" phx-submit="send-request-new">
 
+            <label for="title">
+              <h3>Titre</h3>
+            </label>
+            <%= text_input f, :title %>
+            <%= error_tag f, :title %>
+            <label for="content">
+              <h3>Contenu</h3>
+            </label>
+            <%= textarea f, :content, style: "max-width: auto; resize: none;" %>
+            <%= error_tag f, :content %>
+            <label class="btn btn-lg btn-primary file_input_btn">
+              <%=  live_file_input(@uploads.file, class: "file_inputs") %>
+              <i class="bi bi-upload"></i>
+              Charger fichiers
+            </label>
+            <%= for {_ref, msg} <- @uploads.file.errors do %>
+            <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
+            <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
+            <% end %>
+            <% end %>
+
+
+            <%= for entry <- @uploads.file.entries do %>
+            <div class="row">
+              <div class="column">
+
+                <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
+                <%= live_img_preview entry, height: 50 %>
+                <% else %>
+                <p class="file__name__upload"><%= entry.client_name %></p>
+                <% end %>
+
+              </div>
+              <div class="column">
+                <progress value={entry.progress } max="100" />
+              </div>
+              <div class="column">
+                <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
+              </div>
+            </div>
+            <% end %>
+            <div class="column">
+              <button type="submit" style="float: right;" class="bt__com__form"><span
+                  class="material-icons bt__com__form__ico">send</span></button>
+            </div>
+
+          </.form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
 <script>
   function sortTableByColumn(table, column, asc = true) {
     const dirModifier = asc ? 1 : -1;
