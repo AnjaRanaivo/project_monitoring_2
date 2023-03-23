@@ -43,7 +43,7 @@
         <button style="margin-left: 20px;" data-switch="#my_demands" class="btn-project-client"><span class="material-icons">
           receipt_long
         </span>Mes demandes envoyées</button>
-        <a id="" title="Faire une requête" phx-click="form-on-new"
+        <%!-- <a id="" title="Faire une requête" phx-click="form-on-new"
           style="
           margin-left: 10rem;
           background: #FFC107;
@@ -53,9 +53,12 @@
           align-items: center;
           gap: 1rem;"
         >
-          <i class="bi bi-pencil-square" style="font-size: 2rem; align-items: center;"></i>
+        <i class="bi bi-pencil-square" style="font-size: 2rem; align-items: center;"></i>
           Nouveau Projet
-        </a>
+        </a> --%>
+        <button style="margin-left: 10rem;background: #FFC107;padding: 1rem 1.25rem;color: #393E46;display: flex;align-items: center;gap: 1rem;" phx-click="form-on-new"><span class="material-icons">
+          receipt_long
+        </span>Nouveau Projet</button>
       </div>
       <div style="">
         <div class="button-project-list" style="display: flex;margin-top:30px ">
@@ -63,7 +66,6 @@
           <form phx-change="search-project" style="margin-bottom: -2rem;">
             <div class="project-search">
               <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
-              
               <input type="text" name="project_search" id="projectSearch" placeholder="Rechercher un projet" style="width: 22rem;">
             </div>
           </form>
