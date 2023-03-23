@@ -84,6 +84,13 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
       |> assign(display_form: true,project_title: title)}
   end
 
+  def handle_event("form-on-new", _params, socket) do
+    # {:noreply,
+    #   socket
+    #   |> clear_flash()
+    #   |> assign(display_form: true)}
+  end
+
   def handle_event("form-off", _params, socket) do
     {:noreply, socket |> assign(display_form: false)}
   end
