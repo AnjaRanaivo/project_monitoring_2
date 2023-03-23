@@ -29,7 +29,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
       |> assign(
         display_form: false,
         changeset: Services.change_clients_request(%ClientsRequest{}),
-        projects: Monitoring.list_projects(),
+        projects: projects,
         curr_user_id: curr_user_id,
         show_project_modal: false,
         show_notif: false,
