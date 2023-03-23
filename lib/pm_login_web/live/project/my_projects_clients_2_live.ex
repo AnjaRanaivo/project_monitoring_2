@@ -50,10 +50,9 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
 
     project_title = params["project_search"]
 
-    projects = Monitoring.list_project_by_title_and_user_client!(project_title,socket.assigns.curr_user_id)
-
-    {:noreply, socket |> assign(projects: projects)}
+    {:noreply, socket |> assign(projects: Monitoring.list_project_by_title_and_user_client!(project_title,socket.assigns.curr_user_id))}
   end
+
 
   def handle_event("status-project", params, socket) do
     status_id = params["status_id"]
