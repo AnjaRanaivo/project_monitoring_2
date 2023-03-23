@@ -111,7 +111,7 @@
                  </a>
                 </td>
                 <td>
-                 <a id="" title="Faire une requête" phx-click="form-on"
+                 <a id="" title="Faire une requête" phx-click="form-on" phx-value-title={project.title}
                   style="
                   background: #2980B9;
                   padding: 1rem 1.25rem;
@@ -154,7 +154,7 @@
             <label for="title">
               <h3>Nom du projet</h3>
             </label>
-            <input type="text" id="name" name="name" value="Ma requête">
+            <input type="text" id="name" name="name" value={@project_title}>
             <%= error_tag f, :title %>
             <label class="btn btn-lg btn-primary file_input_btn">
               <%=  live_file_input(@uploads.file, class: "file_inputs") %>

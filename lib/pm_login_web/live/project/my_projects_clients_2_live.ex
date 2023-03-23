@@ -28,6 +28,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
       socket
       |> assign(
         display_form: false,
+        project_title: '',
         changeset: Services.change_clients_request(%ClientsRequest{}),
         projects: projects,
         curr_user_id: curr_user_id,
@@ -75,11 +76,12 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     ProjectView.render("active_client_2_index.html", assigns)
   end
 
-  def handle_event("form-on", _params, socket) do
+  def handle_event("form-on", %{"title" => title}, socket) do
+    IO.inspect(title)
     {:noreply,
       socket
       |> clear_flash()
-      |> assign(display_form: true)}
+      |> assign(display_form: true,project_title: title)}
   end
 
   def handle_event("form-off", _params, socket) do
