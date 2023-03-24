@@ -502,14 +502,14 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
                     <td data-label="Status" style="min-width: 100px;">
                       <input type="hidden" value={task.id} name="task_id"/>
                       <input type="hidden" value={task.card} name="card_id" />
-                      <select name="status_id" id="status_change_id" style="color: #fff;">
+                      <select name="status_id" id="status_change_id" >
                           <%= for status <- @statuses do %>
                             <%= if status.id == task.status.id do %>
-                              <option value={status.id} style="background: #1F2937; color: #fff;" selected>
+                              <option value={status.id} selected>
                                 <%= status.title %>
                               </option>
                             <% else %>
-                              <option value={status.id} style="background: #1F2937; color: #fff;">
+                              <option value={status.id}>
                                 <%= status.title %>
                               </option>
                             <% end %>
@@ -547,7 +547,7 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
                     <td data-label="Date de début" style="min-width: 125px"> <%= Calendar.strftime(task.date_start, "%d-%m-%Y") %> </td>
                     <td data-label="Date d'échéance"> <%= Calendar.strftime(task.deadline, "%d-%m-%Y") %> </td>
                     <td data-label="Progression">
-                      <input name="progression_change" type="number" value={task.progression} style="width: 75px; color: #fff;" min="0"
+                      <input name="progression_change" type="number" value={task.progression} style="width: 75px; " min="0"
                       max="100"/>
                     </td>
                     <td class="btn-table" style="padding: 0;">

@@ -18,7 +18,7 @@
 
 .tt-actions {
   font-size: 25px;
-  color: #fff;
+  
 }
 
 .tt-actions:hover {
@@ -30,7 +30,7 @@
   font-size: 14px;
   padding: 15px;
   text-transform: uppercase;
-  color: #fff;
+  
 }
 
 .table-tasks tbody tr,
@@ -38,7 +38,7 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
   background-color: #ffffff21;
-  color: #fff;
+  
 }
 
 .table-tasks td, 
@@ -66,12 +66,12 @@
 
 .table-head-unachieved {
   background-color: #E67E22;
-  color: #fff;
+  
 }
 
 .table-head-past-unachieved {
   background-color: #E74C3C;
-  color: #fff;
+  
 }
 
 .tbl-content {
@@ -113,7 +113,7 @@ th {
     background-color: #0069d9;
     border: 0.1rem solid #0069d9;
     border-radius: .4rem;
-    color: #fff;
+    
     cursor: pointer;
     display: inline-block;
     font-size: 1.1rem;

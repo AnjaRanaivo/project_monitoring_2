@@ -1,4 +1,4 @@
-<h3 style="color: #fff; margin-bottom: 0px;">
+<h3 style=" margin-bottom: 0px;">
     Toutes les tâches (<%= Enum.count(@tasks) %>)
 </h3>
 
@@ -12,11 +12,11 @@
             <select
               id="task_filter"
               name="status_id"
-              style="margin-bottom: O;  color: #fff !important;"
+              style="margin-bottom: O;   "
             >
-              <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Statut</option>
+              <option value="" selected disabled hidden style="background: #1F2937; ">Statut</option>
               <%= for status <- @statuses do %>
-                <option value={status.id} style="background: #1F2937; color: #fff;">
+                <option value={status.id} style="background: #1F2937; ">
                   <%= status.title %>
                 </option>
               <% end %>
@@ -30,18 +30,18 @@
             <select
               id="task_filter"
               name="contributor_select"
-              style="margin-bottom: O;  color: #fff !important;"
+              style="margin-bottom: O;   ;"
             >
-              <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Contributeurs</option>
-              <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+              <option value="" selected disabled hidden style="background: #1F2937;">Contributeurs</option>
+              <option value="9000" style="background: #1F2937; ;">Tout</option>
 
               <%= for contributor <- @contributors do %>
-                <option value={elem(contributor, 1)} style="background: #1F2937; color: #fff;">
+                <option value={elem(contributor, 1)} style="background: #1F2937; ">
                   <%= elem(contributor, 0) %>
                 </option>
               <% end %>
 
-              <option value="-1" style="background: #1F2937; color: #fff;">Sans contributeur</option>
+              <option value="-1" style="background: #1F2937;">Sans contributeur</option>
             </select>
           </form>
         </th>
@@ -51,18 +51,18 @@
             <select
               id="task_filter"
               name="customer_select"
-              style="margin-bottom: O;  color: #fff !important;"
+              style="margin-bottom: O;  "
             >
-              <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Clients</option>
-              <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+              <option value="" selected disabled hidden style="background: #1F2937;">Clients</option>
+              <option value="9000" style="background: #1F2937; ;">Tout</option>
 
               <%= for active_client <- @active_clients do %>
-                <option value={active_client.id} style="background: #1F2937; color: #fff;">
+                <option value={active_client.id} style="background: #1F2937;">
                   <%= PmLogin.Login.get_username(active_client.user_id) %>
                 </option>
               <% end %>
 
-              <option value="-1" style="background: #1F2937; color: #fff;">Sans client</option>
+              <option value="-1" style="background: #1F2937;">Sans client</option>
             </select>
           </form>
         </th>

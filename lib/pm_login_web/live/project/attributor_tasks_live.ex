@@ -537,7 +537,7 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
         <i class="bi bi-list-task"></i>
         Les tâches qui m'ont été assigné
       </h3> -->
-      <h3 style="color: #fff;  margin-bottom: 0px;"><i class="bi bi-person-lines-fill"></i> Mes propres tâches</h3>
+      <h3 style=" margin-bottom: 0px;"><i class="bi bi-person-lines-fill"></i> Mes propres tâches</h3>
 
 
 
@@ -585,12 +585,12 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
                   <select
                     id="task_filter"
                     name="status_id"
-                    style="margin-bottom: O;  color: #fff !important;"
+                    style="margin-bottom: O;  "
                   >
-                    <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Trier par statut</option>
-                    <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+                    <option value="" selected disabled hidden >Trier par statut</option>
+                    <option value="9000" >Tout</option>
                     <%= for status <- @statuses do %>
-                      <option value={status.id} style="background: #1F2937; color: #fff;">
+                      <option value={status.id} >
                         <%= status.title %>
                       </option>
                     <% end %>
@@ -603,12 +603,12 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
                   <select
                     id="task_filter"
                     name="attributor_id"
-                    style="margin-bottom: O;  color: #fff !important;"
+                    style="margin-bottom: O;  "
                   >
-                    <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Trier par attributeur</option>
-                    <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+                    <option value="" selected disabled hidden >Trier par attributeur</option>
+                    <option value="9000" >Tout</option>
                     <%= for attributor <- @list_attributors_by_own_tasks do %>
-                      <option value={elem(attributor, 1)} style="background: #1F2937; color: #fff;">
+                      <option value={elem(attributor, 1)} >
                         <%= Login.get_username(elem(attributor, 1)) %>
                       </option>
                     <% end %>
@@ -658,14 +658,14 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
                     <td data-label="Status">
                       <input type="hidden" value={task.id} name="task_id"/>
                       <input type="hidden" value={task.card} name="card_id" />
-                      <select name="status_id" id="status_change_id" style="color: #fff; min-width: 115px">
+                      <select name="status_id" id="status_change_id" style="min-width: 115px">
                           <%= for status <- @statuses do %>
                             <%= if status.id == task.status.id do %>
-                              <option value={status.id} style="background: #1F2937; color: #fff;" selected>
+                              <option value={status.id} selected>
                                 <%= status.title %>
                               </option>
                             <% else %>
-                              <option value={status.id} style="background: #1F2937; color: #fff;">
+                              <option value={status.id}>
                                 <%= status.title %>
                               </option>
                             <% end %>
@@ -707,7 +707,7 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
                         name="progression_change"
                         type="number"
                         value={task.progression}
-                        style="width: 75px; color: #fff;"
+                        style="width: 75px;"
                         min="0"
                         max="100"
                       />

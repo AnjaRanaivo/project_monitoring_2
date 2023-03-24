@@ -587,7 +587,7 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
     </div>
 
 
-      <h3 style="color: #fff; margin-bottom: 0px;"><i class="bi bi-person-plus"></i>Les tâches attribuées</h3>
+      <h3 style="margin-bottom: 0px;"><i class="bi bi-person-plus"></i>Les tâches attribuées</h3>
 
       <%= if @tasks_not_achieved == [] do %>
         <div class="alert-primary" role="alert">
@@ -605,12 +605,12 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
                   <select
                     id="task_filter"
                     name="status_id"
-                    style="margin-bottom: O;  color: #fff !important;"
+                    style="margin-bottom: O; "
                   >
-                    <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Trier par statut</option>
-                    <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+                    <option value="" selected disabled hidden style="background: #1F2937;">Trier par statut</option>
+                    <option value="9000" >Tout</option>
                     <%= for status <- @statuses do %>
-                      <option value={status.id} style="background: #1F2937; color: #fff;">
+                      <option value={status.id} >
                         <%= status.title %>
                       </option>
                     <% end %>
@@ -626,12 +626,12 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
                   <select
                     id="task_filter"
                     name="contributor_id"
-                    style="margin-bottom: O;  color: #fff !important;"
+                    style="margin-bottom: O;  "
                   >
-                    <option value="" selected disabled hidden style="background: #1F2937; color: #fff;">Trier par contributeur</option>
-                    <option value="9000" style="background: #1F2937; color: #fff;">Tout</option>
+                    <option value="" selected disabled hidden style="background: #1F2937; ">Trier par contributeur</option>
+                    <option value="9000" >Tout</option>
                     <%= for attributor <- @list_contributors_by_attributed_tasks do %>
-                      <option value={elem(attributor, 1)} style="background: #1F2937; color: #fff;">
+                      <option value={elem(attributor, 1)} >
                         <%= Login.get_username(elem(attributor, 1)) %>
                       </option>
                     <% end %>

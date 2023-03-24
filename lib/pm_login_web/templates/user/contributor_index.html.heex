@@ -51,7 +51,7 @@
   </a>
 </div>
 
-<h4 style="text-align: center; margin-top: 15px; color: rgb(237, 237, 237)">Mes tâches inachevées ayant une date d'échéance proche</h4>
+<h4 style="text-align: center; margin-top: 15px">Mes tâches inachevées ayant une date d'échéance proche</h4>
 
 <%= if @unachieved == [] do %>
   <div class="alert-primary" role="alert">
@@ -75,7 +75,7 @@
 
     <div class="tbl-content">
       <table class="table-tasks-unachieved" id="" style="font-size: 12px; padding: 0px 0px 0px 10px;">
-        <tbody style="color: #fff">
+        <tbody >
           <%= for task <- @unachieved do %>
             <%= if task.status_id != 5 and task.hidden != true do %>
               <tr>
@@ -149,7 +149,7 @@
 <% end %>
 
 
-<h4 style="text-align: center; margin-top: 25px; color: rgb(237, 237, 237)">Tâches inachevées mais date d'échéance déjà écoulée</h4>
+<h4 style="text-align: center; margin-top: 25px;">Tâches inachevées mais date d'échéance déjà écoulée</h4>
 
 <%= if @past_unachieved == [] do %>
   <div class="alert-primary" role="alert">
@@ -173,7 +173,7 @@
 
     <div class="tbl-content">
       <table class="table-tasks-unachieved" id="" style="font-size: 12px; padding: 0px 0px 0px 10px;">
-        <tbody style="color: #fff">
+        <tbody>
           <%= for task <- @past_unachieved do %>
             <%= if task.status_id != 5 and task.hidden != true do %>
               <tr>
