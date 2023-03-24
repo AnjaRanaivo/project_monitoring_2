@@ -1,0 +1,8 @@
+<h1>Show Active client</h1>
+
+<ul>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.active_client_path(@conn, :edit, @active_client) %></span>
+<span><%= link "Back", to: Routes.active_client_path(@conn, :index) %></span>

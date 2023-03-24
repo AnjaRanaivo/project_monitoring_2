@@ -1,0 +1,39 @@
+<h1><i class="bi bi-people"></i> Clients inactifs </h1>
+<table id="tb-auth">
+  <thead>
+    <th>Nom</th>
+    <th>Email</th>
+    <th>Affilier à une société</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <%= for client <- @inactives do %>
+    <tr>
+    <.form let={f} for={:my_form} phx-submit="activate_c">
+      <input type="hidden" name="client_id" value={client.id}>
+        <td><%= client.username %></td>
+        <td><%= client.email %></td>
+        <td><%= select f, "company_id", @companies, style: "width: -moz-available;" %></td>
+        <td><%= submit "Rendre actif", class: "btn btn-lg btn-primary" %></td>
+    </.form>
+  </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><a href={Routes.active_client_path(@socket, :index)} class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Retour</a></span>
+
+<%= live_component(@socket,
+                   ModalLive,
+                   id: "confirm-arch",
+                   title: "Rendre actif?",
+                   body: "Etes-vous sûr de rendre le client
+                   #{if not is_nil(@params), do: PmLogin.Login.get_user!(@params["user_id"]).username} actif et
+                   l'affilier à la société #{if not is_nil(@params), do: PmLogin.Services.get_company!(@params["company_id"]).name}?",
+                   right_button: "OUI",
+                   right_button_action: "confirm-activate",
+                   right_button_param: @params,
+                   left_button: "ANNULER",
+                   show_modal: @show_modal,
+                   left_button_action: "cancel-active")
+%>
