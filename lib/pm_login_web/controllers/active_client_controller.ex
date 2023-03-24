@@ -35,7 +35,7 @@ defmodule PmLoginWeb.ActiveClientController do
     if Login.is_connected?(conn) do
       cond do
         Login.is_admin?(conn) ->
-          LiveView.Controller.live_render(conn, PmLogin.ActiveClient.ActiveClientLive, session: %{"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
+          LiveView.Controller.live_render(conn, PmLogin.ActiveClient2.ActiveClientLive, session: %{"curr_user_id" => get_session(conn, :curr_user_id)}, router: PmLoginWeb.Router)
 
         true ->
           conn

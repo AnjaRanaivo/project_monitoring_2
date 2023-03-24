@@ -11,7 +11,7 @@ defmodule PmLogin.ActiveClient2.ActiveClientLive do
     Services.subscribe()
     {:ok, assign(socket,curr_user_id: curr_user_id, show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4), show_modal: false, params: nil,inactives: Login.list_non_active_clients,
                 companies: Enum.map(Services.list_companies, fn %Company{} = c -> {c.name, c.id} end)
-                ), layout: {PmLoginWeb.LayoutView, "admin_layout_2_live.html"}
+                ), layout: {PmLoginWeb.LayoutView, "admin_layout_live.html"}
               }
   end
 
