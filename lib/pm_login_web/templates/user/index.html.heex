@@ -1,16 +1,16 @@
 <div class="row">
   <div class="column column-60">
-    <h1 style="color: #fff;"><span class="material-icons" style="font-size: 40px;">supervisor_account</span> Liste des utilisateurs</h1>
+    <h1><span class="material-icons" style="font-size: 40px;">supervisor_account</span> Liste des utilisateurs</h1>
   </div>
 </div>
 
   <div class="my_row">
     <div class="my_col">
       <!-- <b style="position: relative; top: 8px;">Filtre :</b> -->
-      <span class="material-icons-round filter__icon filt__and__sort__ico" style=" color: #fff;">filter_list</span>
+      <span class="material-icons-round filter__icon filt__and__sort__ico" >filter_list</span>
       <form phx-change="right_selected">
 
-        <select id="right_filter" name="right_select" style="background-color: #111827; color: #fff;">
+        <select id="right_filter" name="right_select" >
         <option value="" selected disabled hidden>Par statut</option>
         <option value="9000">Tout</option>
           <%= for right <- @rights do %>
@@ -23,10 +23,10 @@
 
     <div class="my_col">
       <!-- <b style="position: relative; top: 8px;"></b> -->
-      <span class="material-icons-round sort__icon filt__and__sort__ico" style=" color: #fff;">sort_by_alpha</span>
+      <span class="material-icons-round sort__icon filt__and__sort__ico">sort_by_alpha</span>
       <form phx-change="sort_users">
 
-        <select id="sort_auth" name="sort_select" style="background-color: #111827; color: #fff;">
+        <select id="sort_auth" name="sort_select">
         <option value="" selected disabled hidden>Alphabétique</option>
         <option value="asc">A - Z</option>
         <option value="desc">Z - A</option>
@@ -36,10 +36,10 @@
     </div>
 
     <div class="my_col">
-      <form phx-change="search-user" style="color: #fff;">
-          <input type="text" name="search-a" placeholder="Rechercher par nom" style="width: 150px; color:#fff;">
+      <form phx-change="search-user">
+          <input type="text" name="search-a" placeholder="Rechercher par nom" style="width: 150px;">
       </form>
-      <span class="material-icons-round filt__and__sort__ico" style=" color: #fff;">search</span>
+      <span class="material-icons-round filt__and__sort__ico" style="">search</span>
     </div>
 
     <div phx-click="show-form" class="button">

@@ -14,9 +14,9 @@
               name="status_id"
               style="margin-bottom: O;   "
             >
-              <option value="" selected disabled hidden style="background: #1F2937; ">Statut</option>
+              <option value="" selected disabled hidden >Statut</option>
               <%= for status <- @statuses do %>
-                <option value={status.id} style="background: #1F2937; ">
+                <option value={status.id} >
                   <%= status.title %>
                 </option>
               <% end %>
@@ -32,16 +32,16 @@
               name="contributor_select"
               style="margin-bottom: O;   ;"
             >
-              <option value="" selected disabled hidden style="background: #1F2937;">Contributeurs</option>
-              <option value="9000" style="background: #1F2937; ;">Tout</option>
+              <option value="" selected disabled hidden>Contributeurs</option>
+              <option value="9000">Tout</option>
 
               <%= for contributor <- @contributors do %>
-                <option value={elem(contributor, 1)} style="background: #1F2937; ">
+                <option value={elem(contributor, 1)} >
                   <%= elem(contributor, 0) %>
                 </option>
               <% end %>
 
-              <option value="-1" style="background: #1F2937;">Sans contributeur</option>
+              <option value="-1">Sans contributeur</option>
             </select>
           </form>
         </th>
@@ -53,16 +53,16 @@
               name="customer_select"
               style="margin-bottom: O;  "
             >
-              <option value="" selected disabled hidden style="background: #1F2937;">Clients</option>
-              <option value="9000" style="background: #1F2937; ;">Tout</option>
+              <option value="" selected disabled hidden>Clients</option>
+              <option value="9000">Tout</option>
 
               <%= for active_client <- @active_clients do %>
-                <option value={active_client.id} style="background: #1F2937;">
+                <option value={active_client.id}>
                   <%= PmLogin.Login.get_username(active_client.user_id) %>
                 </option>
               <% end %>
 
-              <option value="-1" style="background: #1F2937;">Sans client</option>
+              <option value="-1">Sans client</option>
             </select>
           </form>
         </th>
@@ -85,7 +85,7 @@
         <%= if task.hidden == false do %>
           <tr>
             <td data-label="Projet" style="word-wrap: anywhere; min-width: 125px;">
-              <%= link "#{task.project.title}", to: Routes.project_path(@socket, :board, task.project_id), class: "all-tasks-project-title" %>
+              <%= link "#{task.project.title}", to: Routes.project_path(@socket, :board, task.project_id), class: "all-tasks-project-title-2" %>
             </td>
             <td data-label="Nom" style="word-wrap: anywhere; min-width: 150px;">
               <%= task.title %>

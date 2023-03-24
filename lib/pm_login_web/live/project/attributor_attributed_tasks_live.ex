@@ -676,14 +676,14 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
                     <td data-label="Status">
                       <input type="hidden" value={task.id} name="task_id"/>
                       <input type="hidden" value={task.card} name="card_id" />
-                      <select name="status_id" id="status_change_id" style="color: #fff; min-width: 115px">
+                      <select name="status_id" id="status_change_id" style="min-width: 115px">
                           <%= for status <- @statuses do %>
                             <%= if status.id == task.status.id do %>
-                              <option value={status.id} style="background: #1F2937; color: #fff;" selected>
+                              <option value={status.id} selected>
                                 <%= status.title %>
                               </option>
                             <% else %>
-                              <option value={status.id} style="background: #1F2937; color: #fff;">
+                              <option value={status.id}>
                                 <%= status.title %>
                               </option>
                             <% end %>
@@ -725,7 +725,7 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
                         name="progression_change"
                         type="number"
                         value={task.progression}
-                        style="width: 75px; color: #fff;"
+                        style="width: 75px;"
                         min="0"
                         max="100"
                       />
