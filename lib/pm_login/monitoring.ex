@@ -2351,6 +2351,19 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_projects_ongoing_by_clients_user_id(con_id) do
+    query =
+      from p in Project,
+        join: a in ActiveClient,
+        on: p.active_client_id == a.id,
+        join: u in User,
+        on: u.id == a.user_id,
+        where: u.id == ^con_id and p.status_id != 5,
+        order_by: [desc: :inserted_at]
+
+    Repo.all(query)
+  end
+
   def list_project_by_status_and_user_client!(status_id,con_id) do
     query = from p in Project,
             join: a in ActiveClient,
