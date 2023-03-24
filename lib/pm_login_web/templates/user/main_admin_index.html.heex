@@ -1,13 +1,13 @@
 <div class="main-admin-index" style="margin-bottom: -22rem;">
 <h1 style="text-align: center;"><span class="material-icons">home</span></h1>
-<div class="row" style="margin-top: -10px; padding: 0; width:100%">
+<div class="row" style="margin-top: 50px; padding: 0; width:100%">
     <div class="row">
         <a href={Routes.project_path(@socket, :requests_center)}
         class="column" style="padding: 0">
         <div class="card-style">
           <img 
             class="image-fit-cover"
-            src={ Routes.static_path(@socket, "/images/1.jpg" )} 
+            src={ Routes.static_path(@socket, "/images/12.jpg" )} 
           />
           <div style="padding: 20px;">
             <p style="margin: 0 0 0 0">Centre des demandes</p>
@@ -18,7 +18,7 @@
         <div class="card-style">
           <img 
             class="image-fit-cover" 
-            src={ Routes.static_path(@socket, "/images/2.jpg" )} 
+            src={ Routes.static_path(@socket, "/images/5.jpg" )} 
           />
           <div style="padding: 20px;">
             <p style="margin: 0 0 0 0">Projets</p>
@@ -29,7 +29,7 @@
         <div class="card-style">
           <img 
             class="image-fit-cover" 
-            src={ Routes.static_path(@socket, "/images/11.jpg" )} 
+            src={ Routes.static_path(@socket, "/images/3.jpg" )} 
           />
           <div style="padding: 20px;">
             <p style="margin: 0 0 0 0">Tâches</p>
@@ -41,7 +41,7 @@
         <div class="card-style">
           <img 
             class="image-fit-cover"
-            src={ Routes.static_path(@socket, "/images/1.jpg" )} 
+            src={ Routes.static_path(@socket, "/images/16.png" )} 
           />
           <div style="padding: 20px;">
             <p style="margin: 0 0 0 0">Droits/Statuts</p>
@@ -51,27 +51,16 @@
     </div>
   </div>
 
-  <div class="row" style="margin-top: -10px; padding: 0;width:100%">
+  <div class="row" style="margin-top: 50px; padding: 0;width:100%">
     <div class="row">
       <a href={Routes.project_path(@socket, :logs)} class="column" style="padding: 0">
         <div class="card-style">
           <img 
             class="image-fit-cover" 
-            src={ Routes.static_path(@socket, "/images/2.jpg" )} 
+            src={ Routes.static_path(@socket, "/images/10.jpg" )} 
           />
           <div style="padding: 20px;">
             <p style="margin: 0 0 0 0">Tableau de bord</p>
-          </div>
-        </div>
-      </a>
-      <a href={Routes.company_path(@socket, :index)} class="column" style="padding: 0">
-        <div class="card-style">
-          <img 
-            class="image-fit-cover" 
-            src={ Routes.static_path(@socket, "/images/11.jpg" )} 
-          />
-          <div style="padding: 20px;">
-            <p style="margin: 0 0 0 0">Sociétés/Financeurs</p>
           </div>
         </div>
       </a>
@@ -80,32 +69,14 @@
         <div class="card-style">
           <img 
             class="image-fit-cover"
-            src={ Routes.static_path(@socket, "/images/1.jpg" )} 
+            src={ Routes.static_path(@socket, "/images/17.png" )} 
           />
           <div style="padding: 20px;">
             <p style="margin: 0 0 0 0">Utilisateurs</p>
           </div>
         </div>
       </a>
-       
-      
-    </div>
-  </div>
-
-  <div class="row" style="margin-top: -50px; padding: 0;width:50%;text-align:center;margin-left:100px">
-    <div class="row">
-    <a href={Routes.company_path(@socket, :services)} class="column" style="padding: 0">
-        <div class="card-style">
-          <img 
-            class="image-fit-cover" 
-            src={ Routes.static_path(@socket, "/images/11.jpg" )} 
-          />
-          <div style="padding: 20px;">
-            <p style="margin: 0 0 0 0">Services</p>
-          </div>
-        </div>
-      </a>   
-     <a href={Routes.active_client_path(@socket, :index)} class="column" style="padding: 0">
+      <a href={Routes.active_client_path(@socket, :index)} class="column" style="padding: 0">
         <div class="card-style">
           <img 
             class="image-fit-cover" 
@@ -115,10 +86,10 @@
             <p style="margin: 0 0 0 0">Clients</p>
           </div>
         </div>
-      </a>
-      
+      </a> 
     </div>
   </div>
+
 
 </div>
 
