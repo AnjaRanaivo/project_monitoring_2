@@ -8,6 +8,7 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
   alias PmLogin.Login
   alias PmLogin.Email
   alias PmLogin.Utilities
+  alias PmLogin.Monitoring.Project
 
   alias PmLogin.Uuid
 
@@ -16,6 +17,9 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
 
     Services.subscribe()
     Services.subscribe_to_request_topic()
+
+    projects = Monitoring.list_projects_ongoing_by_clients_user_id(curr_user_id)
+    list_clients_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
 
     {:ok,
      socket
@@ -28,6 +32,7 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
        show_notif: false,
        notifs: Services.list_my_notifications_with_limit(curr_user_id, 4),
        requests: Services.list_my_requests(curr_user_id),
+       list_clients_projects: list_clients_projects,
        show_detail_request_modal: false,
        client_request: nil,
        search_text: nil,
@@ -331,7 +336,7 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
     #  end)
     # IO.inspect socket.assigns.uploads[:file].entries
 
-    case Services.create_clients_request(params) do
+    case Services.create_clients_request_with_project(params) do
       {:ok, result} ->
         consume_uploaded_entries(socket, :file, fn meta, entry ->
           ext = Path.extname(entry.client_name)

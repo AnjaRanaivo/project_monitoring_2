@@ -1,0 +1,19 @@
+@media (max-width: 780px) {
+	.project-search {
+		position: relative;
+        top: 0.2rem;
+        margin-left:100px;
+	}
+    .responsive-customer-request .card-info {
+        margin-left: -12rem !important;
+        width:auto;
+    }
+    .card-info a{
+        margin-left: 1rem !important;
+    }
+    .nav__item .old__notif{
+        position: relative;
+    }
+}
+
+/*max-width:780*/
