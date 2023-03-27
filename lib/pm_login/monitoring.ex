@@ -9,9 +9,12 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Kanban
   alias PmLogin.Monitoring.{Status, Task, Planified, Priority, TaskRecord}
   alias PmLogin.Services.ActiveClient
+  alias PmLogin.Services.ToolGroup
+  alias PmLogin.Services.Tool
   alias PmLogin.Login.User
   alias PmLogin.Login
   alias PmLogin.Services
+  alias PmLogin.Services.RequestType
   alias PmLogin.Login.User
   alias PmLogin.Kanban.{Board, Stage, Card}
   alias PmLogin.Services.ClientsRequest
@@ -212,8 +215,70 @@ defmodule PmLogin.Monitoring do
     end
   end
 
+  def validate_tool_id_requests(changeset) do
+    tool_id = get_field(changeset, :tool_id)
+    case tool_id do
+      nil ->
+        changeset
+
+      _ ->
+        cond do
+          tool_id <= 0 ->
+            changeset |> add_error(
+              :tool_id,
+              "Choisissez l'outil concerné")
+
+          true ->
+            changeset
+        end
+    end
+  end
+
+  def validate_type_id_requests(changeset) do
+    type_id = get_field(changeset, :type_id)
+    case type_id do
+      nil ->
+        changeset
+
+      _ ->
+        cond do
+          type_id <= 0 ->
+            changeset |> add_error(
+              :type_id,
+              "Choisissez le type de la requête")
+
+          true ->
+            changeset
+        end
+    end
+  end
+
   def validate_start_deadline(changeset) do
     date_start = get_field(changeset, :date_start)
+    deadline = get_field(changeset, :deadline)
+
+    if date_start != nil and deadline != nil do
+      dt_start = date_start |> to_string |> string_to_date
+      dt_deadline = deadline |> to_string |> string_to_date
+
+      case Date.compare(dt_deadline, dt_start) do
+        :lt ->
+          changeset
+          |> add_error(
+            :deadline_before_dtstart,
+            "La date d'échéance ne peut pas être antérieure à la date de début"
+          )
+
+        _ ->
+          changeset
+      end
+    else
+      changeset
+    end
+  end
+
+  def validate_start_deadline_requests(changeset) do
+    date_start = get_field(changeset, :date_post)
     deadline = get_field(changeset, :deadline)
 
     if date_start != nil and deadline != nil do
@@ -1286,6 +1351,45 @@ defmodule PmLogin.Monitoring do
       from t in Task,
       order_by: [desc: t.updated_at]
 
+    Repo.all(query)
+  end
+
+  def list_tools do
+    query =
+      from t in Tool
+
+    Repo.all(query)
+  end
+
+  def get_tool_by_id(tool_id) do
+    query =
+      from t in Tool,
+      where: t.id == ^tool_id
+
+    Repo.one(query)
+  end
+
+  def list_tools_group_by_user_id(user_id) do
+    query =
+      from g in ToolGroup,
+      join: a in ActiveClient,
+      on: g.active_client_id == a.id,
+      join: u in User,
+      on: u.id == a.user_id,
+      where: u.id == ^user_id
+    Repo.all(query)
+  end
+
+  def list_tools_by_group_tool_id(group_id) do
+    query =
+      from t in Tool,
+      where: t.id == ^group_id
+    Repo.all(query)
+  end
+
+  def list_request_types do
+    query =
+      from r in RequestType
     Repo.all(query)
   end
 

@@ -7,6 +7,7 @@ defmodule PmLogin.Services do
   alias PmLogin.Repo
 
   alias PmLogin.Services.Company
+  alias PmLogin.Services.ToolGroup
   alias PmLogin.Login.User
   alias PmLogin.Login
   alias PmLogin.Services.{Software, Editor, License, AssistContract, Type}
@@ -1082,6 +1083,12 @@ defmodule PmLogin.Services do
     |> Repo.insert()
   end
 
+  def create_clients_request_2(attrs \\ %{}) do
+    %ClientsRequest{}
+    |> ClientsRequest.create_changeset_2(attrs)
+    |> Repo.insert()
+  end
+
   def broadcast_request(tuple) do
     broadcast_request_change(tuple, [:request , :sent])
   end
@@ -1429,5 +1436,197 @@ defmodule PmLogin.Services do
     |> :calendar.universal_time_to_local_time
     |> NaiveDateTime.from_erl
     date
+  end
+
+  alias PmLogin.Services.ToolGroup
+
+  @doc """
+  Returns the list of tool_groups.
+
+  ## Examples
+
+      iex> list_tool_groups()
+      [%Tool_group{}, ...]
+
+  """
+  def list_tool_groups do
+    Repo.all(ToolGroup)
+  end
+
+  @doc """
+  Gets a single tool_group.
+
+  Raises `Ecto.NoResultsError` if the Tool group does not exist.
+
+  ## Examples
+
+      iex> get_tool_group!(123)
+      %Tool_group{}
+
+      iex> get_tool_group!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_tool_group!(id), do: Repo.get!(ToolGroup, id)
+
+  @doc """
+  Creates a tool_group.
+
+  ## Examples
+
+      iex> create_tool_group(%{field: value})
+      {:ok, %Tool_group{}}
+
+      iex> create_tool_group(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_tool_group(attrs \\ %{}) do
+    %ToolGroup{}
+    |> ToolGroup.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a tool_group.
+
+  ## Examples
+
+      iex> update_tool_group(tool_group, %{field: new_value})
+      {:ok, %Tool_group{}}
+
+      iex> update_tool_group(tool_group, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_tool_group(%ToolGroup{} = tool_group, attrs) do
+    tool_group
+    |> ToolGroup.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a tool_group.
+
+  ## Examples
+
+      iex> delete_tool_group(tool_group)
+      {:ok, %Tool_group{}}
+
+      iex> delete_tool_group(tool_group)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_tool_group(%ToolGroup{} = tool_group) do
+    Repo.delete(tool_group)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking tool_group changes.
+
+  ## Examples
+
+      iex> change_tool_group(tool_group)
+      %Ecto.Changeset{data: %Tool_group{}}
+
+  """
+  def change_tool_group(%ToolGroup{} = tool_group, attrs \\ %{}) do
+    ToolGroup.changeset(tool_group, attrs)
+  end
+
+  alias PmLogin.Services.Tool
+
+  @doc """
+  Returns the list of tools.
+
+  ## Examples
+
+      iex> list_tools()
+      [%Tool{}, ...]
+
+  """
+  def list_tools do
+    Repo.all(Tool)
+  end
+
+  @doc """
+  Gets a single tool.
+
+  Raises `Ecto.NoResultsError` if the Tool does not exist.
+
+  ## Examples
+
+      iex> get_tool!(123)
+      %Tool{}
+
+      iex> get_tool!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_tool!(id), do: Repo.get!(Tool, id)
+
+  @doc """
+  Creates a tool.
+
+  ## Examples
+
+      iex> create_tool(%{field: value})
+      {:ok, %Tool{}}
+
+      iex> create_tool(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_tool(attrs \\ %{}) do
+    %Tool{}
+    |> Tool.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a tool.
+
+  ## Examples
+
+      iex> update_tool(tool, %{field: new_value})
+      {:ok, %Tool{}}
+
+      iex> update_tool(tool, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_tool(%Tool{} = tool, attrs) do
+    tool
+    |> Tool.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a tool.
+
+  ## Examples
+
+      iex> delete_tool(tool)
+      {:ok, %Tool{}}
+
+      iex> delete_tool(tool)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_tool(%Tool{} = tool) do
+    Repo.delete(tool)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking tool changes.
+
+  ## Examples
+
+      iex> change_tool(tool)
+      %Ecto.Changeset{data: %Tool{}}
+
+  """
+  def change_tool(%Tool{} = tool, attrs \\ %{}) do
+    Tool.changeset(tool, attrs)
   end
 end

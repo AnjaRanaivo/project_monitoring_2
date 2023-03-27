@@ -1,0 +1,26 @@
+<h1>Listing Tool groups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for tool_group <- @tool_groups do %>
+    <tr>
+      <td><%= tool_group.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.tool_group_path(@conn, :show, tool_group) %></span>
+        <span><%= link "Edit", to: Routes.tool_group_path(@conn, :edit, tool_group) %></span>
+        <span><%= link "Delete", to: Routes.tool_group_path(@conn, :delete, tool_group), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Tool group", to: Routes.tool_group_path(@conn, :new) %></span>

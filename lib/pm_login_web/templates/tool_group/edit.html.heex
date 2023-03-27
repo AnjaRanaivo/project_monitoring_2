@@ -1,0 +1,5 @@
+<h1>Edit Tool group</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.tool_group_path(@conn, :update, @tool_group)) %>
+
+<span><%= link "Back", to: Routes.tool_group_path(@conn, :index) %></span>
