@@ -130,10 +130,33 @@ defmodule PmLoginWeb.ClientsRequestController do
     end
   end
 
+  # def new(conn, _params) do
+  #   changeset = Services.change_clients_request(%ClientsRequest{})
+  #   render(conn, "new.html", changeset: changeset)
+  # end
+
   def new(conn, _params) do
-    changeset = Services.change_clients_request(%ClientsRequest{})
-    render(conn, "new.html", changeset: changeset)
-  end
+
+    if Login.is_connected?(conn) do
+      changeset = Services.change_clients_request(%ClientsRequest{})
+      LiveView.Controller.live_render(conn, PmLoginWeb.ClientsRequest.NewLive, session: %{"curr_user_id" => get_session(conn, :curr_user_id), "changeset" => changeset}, router: PmLoginWeb.Router)
+      # cond do
+      #   Login.is_admin?(conn) or Login.is_attributor?(conn) ->
+      #     changeset = Monitoring.change_project(%Project{})
+      #     ac_list = Services.list_active_clients
+      #     ac_ids = Enum.map(ac_list, fn(%ActiveClient{} = ac) -> {ac.user.username, ac.id} end )
+      #     # render(conn, "new.html", changeset: changeset, ac_ids: ac_ids, layout: {PmLoginWeb.LayoutView, "admin_layout.html"})
+      #     LiveView.Controller.live_render(conn, PmLoginWeb.Project.NewLive, session: %{"curr_user_id" => get_session(conn, :curr_user_id), "changeset" => changeset, "ac_ids" => ac_ids}, router: PmLoginWeb.Router)
+      #   true ->
+      #     conn
+      #       |> Login.not_admin_redirection
+      # end
+    else
+      conn
+      |> Login.not_connected_redirection
+    end
+
+end
 
   def create(conn, %{"clients_request" => clients_request_params}) do
     case Services.create_clients_request(clients_request_params) do

@@ -1,0 +1,26 @@
+<h1>Listing Tools</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for tool <- @tools do %>
+    <tr>
+      <td><%= tool.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.tool_path(@conn, :show, tool) %></span>
+        <span><%= link "Edit", to: Routes.tool_path(@conn, :edit, tool) %></span>
+        <span><%= link "Delete", to: Routes.tool_path(@conn, :delete, tool), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Tool", to: Routes.tool_path(@conn, :new) %></span>

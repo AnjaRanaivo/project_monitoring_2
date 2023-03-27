@@ -1,0 +1,121 @@
+
+<h2><i class="bi bi-pencil-square"></i> Faire une requête</h2>
+<div class="basecontents__without__radius">
+          
+          <label for="tool_id">
+            <p>Outil concerné : <%= @selected_tool %></p>
+          </label>
+            <i class="bi bi-list"><a onclick="show_list_tool_groups()" style="cursor: pointer;">Liste des outils</a></i>
+            <div id="list_tools" style="display:none">
+              <ul>
+              <%= for tool_group <- @tool_groups do %>
+                <li><a id={"tools_#{tool_group.id}"} style="cursor: pointer;" onclick='show_list_tools(this)'><%= tool_group.name %></a></li>
+                <div id={"list_tools_#{tool_group.id}"} style="display: none;">
+                  <ul>
+                  <%=
+                  main_tool_group = tool_group.id 
+                  for tool <- @tools do %>
+                      <%= if tool.tool_group_id==main_tool_group do %>
+                        <a phx-click="change-selected-tool" phx-value-tool={tool.id} style="cursor: pointer;"><%= tool.name %></a>
+                      <% end %>
+                  <% end %>
+                  </ul>
+                </div>
+              <%= end %>
+              </ul>
+            </div>
+       
+          <.form let={f} for={@changeset} phx-change="change-request" phx-submit="send-request">
+              
+            <%= error_tag f, :tool_id %>
+
+            <label for="title">
+              <h3>Titre</h3>
+            </label>
+            <%= text_input f, :title %>
+            <%= error_tag f, :title %>
+            <%= hidden_input f, :active_client_id, value: Services.get_active_client_from_userid!(@curr_user_id).id %>
+            
+            <label for="content">
+              <h3>Détails</h3>
+            </label>
+            <%= textarea f, :content, style: "max-width: auto; " %>
+            <%= error_tag f, :content %>
+
+            <label for="expectation">
+              <h3>Vos attentes</h3>
+            </label>
+            <%= textarea f, :expectation, style: "max-width: auto; " %>
+            <%= error_tag f, :expectation %>
+
+            <div class="row">
+              <div class="column">
+                <%= label f, "Date d'échéance" %>
+                <%= date_input f, :deadline %>
+                <%= error_tag f, :deadline %>
+                <%= error_tag f, :deadline_lt %>
+                <%= error_tag f, :deadline_before_dtstart %>
+              </div>
+              <div class="column">
+              <%= label f, "Type de la demande" %>
+              <%= select f, :type_id, @request_type_ids, style: "width: -moz-available;" %>
+              <%= error_tag f, :type_id %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="column">
+                <label class="zoom-out">Requête urgente</label>
+                <%= checkbox f, :is_urgent %>
+              </div>
+              <div class="column">
+                <label class="btn btn-lg btn-primary file_input_btn">
+                  <%=  live_file_input(@uploads.file, class: "file_inputs") %>
+                  <i class="bi bi-upload"></i>
+                  Charger fichiers
+                </label>
+              </div>
+            </div>
+            <%= for {_ref, msg} <- @uploads.file.errors do %>
+            <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
+            <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
+            <% end %>
+            <% end %>
+
+
+            <%= for entry <- @uploads.file.entries do %>
+            <div class="row">
+              <div class="column">
+
+                <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
+                <%= live_img_preview entry, height: 50 %>
+                <% else %>
+                <p class="file__name__upload"><%= entry.client_name %></p>
+                <% end %>
+
+              </div>
+              <div class="column">
+                <progress value={entry.progress } max="100" />
+              </div>
+              <div class="column">
+                <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
+              </div>
+            </div>
+            <% end %>
+            <div class="row">
+              <button type="submit" style="float: right;" ><i class="bi bi-send"></i>Envoyer la requête</button>
+            </div>
+
+          </.form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function show_list_tool_groups(){
+    // document.getElementById("list_tools").style.display = 'block';
+    $("#list_tools").toggle();
+  }
+  function show_list_tools(btn){
+    // document.getElementById("list_tools").style.display = 'block';
+    $('#list_' + btn.id).toggle();
+  }
+</script>

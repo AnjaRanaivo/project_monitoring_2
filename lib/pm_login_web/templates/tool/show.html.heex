@@ -1,0 +1,13 @@
+<h1>Show Tool</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @tool.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.tool_path(@conn, :edit, @tool) %></span> |
+<span><%= link "Back", to: Routes.tool_path(@conn, :index) %></span>
