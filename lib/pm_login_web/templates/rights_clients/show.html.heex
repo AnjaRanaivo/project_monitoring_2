@@ -1,0 +1,13 @@
+<h1>Show Rights clients</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @rights_clients.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.rights_clients_path(@conn, :edit, @rights_clients) %></span> |
+<span><%= link "Back", to: Routes.rights_clients_path(@conn, :index) %></span>

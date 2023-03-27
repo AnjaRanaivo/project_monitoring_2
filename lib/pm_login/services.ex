@@ -7,8 +7,9 @@ defmodule PmLogin.Services do
   alias PmLogin.Repo
 
   alias PmLogin.Services.Company
-  alias PmLogin.Services.ToolGroup
   alias PmLogin.Login.User
+  alias PmLogin.Services.ToolGroup
+  alias PmLogin.Services.Rights_clients
   alias PmLogin.Login
   alias PmLogin.Services.{Software, Editor, License, AssistContract, Type}
 
@@ -595,8 +596,9 @@ defmodule PmLogin.Services do
   def list_active_clients do
     company_query = from c in Company
     user_query = from u in User
+    right_client_query = from r in Rights_clients
     query = from ac in ActiveClient,
-            preload: [user: ^user_query, company: ^company_query]
+            preload: [user: ^user_query, company: ^company_query, rights_clients: ^right_client_query]
     Repo.all(query)
     # Repo.all(ActiveClient)
   end
@@ -1431,6 +1433,7 @@ defmodule PmLogin.Services do
     Notification.changeset(notification, attrs)
   end
 
+
   def current_date do
     {:ok, date} = :calendar.universal_time
     |> :calendar.universal_time_to_local_time
@@ -1438,7 +1441,94 @@ defmodule PmLogin.Services do
     date
   end
 
-  alias PmLogin.Services.ToolGroup
+  def list_rights_clients do
+    Repo.all(Rights_clients)
+  end
+
+  @doc """
+  Gets a single rights_clients.
+
+  Raises `Ecto.NoResultsError` if the Rights clients does not exist.
+
+  ## Examples
+
+      iex> get_rights_clients!(123)
+      %Rights_clients{}
+
+      iex> get_rights_clients!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_rights_clients!(id), do: Repo.get!(Rights_clients, id)
+
+  @doc """
+  Creates a rights_clients.
+
+  ## Examples
+
+      iex> create_rights_clients(%{field: value})
+      {:ok, %Rights_clients{}}
+
+      iex> create_rights_clients(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_rights_clients(attrs \\ %{}) do
+    %Rights_clients{}
+    |> Rights_clients.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a rights_clients.
+
+  ## Examples
+
+      iex> update_rights_clients(rights_clients, %{field: new_value})
+      {:ok, %Rights_clients{}}
+
+      iex> update_rights_clients(rights_clients, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_rights_clients(%Rights_clients{} = rights_clients, attrs) do
+    rights_clients
+    |> Rights_clients.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a rights_clients.
+
+  ## Examples
+
+      iex> delete_rights_clients(rights_clients)
+      {:ok, %Rights_clients{}}
+
+      iex> delete_rights_clients(rights_clients)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_rights_clients(%Rights_clients{} = rights_clients) do
+    Repo.delete(rights_clients)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking rights_clients changes.
+
+  ## Examples
+
+      iex> change_rights_clients(rights_clients)
+      %Ecto.Changeset{data: %Rights_clients{}}
+
+  """
+  def change_rights_clients(%Rights_clients{} = rights_clients, attrs \\ %{}) do
+    Rights_clients.changeset(rights_clients, attrs)
+  end
+
+  def list_rights_clients do
+    Repo.all(Rights_clients)
+  end
 
   @doc """
   Returns the list of tool_groups.

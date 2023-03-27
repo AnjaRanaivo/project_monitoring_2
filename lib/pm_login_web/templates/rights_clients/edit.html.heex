@@ -1,0 +1,5 @@
+<h1>Edit Rights clients</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.rights_clients_path(@conn, :update, @rights_clients)) %>
+
+<span><%= link "Back", to: Routes.rights_clients_path(@conn, :index) %></span>
