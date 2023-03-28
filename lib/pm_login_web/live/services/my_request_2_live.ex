@@ -20,6 +20,11 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
 
     projects = Monitoring.list_projects_ongoing_by_clients_user_id(curr_user_id)
     list_clients_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
+    clients_requests_not_seen = Monitoring.list_clients_requests_not_seen_by_clients_user_id(curr_user_id)
+    clients_requests_seen = Monitoring.list_clients_requests_seen_by_clients_user_id(curr_user_id)
+    clients_requests_ongoing = Monitoring.list_clients_requests_ongoing_by_clients_user_id(curr_user_id)
+    clients_requests_done = Monitoring.list_clients_requests_done_by_clients_user_id(curr_user_id)
+    clients_requests_finished = Monitoring.list_clients_requests_finished_by_clients_user_id(curr_user_id)
 
     {:ok,
      socket
@@ -33,6 +38,11 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
        notifs: Services.list_my_notifications_with_limit(curr_user_id, 4),
        requests: Services.list_my_requests(curr_user_id),
        list_clients_projects: list_clients_projects,
+       clients_requests_not_seen: clients_requests_not_seen,
+       clients_requests_seen: clients_requests_seen,
+       clients_requests_ongoing: clients_requests_ongoing,
+       clients_requests_done: clients_requests_done,
+       clients_requests_finished: clients_requests_finished,
        show_detail_request_modal: false,
        client_request: nil,
        search_text: nil,
@@ -62,6 +72,27 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
     socket =
       socket
       |> assign(requests: requests)
+      |> assign(search_text: search)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("request-search-2", params, socket) do
+    search = params["request_search"]
+
+    clients_requests_not_seen = Monitoring.search_requests_not_seen(socket.assigns.curr_user_id,search)
+    clients_requests_seen = Monitoring.search_requests_seen(socket.assigns.curr_user_id,search)
+    clients_requests_ongoing = Monitoring.search_requests_ongoing(socket.assigns.curr_user_id,search)
+    clients_requests_done = Monitoring.search_requests_done(socket.assigns.curr_user_id,search)
+    clients_requests_finished = Monitoring.search_requests_finished(socket.assigns.curr_user_id,search)
+
+    socket =
+      socket
+      |> assign(clients_requests_not_seen: clients_requests_not_seen)
+      |> assign(clients_requests_seen: clients_requests_seen)
+      |> assign(clients_requests_ongoing: clients_requests_ongoing)
+      |> assign(clients_requests_done: clients_requests_done)
+      |> assign(clients_requests_finished: clients_requests_finished)
       |> assign(search_text: search)
 
     {:noreply, socket}

@@ -974,6 +974,12 @@ defmodule PmLogin.Services do
             order_by: [desc: req.date_post]
     Repo.all(query)
   end
+
+  def list_requests_by_year(year) do
+    query = from req in ClientsRequest,
+      where: fragment("date_part('year', ?)", req.inserted_at) == ^year
+    Repo.all(query)
+  end
   # def function_name do
   #
   # end
