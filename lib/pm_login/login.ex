@@ -339,6 +339,11 @@ defmodule PmLogin.Login do
     user.right_id == 4
   end
 
+  def is_client_by_user_id?(user_id) do
+    user = get_user!(user_id)
+    user.right_id == 4
+  end
+
   def is_id_active_client?(id) do
     active_clients = Services.list_active_clients
     ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
@@ -672,6 +677,13 @@ defmodule PmLogin.Login do
     is_client?(conn) and (user_id in ac_ids) and (active_client.rights_clients_id == 1)
   end
 
+  def is_active_client_admin_by_user_id?(user_id) do
+    active_clients = Services.list_active_clients
+    active_client = Services.get_active_client_from_userid!(user_id)
+    ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
+    is_client_by_user_id?(user_id) and (user_id in ac_ids) and (active_client.rights_clients_id == 1)
+  end
+
   def is_active_client_demandeur?(conn) do
     user_id = get_curr_user_id(conn)
 
@@ -681,6 +693,13 @@ defmodule PmLogin.Login do
     is_client?(conn) and (user_id in ac_ids) and (active_client.rights_clients_id == 2)
   end
 
+  def is_active_client_demandeur_by_user_id?(user_id) do
+    active_clients = Services.list_active_clients
+    active_client = Services.get_active_client_from_userid!(user_id)
+    ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
+    is_client_by_user_id?(user_id) and (user_id in ac_ids) and (active_client.rights_clients_id == 2)
+  end
+
   def is_active_client_utilisateur?(conn) do
     user_id = get_curr_user_id(conn)
 
@@ -688,6 +707,13 @@ defmodule PmLogin.Login do
     active_client = Services.get_active_client_from_userid!(user_id)
     ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
     is_client?(conn) and (user_id in ac_ids) and (active_client.rights_clients_id == 3)
+  end
+
+  def is_active_client_utilisateur_by_user_id?(user_id) do
+    active_clients = Services.list_active_clients
+    active_client = Services.get_active_client_from_userid!(user_id)
+    ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
+    is_client_by_user_id?(user_id) and (user_id in ac_ids) and (active_client.rights_clients_id == 3)
   end
 
 end

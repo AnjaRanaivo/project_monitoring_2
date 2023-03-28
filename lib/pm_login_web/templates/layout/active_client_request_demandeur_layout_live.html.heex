@@ -9,7 +9,7 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@socket, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@socket, "/assets/app.js")}></script>
   </head>
-  <body class="body-bg">
+  <body id="layout-body" class="body-bg">
     <script>0</script>
     <header class="site-header">
 
@@ -117,7 +117,7 @@
     </header>
 
 
-    <main id="main" role="main" class="container" phx-hook="AnimateAlert">
+    <main id="main" role="main" class="boardcontainer" phx-hook="AnimateAlert">
       <p class="alert alert-info basecontents" role="alert"
         phx-click="lv:clear-flash" id="alert_anim"
         phx-value-key="info"><%= live_flash(@flash, :info) %><%= if not is_nil(live_flash(@flash, :info)) do %><i class="bi bi-x alert__cross"></i><% end %></p>
@@ -144,3 +144,6 @@
 
   </footer>
 </html>
+
+
+

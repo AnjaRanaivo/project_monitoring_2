@@ -5,12 +5,14 @@
     display: flex;
     align-items: center;"><span class="material-icons">
       receipt_long
-    </span>Mes demandes</p>
-    <a href={ Routes.clients_request_path(@socket, :new) } class="btn btn-lg btn-primary" style="    height: 3.8rem;
-    display: flex;
-    align-items: center; gap: 1rem; margin-left: 15px">
-      <i class="bi bi-plus-circle" style="font-size: 1.7rem;"></i> Faire une nouvelle demande
-    </a>
+    </span>Liste des demandes</p>
+    <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+      <a href={ Routes.clients_request_path(@socket, :new) } class="btn btn-lg btn-primary" style="    height: 3.8rem;
+      display: flex;
+      align-items: center; gap: 1rem; margin-left: 15px">
+        <i class="bi bi-plus-circle" style="font-size: 1.7rem;"></i> Faire une nouvelle demande
+      </a>
+    <%= end %>
 
     <form phx-change="request-search-2" style="margin-bottom: -2rem;">
       <div class="request-search">
@@ -47,15 +49,14 @@
               class="urg__priority__point"><%= clients_request_not_seen.type.name %></div>
           <% end %>
         <br/>
-          <div 
-            style="
-              display: inline-block;
-              background: #031d2e;
-              color: #fff;
-              margin: 5px 0 5px 0;
-              font-size: 10px;
-            "
-          >
+        <div 
+          style={"
+            display: inline-block;
+            color: #fff;
+            margin: 5px 0 5px 0;
+            font-size: 10px;background:#{if clients_request_not_seen.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+          "}
+        >
             #<%= clients_request_not_seen.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
@@ -97,13 +98,12 @@
           <% end %>
         <br/>
           <div 
-            style="
+            style={"
               display: inline-block;
-              background: #031d2e;
               color: #fff;
               margin: 5px 0 5px 0;
-              font-size: 10px;
-            "
+              font-size: 10px;background:#{if clients_request_seen.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+            "}
           >
             #<%= clients_request_seen.uuid %>
           </div>
@@ -145,15 +145,14 @@
               class="urg__priority__point"><%= clients_request_ongoing.type.name %></div>
           <% end %>
         <br/>
-          <div 
-            style="
-              display: inline-block;
-              background: #031d2e;
-              color: #fff;
-              margin: 5px 0 5px 0;
-              font-size: 10px;
-            "
-          >
+        <div 
+          style={"
+            display: inline-block;
+            color: #fff;
+            margin: 5px 0 5px 0;
+            font-size: 10px;background:#{if clients_request_ongoing.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+          "}
+        >
             #<%= clients_request_ongoing.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
@@ -194,15 +193,14 @@
               class="urg__priority__point"><%= clients_request_done.type.name %></div>
           <% end %>
         <br/>
-          <div 
-            style="
-              display: inline-block;
-              background: #031d2e;
-              color: #fff;
-              margin: 5px 0 5px 0;
-              font-size: 10px;
-            "
-          >
+        <div 
+          style={"
+            display: inline-block;
+            color: #fff;
+            margin: 5px 0 5px 0;
+            font-size: 10px;background:#{if clients_request_done.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+          "}
+        >
             #<%= clients_request_done.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
@@ -243,15 +241,14 @@
               class="urg__priority__point"><%= clients_request_finished.type.name %></div>
           <% end %>
         <br/>
-          <div 
-            style="
-              display: inline-block;
-              background: #031d2e;
-              color: #fff;
-              margin: 5px 0 5px 0;
-              font-size: 10px;
-            "
-          >
+        <div 
+          style={"
+            display: inline-block;
+            color: #fff;
+            margin: 5px 0 5px 0;
+            font-size: 10px;background:#{if clients_request_finished.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+          "}
+        >
             #<%= clients_request_finished.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">

@@ -9,7 +9,7 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@socket, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@socket, "/assets/app.js")}></script>
   </head>
-  <body class="body-bg">
+  <body id="layout-body" class="body-bg">
     <script>0</script>
     <header class="site-header">
 
@@ -18,9 +18,38 @@
         <nav class="nav">
           <a  class="menu-btn nav__toggle"><div class="menu-btn__burger"></div></a>
           <ul class="nav__wrapper">
-            <li class="nav__item"><a href={Routes.user_path(@socket, :index)} class="nav__item__link"><span class="material-icons mat__ico">home</span><p>Accueil</p></a></li>
-            <li class="nav__item"><a href={Routes.company_path(@socket, :my_company_2)} class="nav__item__link"><span class="material-icons mat__ico">maps_home_work</span><p>Ma société</p></a></li>
-            <li class="nav__item"><a href={Routes.clients_request_path(@socket, :my_requests_2)} class="nav__item__link"><span class="material-icons mat__ico">receipt_long</span><p>Mes requêtes</p></a></li>
+            <li class="nav__item">
+              <a href={Routes.user_path(@socket, :index)} class="nav__item__link">
+                <span class="material-icons mat__ico">home</span>
+                <p>Accueil</p>
+              </a>
+            </li>
+            <li class="nav__item">
+              <a href={Routes.company_path(@socket, :my_company_2)} class="nav__item__link">
+                <span class="material-icons mat__ico">maps_home_work</span>
+                <p>Ma société</p>
+              </a>
+            </li>
+             <div class="dropdown">
+              <li class="dropbtn nav__item__link" style="margin-top: -4px">
+                <a class="nav__item__link">
+                  <span class="material-icons mat__ico">receipt_long</span> <p>Mes requêtes</p> 
+                </a>
+              </li>
+              <div class="dropdown-content">
+                <li class="nav__item">
+                  <a href={Routes.clients_request_path(@socket, :my_requests_2)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-lines-fill" style="font-size: 15px"></i>
+                    <p>Mes requêtes</p>
+                  </a>
+                  <a href={Routes.clients_request_path(@socket, :my_company_requests_2)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-plus" style="font-size: 15px"></i>
+                    <p>Toutes les requêtes</p>
+                    
+                  </a>
+                </li>
+              </div>
+            </div>
             <li class="nav__item old__notif">
               <div class="dropdown">
                 <% unseens = PmLogin.Services.list_my_notifications(@curr_user_id)
@@ -117,7 +146,7 @@
     </header>
 
 
-    <main id="main" role="main" class="container" phx-hook="AnimateAlert">
+    <main id="main" role="main" class="boardcontainer" phx-hook="AnimateAlert">
       <p class="alert alert-info basecontents" role="alert"
         phx-click="lv:clear-flash" id="alert_anim"
         phx-value-key="info"><%= live_flash(@flash, :info) %><%= if not is_nil(live_flash(@flash, :info)) do %><i class="bi bi-x alert__cross"></i><% end %></p>

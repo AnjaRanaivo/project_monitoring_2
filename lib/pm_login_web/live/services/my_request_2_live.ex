@@ -18,6 +18,14 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
     Services.subscribe()
     Services.subscribe_to_request_topic()
 
+    layout =
+      case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
+        1 -> {PmLoginWeb.LayoutView, "active_client_request_admin_layout_live.html"}
+        2 -> {PmLoginWeb.LayoutView, "active_client_request_demandeur_layout_live.html"}
+        3 -> {PmLoginWeb.LayoutView, "active_client_request_utilisateur_layout_live.html"}
+        _ -> {}
+      end
+
     projects = Monitoring.list_projects_ongoing_by_clients_user_id(curr_user_id)
     list_clients_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
     clients_requests_not_seen = Monitoring.list_clients_requests_not_seen_by_clients_user_id(curr_user_id)
@@ -61,7 +69,7 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
        accept:
          ~w(.png .jpeg .jpg .pdf .txt .odt .ods .odp .csv .xml .xls .xlsx .ppt .pptx .doc .docx),
        max_entries: 5
-     ), layout: {PmLoginWeb.LayoutView, "active_client_request_2_layout_live.html"}}
+     ), layout: layout}
   end
 
   def handle_event("request-search", params, socket) do

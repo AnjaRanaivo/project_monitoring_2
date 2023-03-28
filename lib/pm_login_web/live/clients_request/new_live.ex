@@ -27,6 +27,13 @@ defmodule PmLoginWeb.ClientsRequest.NewLive do
     changeset2 = Services.change_clients_request(%ClientsRequest{})
     selected_tool = ''
     selected_tool_id = 0
+    layout =
+    case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
+      1 -> {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
+      2 -> {PmLoginWeb.LayoutView, "active_client_demandeur_layout_live.html"}
+      3 -> {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
+      _ -> {}
+    end
     {:ok,
        socket
        |> assign(request_type_ids: request_type_ids, tool_group_ids: tool_group_ids, selected_tool: selected_tool,
@@ -38,7 +45,7 @@ defmodule PmLoginWeb.ClientsRequest.NewLive do
          ~w(.png .jpeg .jpg .pdf .txt .odt .ods .odp .csv .xml .xls .xlsx .ppt .pptx .doc .docx),
        max_entries: 5
      ),
-       layout: {PmLoginWeb.LayoutView, "active_client_2_layout_live.html"}
+       layout: layout
        }
   end
 
