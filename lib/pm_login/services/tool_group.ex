@@ -1,10 +1,11 @@
 defmodule PmLogin.Services.ToolGroup do
   use Ecto.Schema
   import Ecto.Changeset
+  alias PmLogin.Services.Company
 
   schema "tool_groups" do
     field :name, :string
-    field :active_client_id, :id
+    belongs_to :company, Company
 
     timestamps()
   end

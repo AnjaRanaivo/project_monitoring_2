@@ -86,6 +86,7 @@ defmodule PmLoginWeb.Router do
     #activeclient2
     get "/my_company_2", CompanyController, :my_company_2
     get "/my_requests_2", ClientsRequestController, :my_requests_2
+    get "/my_company_requests_2", ClientsRequestController, :my_company_requests_2
     get "/my_projects_clients_2", ActiveClientController, :my_projects_clients_2
     get "/client_tasks_2", ClientsRequestController, :client_tasks_2
     resources "/clients_request", ClientsRequestController, except: [:new]

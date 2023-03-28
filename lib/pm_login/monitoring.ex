@@ -11,6 +11,7 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Services.ActiveClient
   alias PmLogin.Services.ToolGroup
   alias PmLogin.Services.Tool
+  alias PmLogin.Services.Company
   alias PmLogin.Login.User
   alias PmLogin.Login
   alias PmLogin.Services
@@ -1369,12 +1370,38 @@ defmodule PmLogin.Monitoring do
 
   def list_tools_group_by_user_id(user_id) do
     query =
-      from g in ToolGroup,
+      from (tg in ToolGroup),
+      join: c in Company,
+      on: c.id == tg.company_id,
       join: a in ActiveClient,
-      on: g.active_client_id == a.id,
-      join: u in User,
-      on: u.id == a.user_id,
-      where: u.id == ^user_id
+      on: a.company_id == c.id,
+      where: a.user_id == ^user_id
+    Repo.all(query)
+  end
+
+  def get_company_by_user_id(user_id) do
+    query = from c in Company,
+    join: a in ActiveClient,
+    on: a.company_id == c.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id
+    Repo.one(query)
+  end
+
+  def list_company_clients_requests_not_seen_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.seen == false
     Repo.all(query)
   end
 
@@ -1413,6 +1440,22 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_company_clients_requests_finished_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.finished == true
+    Repo.all(query)
+  end
+
   def list_clients_requests_finished_by_clients_user_id(user_id) do
     tool_query = from(t in Tool)
     request_type_query = from(req in RequestType)
@@ -1445,6 +1488,22 @@ defmodule PmLogin.Monitoring do
     join: u in User,
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.finished == true and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def list_company_clients_requests_done_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.done == true and cr.finished == false
     Repo.all(query)
   end
 
@@ -1483,6 +1542,22 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_company_clients_ongoing_done_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.ongoing == true and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
   def list_clients_requests_ongoing_by_clients_user_id(user_id) do
     tool_query = from(t in Tool)
     request_type_query = from(req in RequestType)
@@ -1516,6 +1591,22 @@ defmodule PmLogin.Monitoring do
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.ongoing == true and cr.done == false and cr.finished == false
      and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def list_company_clients_seen_done_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
     Repo.all(query)
   end
 

@@ -606,8 +606,9 @@ defmodule PmLogin.Services do
   def list_active_clients_by_company_id(company_id) do
     company_query = from c in Company
     user_query = from u in User
+    rights_clients_query = from rc in Rights_clients
     query = from ac in ActiveClient,
-            preload: [user: ^user_query, company: ^company_query],
+            preload: [user: ^user_query, company: ^company_query, rights_clients: ^rights_clients_query],
             where: ac.company_id == ^company_id
     Repo.all(query)
     # Repo.all(ActiveClient)

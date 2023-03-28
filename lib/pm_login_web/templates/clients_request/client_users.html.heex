@@ -9,6 +9,7 @@
             <th>Nom d'utilisateur</th>
             <!-- <th>Description</th> -->
             <th>Adresse e-mail</th>
+            <th>Droit</th>
           </tr>
         </thead>
         <tbody>
@@ -16,6 +17,8 @@
           <tr>
             <td><%= ac.user.username %></td>
             <td><%= ac.user.email %></td>
+            <td><%= ac.rights_clients.name %></td>
+
           </tr>
         <% end %>
         </tbody>

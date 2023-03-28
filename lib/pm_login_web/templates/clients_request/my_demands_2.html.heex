@@ -19,25 +19,11 @@
         <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
       </div>
     </form>
-
-    <form phx-change="request-status" style="margin-bottom: -2rem;">
-      <select id="request_status_id" name="status_id" style="width: -moz-available;
-      margin-left: 2rem;
-      height: 3.8rem;">
-        <option value="-1" selected>Filtrer des requêtes</option>
-        <option value="0">Tout</option>
-        <option value="5">Pas encore vue</option>
-        <option value="1">Vue</option>
-        <option value="2">En cours</option>
-        <option value="3">Accomplie</option>
-        <option value="4">Cloturée</option>
-      </select>
-    </form>
   </div>
 </div>
 
-<section id="the_board" class="board">
-  <div data-stage-id="" class="stage">
+<section id="the_board" class="board_req">
+  <div data-stage-id="" class="stage_req">
     <div class="stage__header" id="stage__header__sticked">
       <div class="stage__name">
         Pas encore vue
@@ -86,7 +72,7 @@
       <%= end %>
   </div>
   
-  <div data-stage-id="" class="stage">
+  <div data-stage-id="" class="stage_req">
     <div class="stage__header" id="stage__header__sticked">
       <div class="stage__name">
         Vue
@@ -135,7 +121,7 @@
       <%= end %>
   </div>
 
-  <div data-stage-id="" class="stage">
+  <div data-stage-id="" class="stage_req">
     <div class="stage__header" id="stage__header__sticked">
       <div class="stage__name">
         En cours
@@ -184,7 +170,7 @@
       <%= end %>
   </div>
 
-  <div data-stage-id="" class="stage">
+  <div data-stage-id="" class="stage_req">
     <div class="stage__header" id="stage__header__sticked">
       <div class="stage__name">
         Accomplie
@@ -233,7 +219,7 @@
       <%= end %>
   </div>
   
-  <div data-stage-id="" class="stage">
+  <div data-stage-id="" class="stage_req">
     <div class="stage__header" id="stage__header__sticked">
       <div class="stage__name">
         Clôturée
