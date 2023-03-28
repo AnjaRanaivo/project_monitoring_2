@@ -18,10 +18,57 @@
         <nav class="nav">
           <a  class="menu-btn nav__toggle"><div class="menu-btn__burger"></div></a>
           <ul class="nav__wrapper">
-            <li class="nav__item"><a href={Routes.user_path(@socket, :index)} class="nav__item__link"><span class="material-icons mat__ico">home</span><p>Accueil</p></a></li>
-            <li class="nav__item"><a href={Routes.active_client_path(@socket, :my_projects_clients_2)} class="nav__item__link"><span class="material-icons mat__ico">insert_chart</span><p>Mes projets</p></a></li>
-            <li class="nav__item"><a href={Routes.company_path(@socket, :my_company_2)} class="nav__item__link"><span class="material-icons mat__ico">maps_home_work</span><p>Ma société</p></a></li>
-            <li class="nav__item"><a href={Routes.clients_request_path(@socket, :my_requests_2)} class="nav__item__link"><span class="material-icons mat__ico">receipt_long</span><p>Mes requêtes</p></a></li>
+            <li class="nav__item">
+              <a href={Routes.user_path(@socket, :index)} class="nav__item__link">
+                <span class="material-icons mat__ico">home</span>
+                <p>Accueil</p>
+              </a>
+            </li>
+            <li class="nav__item">
+              <a href={Routes.active_client_path(@socket, :my_projects_clients_2)} class="nav__item__link">
+                <span class="material-icons mat__ico">insert_chart</span>
+                <p>Mes projets</p>
+              </a>
+            </li>
+            <li class="nav__item">
+              <a href={Routes.company_path(@socket, :my_company_2)} class="nav__item__link">
+                <span class="material-icons mat__ico">maps_home_work</span>
+                <p>Ma société</p>
+              </a>
+            </li>
+             <div class="dropdown">
+              <li class="dropbtn nav__item__link" style="margin-top: -4px">
+                <a class="nav__item__link">
+                  <span class="material-icons mat__ico">receipt_long</span> <p>Mes requêtes</p> 
+                </a>
+              </li>
+              <div class="dropdown-content">
+                <li class="nav__item">
+                  <a href={Routes.clients_request_path(@socket, :my_requests_2)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-lines-fill" style="font-size: 15px"></i>
+                    <p>Mes requêtes</p>
+                  </a>
+                  <a href={} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-plus" style="font-size: 15px"></i>
+                    <p>Toutes les requêtes</p>
+                    
+                  </a>
+                </li>
+              </div>
+            </div>
+            <div class="dropdown-content">
+                <li class="nav__item">
+                  <a href={Routes.project_path(@socket, :tasks)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-lines-fill" style="font-size: 15px"></i>
+                    <p>Mes propres tâches</p>
+                  </a>
+                  <a href={Routes.project_path(@socket, :attributed_tasks)} class="nav__item__link" style="margin-top: 4px">
+                    <i class="bi bi-person-plus" style="font-size: 15px"></i>
+                    <p>Les tâches attribuées</p>
+                    
+                  </a>
+                </li>
+            </div>
             <li class="nav__item old__notif">
               <div class="dropdown">
                 <% unseens = PmLogin.Services.list_my_notifications(@curr_user_id)
