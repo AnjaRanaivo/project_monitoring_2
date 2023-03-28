@@ -1,0 +1,58 @@
+
+<div class="main-admin-index" style="margin-bottom: -22rem;">
+<div class="row" style="margin-top: 50px; padding: 0">
+    <div class="row">
+        <a href={Routes.active_client_path(@socket, :my_projects_clients_2)}
+        class="column" style="padding: 0">
+        <div class="card-style">
+          <img 
+            class="image-fit-cover"
+            src={ Routes.static_path(@socket, "/images/1.jpg" )} 
+          />
+          <div style="padding: 20px;">
+            <p style="margin: 0 0 0 0">Mes projets</p>
+          </div>
+        </div>
+      </a>
+      <a href={Routes.clients_request_path(@socket, :my_requests_2)} class="column" style="padding: 0">
+        <div class="card-style">
+          <img 
+            class="image-fit-cover" 
+            src={ Routes.static_path(@socket, "/images/2.jpg" )} 
+          />
+          <div style="padding: 20px;">
+            <p style="margin: 0 0 0 0">Mes Requêtes</p>
+          </div>
+        </div>
+      </a>
+     
+    </div>
+  
+  
+  </div>
+  
+  <div class="row" style="margin-left: -2rem; padding: 0">
+    <a href={Routes.company_path(@socket, :my_company_2)} class="column" style="padding: 0">
+        <div class="card-style">
+          <img 
+            class="image-fit-cover" 
+            src={ Routes.static_path(@socket, "/images/11.jpg" )} 
+          />
+          <div style="padding: 20px;">
+            <p style="margin: 0 0 0 0">Ma Société</p>
+          </div>
+        </div>
+    </a>
+    <a href={Routes.user_path(@socket, :show, @curr_user_id)} class="column" style="padding: 0">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover" 
+          src={ Routes.static_path(@socket, "/images/4.jpg" )} 
+        />
+        <div style="padding: 20px;">
+          <p style="margin: 0 0 0 0">Mon profil</p>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

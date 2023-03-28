@@ -647,11 +647,12 @@ defmodule PmLogin.Services do
     software_query = from e in Software
 
     company_query = from c in Company,
-                    preload: [editors: ^editor_query,assist_contracts: ^ac_query,licenses: ^li_query,softwares: ^software_query]
-    user_query = from u in User
 
+    preload: [editors: ^editor_query,assist_contracts: ^ac_query,licenses: ^li_query,softwares: ^software_query]
+    user_query = from u in User
+    right_client_query = from r in Rights_clients
     query = from ac in ActiveClient,
-          preload: [user: ^user_query, company: ^company_query],
+          preload: [user: ^user_query, company: ^company_query,rights_clients: ^right_client_query],
           where: ac.user_id == ^user_id
     Repo.one!(query)
 

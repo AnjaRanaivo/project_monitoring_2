@@ -663,4 +663,31 @@ defmodule PmLogin.Login do
 
   def get_auth!(id), do: Repo.get_by(Auth, id: "#{id}")
 
+  def is_active_client_admin?(conn) do
+    user_id = get_curr_user_id(conn)
+
+    active_clients = Services.list_active_clients
+    active_client = Services.get_active_client_from_userid!(user_id)
+    ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
+    is_client?(conn) and (user_id in ac_ids) and (active_client.rights_clients_id == 1)
+  end
+
+  def is_active_client_demandeur?(conn) do
+    user_id = get_curr_user_id(conn)
+
+    active_clients = Services.list_active_clients
+    active_client = Services.get_active_client_from_userid!(user_id)
+    ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
+    is_client?(conn) and (user_id in ac_ids) and (active_client.rights_clients_id == 2)
+  end
+
+  def is_active_client_utilisateur?(conn) do
+    user_id = get_curr_user_id(conn)
+
+    active_clients = Services.list_active_clients
+    active_client = Services.get_active_client_from_userid!(user_id)
+    ac_ids = active_clients |> Enum.map(fn x -> x.user_id end)
+    is_client?(conn) and (user_id in ac_ids) and (active_client.rights_clients_id == 3)
+  end
+
 end
