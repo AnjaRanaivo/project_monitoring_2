@@ -15,6 +15,7 @@ defmodule PmLoginWeb.Services.MyCompany2Live do
     {:ok,
        socket
        |> assign(curr_user_id: curr_user_id,show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4), active_client: active_client),
+
        layout: layout
        }
   end

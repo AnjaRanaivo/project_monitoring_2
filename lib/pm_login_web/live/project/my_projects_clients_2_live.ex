@@ -24,7 +24,7 @@ defmodule PmLoginWeb.Project.MyProjectsClients2Live do
     active_client = Services.get_active_client_from_userid!(curr_user_id)
     projects = Monitoring.list_projects_by_clients_user_id(curr_user_id)
 
-    layout = {PmLoginWeb.LayoutView, "active_client_2_layout_live.html"}
+    layout = {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
 
     {:ok,
       socket

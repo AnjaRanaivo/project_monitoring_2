@@ -48,7 +48,7 @@ defmodule PmLoginWeb.Services.ClientUsersLive do
       |> assign(show_notif: false)
       |> assign(notifs: Services.list_my_notifications_with_limit(curr_user_id, 4))
 
-    {:ok, socket, layout: {PmLoginWeb.LayoutView, "active_client_layout_live.html"}}
+    {:ok, socket, layout: {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}}
   end
 
   #===========================#
