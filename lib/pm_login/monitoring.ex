@@ -1542,7 +1542,7 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
-  def list_company_clients_ongoing_done_by_clients_user_id(user_id) do
+  def list_company_clients_requests_ongoing_by_clients_user_id(user_id) do
     tool_query = from(t in Tool)
     request_type_query = from(req in RequestType)
     company_id = get_company_by_user_id(user_id).id
@@ -1594,7 +1594,7 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
-  def list_company_clients_seen_done_by_clients_user_id(user_id) do
+  def list_company_clients_requests_seen_by_clients_user_id(user_id) do
     tool_query = from(t in Tool)
     request_type_query = from(req in RequestType)
     company_id = get_company_by_user_id(user_id).id
