@@ -8,7 +8,7 @@ defmodule PmLoginWeb.Services.MyCompany2Live do
     {:ok,
        socket
        |> assign(curr_user_id: curr_user_id,show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4), active_client: active_client),
-       layout: {PmLoginWeb.LayoutView, "active_client_2_layout_live.html"}
+       layout: {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
        }
   end
 
