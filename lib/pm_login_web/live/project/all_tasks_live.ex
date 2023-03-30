@@ -8,10 +8,12 @@ defmodule PmLoginWeb.Project.AllTasksLive do
   alias PmLogin.Services
   alias PmLogin.Kanban
 
-
-  def mount(_params, %{"curr_user_id" => curr_user_id}, socket) do
+# A ajouter dans params
+  def mount(params, %{"curr_user_id" => curr_user_id}, socket) do
     Services.subscribe()
     Monitoring.subscribe()
+
+    projects = Monitoring.list_projects()
 
     statuses = Monitoring.list_statuses()
 
@@ -28,11 +30,26 @@ defmodule PmLoginWeb.Project.AllTasksLive do
     list_contributors = Enum.map(contributors, fn %User{} = p -> {p.username, p.id} end)
 
 
+    # Init filter parameters
+    project_filter = {"Projet", "9000"}
+    status_filter = {"Statut", "9000"}
+    priority_filter = {"Priorité", "9000"}
+    attributor_filter = {"Attributeur", "9000"}
+    contributor_filter = {"Contributeur", "9000"}
+    customer_filter = {"Client", "9000"}
+
     socket =
       socket
       |> assign(
+        project_filter: project_filter,
+        status_filter: status_filter,
+        priority_filter: priority_filter,
+        attributor_filter: attributor_filter,
+        contributor_filter: contributor_filter,
+        customer_filter: customer_filter,
         curr_user_id: curr_user_id,
         tasks: Monitoring.list_all_tasks_with_card(),
+        projects: projects,
         statuses: statuses,
         tasks_not_achieved: Monitoring.list_tasks_attributed_not_achieved(curr_user_id),
         is_attributor: Monitoring.is_attributor?(curr_user_id),
@@ -65,22 +82,6 @@ defmodule PmLoginWeb.Project.AllTasksLive do
     {:ok, socket, layout: {PmLoginWeb.LayoutView, "admin_layout_live.html"}}
   end
 
-  def handle_event("tasks_filtered_by_customer", params, socket) do
-    IO.inspect(params)
-
-    active_client_id = params["customer_select"]
-
-    tasks =
-      case active_client_id do
-        "9000" -> Monitoring.list_all_tasks_with_card()
-        "-1" -> Monitoring.list_all_tasks_with_card()
-        _ ->
-          Monitoring.list_all_tasks_with_card_by_active_client_id(active_client_id)
-      end
-
-    {:noreply, socket |> assign(tasks: tasks)}
-  end
-
   def handle_event("delete_card", %{"id" => id}, socket) do
     task = Monitoring.get_task_with_card!(id)
     card = Kanban.get_card!(task.card.id)
@@ -102,8 +103,243 @@ defmodule PmLoginWeb.Project.AllTasksLive do
     }
   end
 
-  def handle_event("tasks_filtered_by_contributors", %{"_target" => ["contributor_select"], "contributor_select" => contributor_id}, socket) do
-    list_tasks_by_contributor_id =
+  def init_filter(socket) do
+    project_filter =
+      case is_nil(socket.assigns.project_filter) do
+        true -> {"Projet", "9000"}
+        _ -> socket.assigns.project_filter
+      end
+    status_filter =
+      case is_nil(socket.assigns.status_filter) do
+        true -> {"Statut", "9000"}
+        _ -> socket.assigns.status_filter
+      end
+    priority_filter =
+      case is_nil(socket.assigns.priority_filter) do
+        true -> {"Priorité", "9000"}
+        _ -> socket.assigns.priority_filter
+      end
+    attributor_filter =
+      case is_nil(socket.assigns.attributor_filter) do
+        true -> {"Attributeur", "9000"}
+        _ -> socket.assigns.attributor_filter
+      end
+    contributor_filter =
+      case is_nil(socket.assigns.contributor_filter) do
+        true -> {"Contributeur", "9000"}
+        _ -> socket.assigns.contributor_filter
+      end
+    customer_filter =
+      case is_nil(socket.assigns.customer_filter) do
+        true -> {"Client", "9000"}
+        _ -> socket.assigns.customer_filter
+      end
+
+    socket =
+      socket
+      |> assign(
+        project_filter: project_filter,
+        status_filter: status_filter,
+        priority_filter: priority_filter,
+        attributor_filter: attributor_filter,
+        contributor_filter: contributor_filter,
+        customer_filter: customer_filter
+      )
+    {:noreply, socket }
+  end
+
+  def init_tasks(socket) do
+    tasks =
+      case Enum.count(socket.assigns.tasks) do
+        0 -> Monitoring.list_all_tasks_with_card
+        _ -> socket.assigns.tasks
+      end
+    {:noreply,
+      socket
+      |> assign(tasks: tasks)
+    }
+  end
+
+  # Project filter
+  def handle_event("tasks_filtered_by_project", %{"_target" => ["project_id"], "project_id" => project_id}, socket) do
+    # Init parameters
+    init_filter(socket)
+
+    # Init tasks already on filter
+    init_tasks(socket)
+    tasks = socket.assigns.tasks
+
+    # New filter request
+    list_tasks_by_project =
+      case project_id do
+        "9000" ->
+          Monitoring.list_all_tasks_with_card
+        _ ->
+          Monitoring.list_tasks_by_project(project_id)
+      end
+
+    # Final tasks list
+    list_tasks = MapSet.intersection(Enum.into(list_tasks_by_project, MapSet.new),
+                                      Enum.into(tasks, MapSet.new))
+                                      |> MapSet.to_list
+
+
+    project = Monitoring.get_project!(project_id)
+    project_filter = {project.title, project.id}
+
+    socket =
+      socket
+      |> assign(
+        project_filter: project_filter,
+        status_filter: socket.assigns.status_filter,
+        priority_filter: socket.assigns.priority_filter,
+        attributor_filter: socket.assigns.attributor_filter,
+        contributor_filter: socket.assigns.contributor_filter,
+        customer_filter: socket.assigns.customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
+  end
+
+  # Status filter
+  def handle_event("tasks_filtered_by_status", %{"_target" => ["status_id"], "status_id" => status_id}, socket) do
+    # Init parameters
+    init_filter(socket)
+
+    # Init tasks already on filter
+    init_tasks(socket)
+    tasks = socket.assigns.tasks
+
+    # New filter request
+    list_tasks_by_status =
+      case status_id do
+        "9000" ->
+          Monitoring.list_all_tasks_with_card
+        _ ->
+          Monitoring.list_tasks_by_status_id(status_id)
+      end
+
+    # Final tasks list
+    list_tasks = MapSet.intersection(Enum.into(list_tasks_by_status, MapSet.new),
+                                      Enum.into(tasks, MapSet.new))
+                                      |> MapSet.to_list
+
+    status = Monitoring.get_status!(status_id)
+    status_filter = {status.title, status.id}
+
+    socket =
+      socket
+      |> assign(
+        project_filter: socket.assigns.project_filter,
+        status_filter: status_filter,
+        priority_filter: socket.assigns.priority_filter,
+        attributor_filter: socket.assigns.attributor_filter,
+        contributor_filter: socket.assigns.contributor_filter,
+        customer_filter: socket.assigns.customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
+  end
+
+  # Priority filter
+  def handle_event("tasks_filtered_by_priority", %{"_target" => ["priority_id"], "priority_id" => priority_id}, socket) do
+    # Init parameters
+    init_filter(socket)
+
+    # Init tasks already on filter
+    init_tasks(socket)
+    tasks = socket.assigns.tasks
+
+    # New filter request
+    list_tasks_by_priority =
+      case priority_id do
+        "9000" ->
+          Monitoring.list_all_tasks_with_card
+        _ ->
+          Monitoring.list_tasks_by_priority(priority_id)
+      end
+
+    # Final tasks list
+    list_tasks = MapSet.intersection(Enum.into(list_tasks_by_priority, MapSet.new),
+                                      Enum.into(tasks, MapSet.new))
+                                      |> MapSet.to_list
+
+    priority = Monitoring.get_priority!(priority_id)
+    priority_filter = {priority.title, priority.id}
+
+    socket =
+      socket
+      |> assign(
+        project_filter: socket.assigns.project_filter,
+        status_filter: socket.assigns.status_filter,
+        priority_filter: priority_filter,
+        attributor_filter: socket.assigns.attributor_filter,
+        contributor_filter: socket.assigns.contributor_filter,
+        customer_filter: socket.assigns.customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
+  end
+
+  # Attributor filter
+  def handle_event("tasks_filtered_by_attributor", %{"_target" => ["attributor_id"], "attributor_id" => attributor_id}, socket) do
+    # Init parameters
+    init_filter(socket)
+
+    # Init tasks already on filter
+    init_tasks(socket)
+    tasks = socket.assigns.tasks
+
+    # New filter request
+    list_tasks_by_attributor =
+      case attributor_id do
+        "9000" ->
+          Monitoring.list_all_tasks_with_card
+
+        "-1" ->
+          Monitoring.list_tasks_without_attributor
+
+        _ ->
+          Monitoring.list_tasks_by_attributor(attributor_id)
+      end
+
+    # Final tasks list
+    list_tasks = MapSet.intersection(Enum.into(list_tasks_by_attributor, MapSet.new),
+                                    Enum.into(tasks, MapSet.new))
+                                    |> MapSet.to_list
+
+    attributor = Login.get_user!(attributor_id)
+    attributor_filter = {attributor.username, attributor.id}
+
+    socket =
+      socket
+      |> assign(
+        project_filter: socket.assigns.project_filter,
+        status_filter: socket.assigns.status_filter,
+        priority_filter: socket.assigns.priority_filter,
+        attributor_filter: attributor_filter,
+        contributor_filter: socket.assigns.contributor_filter,
+        customer_filter: socket.assigns.customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
+  end
+
+  # Contributor filter
+  def handle_event("tasks_filtered_by_contributor", %{"_target" => ["contributor_id"], "contributor_id" => contributor_id}, socket) do
+    # Init parameters
+    init_filter(socket)
+
+    # Init tasks already on filter
+    init_tasks(socket)
+    tasks = socket.assigns.tasks
+
+    # New filter request
+    list_tasks_by_contributor =
       case contributor_id do
         "9000" ->
           Monitoring.list_all_tasks_with_card
@@ -115,14 +351,139 @@ defmodule PmLoginWeb.Project.AllTasksLive do
           Monitoring.list_tasks_by_contributor_id(contributor_id)
       end
 
-    {:noreply, socket |> assign(tasks: list_tasks_by_contributor_id)}
+    # Final tasks list
+    list_tasks = MapSet.intersection(Enum.into(list_tasks_by_contributor, MapSet.new),
+                                      Enum.into(tasks, MapSet.new))
+                                      |> MapSet.to_list
+
+    contributor = Login.get_user!(contributor_id)
+    contributor_filter = {contributor.username, contributor.id}
+
+    socket =
+      socket
+      |> assign(
+        project_filter: socket.assigns.project_filter,
+        status_filter: socket.assigns.status_filter,
+        priority_filter: socket.assigns.priority_filter,
+        attributor_filter: socket.assigns.attributor_filter,
+        contributor_filter: contributor_filter,
+        customer_filter: socket.assigns.customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
   end
 
-  # Filtrer la liste des contributeurs par contributor_id
-  def handle_event("tasks_filtered_by_status", %{"_target" => ["status_id"], "status_id" => status_id}, socket) do
-    list_tasks_by_contributor_id = Monitoring.list_tasks_by_status_id(status_id)
+  # Customer Filter
+  def handle_event("tasks_filtered_by_customer", %{"_target" => ["customer_id"], "customer_id" => customer_id}, socket) do
+    # Init parameters
+    init_filter(socket)
 
-    {:noreply, socket |> assign(tasks: list_tasks_by_contributor_id)}
+    # Init tasks already on filter
+    init_tasks(socket)
+    tasks = socket.assigns.tasks
+
+    # New filter request
+    list_tasks_by_customer =
+      case customer_id do
+        "9000" -> Monitoring.list_all_tasks_with_card()
+        "-1" -> Monitoring.list_all_tasks_with_card()
+        _ ->
+          Monitoring.list_all_tasks_with_card_by_active_client_id(customer_id)
+      end
+
+    # Final tasks list
+    list_tasks = MapSet.intersection(Enum.into(list_tasks_by_customer, MapSet.new),
+                                      Enum.into(tasks, MapSet.new))
+                                      |> MapSet.to_list
+
+
+    customer = Login.get_user!(customer_id)
+    customer_filter = {customer.username, customer.id}
+
+    socket =
+      socket
+      |> assign(
+        project_filter: socket.assigns.project_filter,
+        status_filter: socket.assigns.status_filter,
+        priority_filter: socket.assigns.priority_filter,
+        attributor_filter: socket.assigns.attributor_filter,
+        contributor_filter: socket.assigns.contributor_filter,
+        customer_filter: customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
+  end
+
+  # Multi filter
+  def handle_event("tasks_filtered", params, socket) do
+    # Init parameters
+    project_filter =
+      case is_nil(socket.assigns.project_filter) do
+        true -> {"Projet", "9000"}
+        _ -> socket.assigns.project_filter
+      end
+    status_filter =
+      case is_nil(socket.assigns.status_filter) do
+        true -> {"Statut", "9000"}
+        _ -> socket.assigns.status_filter
+      end
+    priority_filter =
+      case is_nil(socket.assigns.priority_filter) do
+        true -> {"Priorité", "9000"}
+        _ -> socket.assigns.priority_filter
+      end
+    attributor_filter =
+      case is_nil(socket.assigns.attributor_filter) do
+        true -> {"Attributeur", "9000"}
+        _ -> socket.assigns.attributor_filter
+      end
+    contributor_filter =
+      case is_nil(socket.assigns.contributor_filter) do
+        true -> {"Contributeur", "9000"}
+        _ -> socket.assigns.contributor_filter
+      end
+    customer_filter =
+      case is_nil(socket.assigns.customer_filter) do
+        true -> {"Client", "9000"}
+        _ -> socket.assigns.customer_filter
+      end
+
+
+    project_id = params["project_id"]
+    status_id = params["status_id"]
+    priority_id = params["priority_id"]
+    attributor_id = params["attributor_id"]
+    contributor_id = params["contributor_id"]
+    customer_id = params["customer_id"]
+
+
+    # Get the multi filter request
+    list_tasks = Monitoring.list_tasks_by_project_status_priority_attributor_contributor_customer(
+                                        project_id,
+                                        status_id,
+                                        priority_id,
+                                        attributor_id,
+                                        contributor_id,
+                                        customer_id
+                                      )
+
+
+
+    socket =
+      socket
+      |> assign(
+        project_filter: project_filter,
+        status_filter: status_filter,
+        priority_filter: priority_filter,
+        attributor_filter: attributor_filter,
+        contributor_filter: contributor_filter,
+        customer_filter: customer_filter,
+        tasks: list_tasks
+      )
+
+    {:noreply, socket }
   end
 
   def handle_event("switch-notif", %{}, socket) do

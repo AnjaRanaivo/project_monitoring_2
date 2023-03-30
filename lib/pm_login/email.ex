@@ -68,12 +68,31 @@ defmodule PmLogin.Email do
     |> Mailer.deliver()
   end
 
+  def send_task_in_control_mail(task) do
+    new()
+    |> to("andriamihajasambatra@gmail.com")
+    |> from("monitoring@mgbi.mg")
+    |> subject("Tâche en contrôle")
+    |> text_body("La tâche #{task.title} est en contrôle, veuillez y procéder.")
+    |> Mailer.deliver()
+  end
+
+  def send_task_in_deadline_mail(task) do
+    new()
+    |> to("andriamihajasambatra@gmail.com")
+    |> from("monitoring@mgbi.mg")
+    |> subject("Deadline")
+    |> text_body("La date deadline de la tâche #{task.title} est proche !!!")
+    |> Mailer.deliver()
+  end
+
+
   def mail_test() do
     html_text = "<p>Mail de test envoyé</p>"
 
     new()
     |> from("monitoring@mgbi.mg")
-    |> to("razafintsalama.rmh@gmail.com")
+    |> to("andriamihajasambatra@gmail.com")
     |> subject("[TEST MAIL]")
     |> html_body(html_text)
     |> Mailer.deliver()

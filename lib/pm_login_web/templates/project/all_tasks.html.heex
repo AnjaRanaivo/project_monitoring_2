@@ -2,41 +2,139 @@
     Toutes les tâches (<%= Enum.count(@tasks) %>)
 </h3>
 
-  <table class="table-tasks" id="" style="font-size: 11px;">
+  <table class="table-tasks" id="" style="font-size: 11px; margin-left: -61.5% !important; %">
     <thead>
       <tr>
-        <th></th>
-        <th></th>
         <th>
-          <form phx-change="tasks_filtered_by_status"  style="margin-bottom: -2rem;">
+          <form phx-change="tasks_filtered_by_project" style="margin-bottom: -2rem;">
             <select
-              id="task_filter"
-              name="status_id"
+              name="project_id"
               style="margin-bottom: O;   "
             >
-              <option value="" selected disabled hidden >Statut</option>
-              <%= for status <- @statuses do %>
-                <option value={status.id} >
-                  <%= status.title %>
+            <% 
+              project = elem(@project_filter, 0)
+              project_id = elem(@project_filter, 1)
+              default_project_filter = {"Tout", "9000"}
+            %>
+              <option value={project_id} selected={@project_filter == @project_filter}><%= project %></option>
+              <option value="9000" selected={@project_filter == default_project_filter}>Tout</option>
+              <%= for project <- @projects do %>
+                <%
+                project_filter = {project.title, project.id}
+                %>
+                
+                <option value={project.id} selected={@project_filter == project_filter}>
+                  <%= project.title %>
                 </option>
               <% end %>
             </select>
           </form>
         </th>
         <th></th>
-        <th></th>
-        <th> 
-          <form phx-change="tasks_filtered_by_contributors"  style="margin-bottom: -2rem;">
+        <th>
+          <form phx-change="tasks_filtered_by_status" style="margin-bottom: -2rem;">
             <select
               id="task_filter"
-              name="contributor_select"
-              style="margin-bottom: O;   ;"
+              name="status_id"
+              style="margin-bottom: O;   "
             >
-              <option value="" selected disabled hidden>Contributeurs</option>
-              <option value="9000">Tout</option>
+            <% 
+              status = elem(@status_filter, 0)
+              status_id = elem(@status_filter, 1)
+              default_status_filter = {"Tout", "9000"}
+            %>
+              <option value={status_id} selected={@status_filter == @status_filter}><%= status %></option>
+              <option value="9000" selected={@status_filter == default_status_filter}>Tout</option>
+              <%= for status <- @statuses do %>
 
+                <%
+                status_filter = {status.title, status.id}
+                %>
+
+                <option value={status.id} selected={@status_filter == status_filter}>
+                  <%= status.title %>
+                </option>
+              <% end %>
+            </select>
+          </form>
+        </th>
+        <th>
+          <form phx-change="tasks_filtered_by_priority" style="margin-bottom: -2rem;">
+            <select
+              id="task_filter"
+              name="priority_id"
+              style="margin-bottom: O;   "
+            >
+            <% 
+              priority = elem(@priority_filter, 0)
+              priority_id = elem(@priority_filter, 1) 
+              default_priority_filter = {"Tout", "9000"}
+            %>
+              <option value={priority_id} selected={@priority_filter == @priority_filter}><%= priority %></option>
+              <option value="9000" selected={@priority_filter == default_priority_filter}>Tout</option>
+              <%= for priority <- @priorities do %>
+
+                <%
+                priority_filter = {elem(priority, 0), elem(priority, 1)}
+                %>
+
+                <option value={elem(priority, 1)} selected={@priority_filter == priority_filter}>
+                  <%= elem(priority, 0) %>
+                </option>
+              <% end %>
+            </select>
+          </form>
+        </th>
+        <th>
+          <form phx-change="tasks_filtered_by_attributor" style="margin-bottom: -2rem;">
+            <select
+              id="task_filter"
+              name="attributor_id"
+              style="margin-bottom: O;   "
+            >
+            <% 
+              attributor = elem(@attributor_filter, 0)
+              attributor_id = elem(@attributor_filter, 1) 
+              default_attributor_filter = {"Tout", "9000"}
+            %>
+              <option value={attributor_id} selected={@attributor_filter == @attributor_filter}><%= attributor %></option>
+              <option value="9000" selected={@attributor_filter == default_attributor_filter}>Tout</option>
+              <%= for attributor <- @attributors do %>
+
+                <%
+                attributor_filter = {elem(attributor, 0), elem(attributor, 1)}
+                %>
+
+                <option value={elem(attributor, 1)} selected={@attributor_filter == attributor_filter}>
+                  <%= elem(attributor, 0) %>
+                </option>
+              <% end %>
+
+              <option value="-1">Sans attributeur</option>
+            </select>
+          </form>
+        </th>
+        <th> 
+          <form phx-change="tasks_filtered_by_contributor" style="margin-bottom: -2rem;">
+            <select
+              id="task_filter"
+              name="contributor_id"
+              style="margin-bottom: O;"
+            >
+            <% 
+              contributor = elem(@contributor_filter, 0)
+              contributor_id = elem(@contributor_filter, 1) 
+              default_contributor_filter = {"Tout", "9000"}
+            %>
+              <option value={contributor_id} selected={@contributor_filter == @contributor_filter}><%= contributor %></option>
+              <option value="9000" selected={@contributor_filter == default_contributor_filter}>Tout</option>
               <%= for contributor <- @contributors do %>
-                <option value={elem(contributor, 1)} >
+
+                <%
+                contributor_filter = {elem(contributor, 0), elem(contributor, 1)}
+                %>
+
+                <option value={elem(contributor, 1)} selected={@contributor_filter == contributor_filter}>
                   <%= elem(contributor, 0) %>
                 </option>
               <% end %>
@@ -47,17 +145,26 @@
         </th>
         <th></th>
         <th>
-          <form phx-change="tasks_filtered_by_customer"  style="margin-bottom: -2rem;">
+          <form phx-change="tasks_filtered_by_customer" style="margin-bottom: -2rem;">
             <select
               id="task_filter"
-              name="customer_select"
+              name="customer_id"
               style="margin-bottom: O;  "
             >
-              <option value="" selected disabled hidden>Clients</option>
-              <option value="9000">Tout</option>
-
+            <% 
+              customer = elem(@customer_filter, 0)
+              customer_id = elem(@customer_filter, 1) 
+              default_customer_filter = {"Tout", "9000"}
+            %>
+              <option value={customer_id} selected={@customer_filter == @customer_filter}><%= customer %></option>
+              <option value="9000" selected={@customer_filter == default_customer_filter}>Tout</option>
               <%= for active_client <- @active_clients do %>
-                <option value={active_client.id}>
+
+                <%
+                customer_filter = {active_client.id, PmLogin.Login.get_username(active_client.user_id)}
+                %>
+
+                <option value={active_client.id} selected={@customer_filter == customer_filter}>
                   <%= PmLogin.Login.get_username(active_client.user_id) %>
                 </option>
               <% end %>
