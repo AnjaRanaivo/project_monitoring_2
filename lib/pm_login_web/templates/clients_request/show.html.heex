@@ -1,3 +1,39 @@
+<style>
+  .tip {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  background: transparent;
+  border: 10px solid #026AD9;
+}
+.tip-left {
+  top: 10px;
+  left: -25px;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: transparent;  
+}
+.dialogbox .body {
+  position: relative;
+  max-width: 300px;
+  height: auto;
+  margin: 20px 10px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 3px;
+  border: 5px solid #026AD9;
+}
+.body .message {
+  min-height: 30px;
+  max-width: 1000px;
+  border-radius: 3px;
+  font-family: Arial;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #797979;
+}
+
+</style>
 <div class="row">
     <div class="column basecontents__without__radius my__company__title">
       <h1 class="h__company__title"><%= @client_request.title %></h1>
@@ -12,10 +48,12 @@
           </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+  <div class="row" style="margin-top: 50px; padding: 0">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card" style="background-color: white;">
+          <div class="card-body">
+            <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
@@ -37,21 +75,16 @@
             <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
             En cours
             <% end %>
-        <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
-        Accomplie
-        <% end %>
-    <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
-    Clôturée
-      <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
+            Accomplie
+            <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
+            Clôturée
+            <% end %>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
       <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
@@ -67,11 +100,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
       <h3 class="header__link__title"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
@@ -89,11 +117,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
       <h3 class="header__link__title"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
@@ -120,11 +143,6 @@
           <%= end %>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
       <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
   <%= if not Enum.empty?(@client_request.file_urls) do %>
@@ -160,6 +178,30 @@
                             </div>
                           </td>
                         <% end %>
-                      </table>
-                        </div>
-                      </div>
+        </table>
+            <a href="#" class="btn btn-primary">Retour</a>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card" style="background-color:white;">
+      <div class="card-body">
+        <h3 class="header__link__title"><a id="adm">Historiques<br/><span class="material-icons mat__ico"></span></a></h3>
+      </div>
+      <div class="dialogbox">
+         <div class="body">
+      <span class="tip tip-left"></span>
+      <div class="message">
+        <span>
+        <p>Modifié par:Client</p>
+        <p>Date:2023-03-30.</p></span>
+      </div>
+    </div>
+      </div>
+     
+    </div>
+  </div>
+</div>
+</div>
+
+
