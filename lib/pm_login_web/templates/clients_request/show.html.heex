@@ -12,12 +12,29 @@
           <tr>
             <th>Outil</th>
             <th>Type de la demande</th>
+            <th>Statut</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><%= @client_request.tool.name %></td>
             <td><%= @client_request.request_type.name %></td>
+            <td><%= if not @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                    Pas encore vue
+                    <% end %>
+                <%= if @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                Vue
+                <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+            En cours
+            <% end %>
+        <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
+        Accomplie
+        <% end %>
+    <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
+    Clôturée
+      <% end %>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -39,6 +56,59 @@
             <td><%= @client_request.content %></td>
             <td><%= @client_request.expectation %></td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Date d'échéance</th>
+            <th>Date de finition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= Utilities.simple_date_format(@client_request.deadline) %></td>
+            <td><%= if !is_nil(@client_request.date_finished) do %>
+              <%= Utilities.simple_date_format(@client_request.date_finished) %>
+            <%= end %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Attributeur</th>
+            <th>Contributeur</th>
+            <th>Progression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for task <- @client_request.tasks do %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+            <td><%= if is_nil(task.contributor_id) do %>
+              <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+            <% else %>
+              <%= PmLogin.Login.get_user!(task.contributor_id).username %>
+            <% end %>
+            </td>
+            <td><%= task.progression %></td>
+          </tr>
+          <%= end %>
         </tbody>
       </table>
     </div>

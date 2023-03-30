@@ -2949,9 +2949,12 @@ defmodule PmLogin.Monitoring do
 
     request_type_query = from(rt in RequestType)
 
+    tasks_query = from t in Task,
+      where: t.clients_request_id == ^id
+
     tool_query = from(t in Tool)
     query = from cr in ClientsRequest,
-      preload: [active_client: ^active_client_query,request_type: ^request_type_query,tool: ^tool_query],
+      preload: [active_client: ^active_client_query,request_type: ^request_type_query,tool: ^tool_query, tasks: ^tasks_query],
       where: cr.id == ^id
       Repo.one(query)
   end
