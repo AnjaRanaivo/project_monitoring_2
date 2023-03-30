@@ -1924,11 +1924,10 @@ defmodule PmLogin.Monitoring do
     # Récupérer la date actuelle et le changer en chaine de caractères
     date_today = NaiveDateTime.local_now()
 
-    month_ago =
-      NaiveDateTime.new!(date_today.year, date_today.month - 1, date_today.day, 23, 59, 59)
+    # month_ago =
+    #   NaiveDateTime.new!(date_today.year, date_today.month - 1, date_today.day, 23, 59, 59)
 
-
-    # IO.inspect(month_ago)
+    month_ago = NaiveDateTime.add(date_today, -60*60*24*30, :second)
 
     query =
       from t in Task,

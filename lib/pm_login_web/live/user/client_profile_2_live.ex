@@ -24,6 +24,11 @@ defmodule PmLoginWeb.User.ClientProfile2Live do
        }
   end
 
+  @spec handle_event(
+          <<_::64, _::_*8>>,
+          map,
+          atom | %{:assigns => atom | map, optional(any) => any}
+        ) :: {:noreply, any}
   def handle_event("switch-notif", %{}, socket) do
     notifs_length = socket.assigns.notifs |> length
     curr_user_id = socket.assigns.curr_user_id
