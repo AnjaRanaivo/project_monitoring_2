@@ -2760,7 +2760,6 @@ defmodule PmLogin.Monitoring do
   end
 
 
-
   # List all the tasks recently in control
   def list_tasks_recently_in_control() do
     card_query =
@@ -2933,6 +2932,12 @@ defmodule PmLogin.Monitoring do
 
     Repo.all(intersect_query)
 
+  end
+
+  def is_late(%Task{} = t) do
+    today = Date.utc_today()
+    t.deadline
+    Date.diff(t.deadline,today)
   end
 
 
