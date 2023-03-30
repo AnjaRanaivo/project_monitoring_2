@@ -211,8 +211,7 @@
   
         <!-- Vérifier si task_id ou project_id est nul ou non dans les requêtes -->
         <%= cond do %>
-          <% not is_nil(request.task_id) and is_nil(request.project_id) -> %>
-            <%= if PmLogin.Monitoring.list_tasks_by_project_and_task!(request.task_id) == 5 do %>
+          <% not is_nil(request.project_id) -> %>
               <%= if request.seen and request.ongoing and request.done and request.finished do %>
                 <div class="card-button clients_requests" style="background-color: #27ae60;">
                   <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
@@ -239,7 +238,6 @@
   
               <% end %>  
   
-            <% else %>
               <%= if request.seen and request.ongoing and not request.done do %>
                 <div class="card-button clients_requests" style="background-color: #e67e22;">
                   <i class="bi bi-clock-history" style="font-size: 1.5rem; margin-right: 6px"></i>
@@ -252,10 +250,8 @@
                   </div>
                 <% end %>
               <% end %>
-            <% end %>
   
-          <% not is_nil(request.task_id) and not is_nil(request.project_id) -> %>
-            <%= if PmLogin.Monitoring.list_tasks_by_project_and_task!(request.task_id, request.project_id) == 5 do %>
+          <% not is_nil(request.project_id) -> %>
               <%= if request.seen and request.ongoing and request.done and request.finished do %>
                 <div class="card-button clients_requests" style="background-color: #27ae60;">
                   <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 6px"></i>
@@ -281,7 +277,6 @@
               <% end %>           
   
              
-            <% else %>
               <%= cond do %>
                 <% request.seen and not request.ongoing and not request.done and not request.finished -> %>
                   <div class="card-button clients_requests" style="background-color: #2980b9;">
@@ -336,7 +331,6 @@
                   <i class="bi bi-eye-slash" style="font-size: 1.5rem; margin-right: 6px"></i>
                   Pas encore vue
                 </div>
-            <% end %>
           <% end %>
   
         <% true -> %>
