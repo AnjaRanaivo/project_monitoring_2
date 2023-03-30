@@ -21,7 +21,10 @@ defmodule PmLogin.Application do
       # Start a worker by calling: PmLogin.Worker.start_link(arg)
       # {PmLogin.Worker, arg}
       PmLogin.SpawnerSupervisor,
-      PmLogin.SpawnerLauncher
+      PmLogin.SpawnerLauncher,
+
+      # Send automatic email when task must be controlled
+      PmLogin.TaskMailMonitor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

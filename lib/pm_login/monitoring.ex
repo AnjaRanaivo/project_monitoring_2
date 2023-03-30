@@ -2762,14 +2762,14 @@ defmodule PmLogin.Monitoring do
 
 
   # List all the tasks recently in control
-  def list_tasks_recently_in_control() do
+  def list_tasks_recently_in_control do
     card_query =
       from c in Card,
       select: c.id
 
     query =
       from t in Task,
-      where: t.status_id ==^4 and t.updated_at >= from_now(-5, "minute"),
+      where: t.status_id ==^4 and t.updated_at >= from_now(-5, "minute") and t.updated_at < ^DateTime.utc_now(),
       preload: [:project, :status, :priority, card: ^card_query],
       order_by: [desc: t.updated_at]
 
@@ -2777,13 +2777,14 @@ defmodule PmLogin.Monitoring do
   end
 
   # List all the upcoming deadline tasks
-  def list_tasks_with_upcoming_deadline() do
+  def list_tasks_with_upcoming_deadline do
     card_query =
       from c in Card,
       select: c.id
 
     query =
       from t in Task,
+      # where: t.deadline > ^DateTime.utc_now() and (t.deadline <= from_now(1, "day") or t.deadline <= from_now(10, "minute")),
       where: t.deadline > ^DateTime.utc_now() and t.deadline <= from_now(1, "day"),
       preload: [:project, :status, :priority, card: ^card_query],
       order_by: [desc: t.deadline]
