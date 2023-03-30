@@ -2,6 +2,7 @@ defmodule PmLogin.Monitoring.Task do
   use Ecto.Schema
   import Ecto.Changeset
   alias PmLogin.Monitoring
+  alias PmLogin.Services.ClientsRequest
   alias PmLogin.Kanban.Card
   alias PmLogin.Login.User
   alias PmLogin.Services
@@ -36,6 +37,7 @@ defmodule PmLogin.Monitoring.Task do
     belongs_to :status, Status
     has_many :comments, Comment
     belongs_to :project, Project
+    belongs_to :clients_request, ClientsRequest
     # has_many :children, Task
     timestamps()
   end
