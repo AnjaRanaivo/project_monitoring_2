@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="column basecontents__without__radius my__company__title">
+      <h1 class="h__company__title"><%= @client_request.title %></h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Outil</th>
+            <th>Type de la demande</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @client_request.tool.name %></td>
+            <td><%= @client_request.request_type.name %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Détails</th>
+            <th>Attentes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @client_request.content %></td>
+            <td><%= @client_request.expectation %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

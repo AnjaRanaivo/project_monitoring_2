@@ -236,7 +236,7 @@ defmodule PmLogin.Monitoring do
   end
 
   def validate_type_id_requests(changeset) do
-    type_id = get_field(changeset, :type_id)
+    type_id = get_field(changeset, :request_type_id)
     case type_id do
       nil ->
         changeset
@@ -245,7 +245,7 @@ defmodule PmLogin.Monitoring do
         cond do
           type_id <= 0 ->
             changeset |> add_error(
-              :type_id,
+              :request_type_id,
               "Choisissez le type de la requête")
 
           true ->
@@ -1397,7 +1397,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1412,7 +1412,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1430,7 +1430,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1448,7 +1448,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1463,7 +1463,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1481,7 +1481,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1499,7 +1499,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1514,7 +1514,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1532,7 +1532,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1550,7 +1550,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1565,7 +1565,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1583,7 +1583,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1602,7 +1602,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1617,7 +1617,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -1635,7 +1635,7 @@ defmodule PmLogin.Monitoring do
     query = from cr in ClientsRequest,
     preload: [
       tool: ^tool_query,
-      type: ^request_type_query,
+      request_type: ^request_type_query,
     ],
     join: a in ActiveClient,
     on: cr.active_client_id == a.id,
@@ -2757,6 +2757,26 @@ defmodule PmLogin.Monitoring do
             order_by: [desc: :inserted_at]
 
     Repo.all(query)
+  end
+
+  def get_clients_request_by_id(id) do
+    user_query = from(u in User)
+    active_client_query = from ac in ActiveClient,
+        preload: [user: ^user_query]
+
+    request_type_query = from(rt in RequestType)
+
+    tool_query = from(t in Tool)
+    query = from cr in ClientsRequest,
+      preload: [active_client: ^active_client_query,request_type: ^request_type_query,tool: ^tool_query],
+      where: cr.id == ^id
+      Repo.one(query)
+  end
+
+  def is_late(%Task{} = t) do
+    today = Date.utc_today()
+    t.deadline
+    Date.diff(t.deadline,today)
   end
 
 end

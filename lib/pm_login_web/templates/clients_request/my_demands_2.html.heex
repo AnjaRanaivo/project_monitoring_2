@@ -42,11 +42,11 @@
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="avg__priority__point"><%= clients_request_not_seen.tool.name %></div>
           <% end %>
-          <%= case clients_request_not_seen.type_id do %>
+          <%= case clients_request_not_seen.request_type_id do %>
             <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="low__priority__point"><%= clients_request_not_seen.type.name %></div>
+              class="low__priority__point"><%= clients_request_not_seen.request_type.name %></div>
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="urg__priority__point"><%= clients_request_not_seen.type.name %></div>
+              class="urg__priority__point"><%= clients_request_not_seen.request_type.name %></div>
           <% end %>
         <br/>
         <div 
@@ -60,7 +60,7 @@
             #<%= clients_request_not_seen.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-            <%= clients_request_not_seen.title %>
+            <a href={ Routes.clients_request_path(@socket, :show, clients_request_not_seen.id) }><%= clients_request_not_seen.title %></a>
           </div>
 
           <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
@@ -90,11 +90,11 @@
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="avg__priority__point"><%= clients_request_seen.tool.name %></div>
           <% end %>
-          <%= case clients_request_seen.type_id do %>
+          <%= case clients_request_seen.request_type_id do %>
             <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="low__priority__point"><%= clients_request_seen.type.name %></div>
+              class="low__priority__point"><%= clients_request_seen.request_type.name %></div>
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="urg__priority__point"><%= clients_request_seen.type.name %></div>
+              class="urg__priority__point"><%= clients_request_seen.request_type.name %></div>
           <% end %>
         <br/>
           <div 
@@ -108,7 +108,7 @@
             #<%= clients_request_seen.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-            <%= clients_request_seen.title %>
+            <a href={ Routes.clients_request_path(@socket, :show, clients_request_seen.id) } ><%= clients_request_seen.title %></a>
           </div>
 
           <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
@@ -138,11 +138,11 @@
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="avg__priority__point"><%= clients_request_ongoing.tool.name %></div>
           <% end %>
-          <%= case clients_request_ongoing.type_id do %>
+          <%= case clients_request_ongoing.request_type_id do %>
             <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="low__priority__point"><%= clients_request_ongoing.type.name %></div>
+              class="low__priority__point"><%= clients_request_ongoing.request_type.name %></div>
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="urg__priority__point"><%= clients_request_ongoing.type.name %></div>
+              class="urg__priority__point"><%= clients_request_ongoing.request_type.name %></div>
           <% end %>
         <br/>
         <div 
@@ -156,7 +156,7 @@
             #<%= clients_request_ongoing.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-            <%= clients_request_ongoing.title %>
+            <a href={ Routes.clients_request_path(@socket, :show, clients_request_ongoing.id) } ><%= clients_request_ongoing.title %></a>
           </div>
 
           <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
@@ -186,11 +186,11 @@
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="avg__priority__point"><%= clients_request_done.tool.name %></div>
           <% end %>
-          <%= case clients_request_done.type_id do %>
+          <%= case clients_request_done.request_type_id do %>
             <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="low__priority__point"><%= clients_request_done.type.name %></div>
+              class="low__priority__point"><%= clients_request_done.request_type.name %></div>
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="urg__priority__point"><%= clients_request_done.type.name %></div>
+              class="urg__priority__point"><%= clients_request_done.request_type.name %></div>
           <% end %>
         <br/>
         <div 
@@ -204,7 +204,7 @@
             #<%= clients_request_done.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-            <%= clients_request_done.title %>
+            <a href={ Routes.clients_request_path(@socket, :show, clients_request_done.id) } ><%= clients_request_done.title %></a>
           </div>
 
           <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
@@ -234,11 +234,11 @@
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="avg__priority__point"><%= clients_request_finished.tool.name %></div>
           <% end %>
-          <%= case clients_request_finished.type_id do %>
+          <%= case clients_request_finished.request_type_id do %>
             <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="low__priority__point"><%= clients_request_finished.type.name %></div>
+              class="low__priority__point"><%= clients_request_finished.request_type.name %></div>
             <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
-              class="urg__priority__point"><%= clients_request_finished.type.name %></div>
+              class="urg__priority__point"><%= clients_request_finished.request_type.name %></div>
           <% end %>
         <br/>
         <div 
@@ -252,7 +252,7 @@
             #<%= clients_request_finished.uuid %>
           </div>
           <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-            <%= clients_request_finished.title %>
+            <a href={ Routes.clients_request_path(@socket, :show, clients_request_finished.id) } ><%= clients_request_finished.title %></a>
           </div>
 
           <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
@@ -319,7 +319,7 @@
               </div>
               <div class="column">
               <%= label f, "Type de la demande" %>
-              <%= select f, :type_id, [], style: "width: -moz-available;" %>
+              <%= select f, :request_type_id, [], style: "width: -moz-available;" %>
               <%= error_tag f, :type_id %>
               </div>
             </div>

@@ -25,7 +25,7 @@ defmodule PmLogin.Services.ClientsRequest do
     field :file_urls, {:array, :string}, default: []
     # field :active_client_id, :id
     belongs_to :active_client, ActiveClient
-    belongs_to :type, RequestType
+    belongs_to :request_type, RequestType
     belongs_to :task, Task
     belongs_to :project, Project
     field :is_urgent, :boolean, default: false
@@ -46,7 +46,7 @@ defmodule PmLogin.Services.ClientsRequest do
 
   def changeset(clients_request, attrs) do
     clients_request
-    |> cast(attrs, [:title ,:content, :date_post, :seen, :date_seen, :ongoing, :date_ongoing, :done, :date_done, :finished, :date_finished, :active_client_id, :task_id, :project_id, :type_id, :uuid, :survey,:type_id, :is_urgent, :tool_id, :deadline, :expectation])
+    |> cast(attrs, [:title ,:content, :date_post, :seen, :date_seen, :ongoing, :date_ongoing, :done, :date_done, :finished, :date_finished, :active_client_id, :task_id, :project_id, :request_type_id, :uuid, :survey, :is_urgent, :tool_id, :deadline, :expectation])
     # |> unique_constraint(:title, message: "Titre de requête déjà existant")
     |> unique_constraint(:uuid, message: "Identifiant du requête déja existant.")
     # |> validate_required(:content, message: "Entrez le contenu de votre requête")
@@ -85,7 +85,7 @@ defmodule PmLogin.Services.ClientsRequest do
   def create_changeset_2(clients_request, attrs) do
     clients_request
     |> cast(attrs, [:title ,:content, :date_post, :seen, :ongoing, :done, :finished, :active_client_id, :uuid,
-     :survey,:type_id, :tool_id, :is_urgent, :deadline, :expectation])
+     :survey,:request_type_id, :tool_id, :is_urgent, :deadline, :expectation])
     |> foreign_key_constraint(:active_client_id)
     |> validate_required(:title, message: "Entrez l'intitulé de votre requête.")
     |> unique_constraint(:title, message: "Titre de requête déjà existant.")
