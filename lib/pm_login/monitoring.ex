@@ -2940,5 +2940,4 @@ defmodule PmLogin.Monitoring do
     Date.diff(t.deadline,today)
   end
 
-
 end
