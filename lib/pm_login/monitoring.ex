@@ -2759,4 +2759,11 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def is_late(%Task{} = t) do
+    today = Date.utc_today()
+    t.deadline
+    Date.diff(t.deadline,today)
+  end
+
+
 end
