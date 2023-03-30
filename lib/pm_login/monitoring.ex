@@ -2759,6 +2759,186 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_tasks_recently_in_control do
+    card_query =
+      from c in Card,
+      select: c.id
+
+    query =
+      from t in Task,
+      where: t.status_id ==^4 and t.updated_at >= from_now(-5, "minute") and t.updated_at < ^DateTime.utc_now(),
+      preload: [:project, :status, :priority, card: ^card_query],
+      order_by: [desc: t.updated_at]
+
+    Repo.all(query)
+  end
+
+  # List all the upcoming deadline tasks
+  def list_tasks_with_upcoming_deadline do
+    card_query =
+      from c in Card,
+      select: c.id
+
+    query =
+      from t in Task,
+      # where: t.deadline > ^DateTime.utc_now() and (t.deadline <= from_now(1, "day") or t.deadline <= from_now(10, "minute")),
+      where: t.deadline > ^DateTime.utc_now() and t.deadline <= from_now(1, "day"),
+      preload: [:project, :status, :priority, card: ^card_query],
+      order_by: [desc: t.deadline]
+
+    Repo.all(query)
+  end
+
+  # Return tasks list according to project
+  def list_tasks_by_project(project_id) do
+    card_query =
+            from c in Card,
+            select: c.id
+
+    query = from t in Task,
+            preload: [:project, :status, :priority, card: ^card_query],
+            where: t.project_id == ^project_id
+    Repo.all(query)
+  end
+
+  # Return tasks list according to priority
+  def list_tasks_by_priority(priority_id) do
+    card_query =
+            from c in Card,
+            select: c.id
+
+    query = from t in Task,
+            preload: [:project, :status, :priority, card: ^card_query],
+            where: t.priority_id == ^priority_id
+    Repo.all(query)
+  end
+
+  # Return tasks list according to attributor
+  def list_tasks_by_attributor(attributor_id) do
+    card_query =
+      from c in Card,
+        select: c.id
+
+    query =
+      from t in Task,
+      preload: [:project, :status, :priority, card: ^card_query],
+      where: t.status_id != 5 and t.attributor_id == ^attributor_id
+
+    Repo.all(query)
+  end
+
+  # Return tasks list without any attributor
+  def list_tasks_without_attributor do
+    card_query =
+      from c in Card,
+        select: c.id
+
+    query =
+      from t in Task,
+      preload: [:project, :status, :priority, card: ^card_query],
+      where: t.status_id != 5 and is_nil(t.attributor)
+
+    Repo.all(query)
+  end
+
+  # Multi filter request
+  def list_tasks_by_project_status_priority_attributor_contributor_customer(project_id, status_id, priority_id, attributor_id, contributor_id, customer_id) do
+    card_query =
+      from c in Card,
+      select: c.id
+    # card_ids = Repo.all(card_query)
+
+    project_query =
+      case project_id do
+        "9000" -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: true
+        _      -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.project_id == ^project_id
+      end
+
+    status_query =
+      case status_id do
+        "9000" -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: true
+        _      -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.status_id == ^status_id
+      end
+
+    priority_query =
+      case priority_id do
+        "9000" -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: true
+        _      -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.priority_id == ^priority_id
+      end
+
+    attributor_query =
+      case attributor_id do
+        "9000" -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: true
+        "-1"   -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.attributor_id != 5 and is_nil(t.attributor_id)
+        _      -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.attributor_id == ^attributor_id
+      end
+
+    contributor_query =
+      case contributor_id do
+        "9000" -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: true
+        "-1"   -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.contributor_id != 5 and is_nil(t.contributor_id)
+        _      -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.contributor_id == ^contributor_id
+      end
+
+    customer_query =
+      case customer_id do
+        "9000" -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: true
+        "-1"   -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.customer_id != 5 and is_nil(t.customer_id)
+        _      -> from t in Task,
+                    preload: [:project, :status, :priority, card: ^card_query],
+                    where: t.customer_id == ^customer_id
+      end
+
+
+    # queries = [project_query, status_query, priority_query, attributor_query, contributor_query, customer_query]
+    # intersect_query = Enum.reduce(queries, &intersect/2)
+
+    intersect_query = from t in Task,
+            intersect: ^project_query,
+            intersect: ^status_query,
+            intersect: ^priority_query,
+            intersect: ^attributor_query,
+            intersect: ^contributor_query,
+            intersect: ^customer_query
+
+    Repo.all(intersect_query)
+
+  end
+
+  def is_late(%Task{} = t) do
+    today = Date.utc_today()
+    t.deadline
+    Date.diff(t.deadline,today)
+  end
+
   def get_clients_request_by_id(id) do
     user_query = from(u in User)
     active_client_query = from ac in ActiveClient,
@@ -2771,12 +2951,6 @@ defmodule PmLogin.Monitoring do
       preload: [active_client: ^active_client_query,request_type: ^request_type_query,tool: ^tool_query],
       where: cr.id == ^id
       Repo.one(query)
-  end
-
-  def is_late(%Task{} = t) do
-    today = Date.utc_today()
-    t.deadline
-    Date.diff(t.deadline,today)
   end
 
 end

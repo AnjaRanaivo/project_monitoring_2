@@ -270,8 +270,8 @@
 
         <div>
           <div data-card-id={ card.id } class={"card basecontents__without__radius #{if is_nil(card.task.parent_id)
-            do "" end}"} style={"display: #{ if card.task.hidden, do: "none !important" }; margin-bottom: 50px;#{if card.task.is_major, do: "border: 3px solid red;"}"}>
-
+            do "" end}"} style={"display: #{ if card.task.hidden, do: "none !important" }; margin-bottom: 50px;#{if PmLogin.Monitoring.is_late(card.task)<0, do: "border: 3px solid red;"}"}>
+           
             <%= case card.task.priority_id do %>
             <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="low__priority__point"> Faible </div>
@@ -284,7 +284,7 @@
             <% _ -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
               class="priority__point"></div>
             <% end %>
-
+            
             <%
               performed_duration = card.task.performed_duration / 60
                                 # trunc, retourne la partie entier
