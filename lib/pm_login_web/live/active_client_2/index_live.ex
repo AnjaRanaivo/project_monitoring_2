@@ -1,7 +1,7 @@
 defmodule PmLogin.ActiveClient2.IndexLive do
   use Phoenix.LiveView
   alias PmLogin.{Services, Login}
-  alias PmLogin.Services.{Company, ActiveClient}
+  alias PmLogin.Services.{Company, ActiveClient, Rights_clients}
   alias PmLoginWeb.LiveComponent.ModalLive
 
   def mount(_params, %{"curr_user_id" => curr_user_id,"active_clients" => active_clients}, socket) do
@@ -18,6 +18,7 @@ defmodule PmLogin.ActiveClient2.IndexLive do
                 active_clients_selected: true,
                 inactives: Login.list_non_active_clients,
                 companies: Enum.map(Services.list_companies, fn %Company{} = c -> {c.name, c.id} end),
+                rights_clients: Enum.map(Services.list_rights_clients, fn %Rights_clients{} = r -> {r.name, r.id} end),
                 companies_list: Services.list_companies),
        layout: {PmLoginWeb.LayoutView, "admin_layout_live.html"}
        }
@@ -82,10 +83,10 @@ defmodule PmLogin.ActiveClient2.IndexLive do
     {:noreply, assign(socket,  inactives: Login.list_non_active_clients)}
   end
 
-  def handle_event("activate_c", %{"client_id" => client_id, "my_form" => %{"company_id" => company_id}}, socket) do
+  def handle_event("activate_c", %{"client_id" => client_id, "my_form" => %{"company_id" => company_id,"rights_clients_id" => rights_clients_id}}, socket) do
     IO.puts client_id
     IO.puts company_id
-    params = %{"user_id" => client_id, "company_id" => company_id}
+    params = %{"user_id" => client_id, "company_id" => company_id, "rights_clients_id" => rights_clients_id}
     IO.inspect params
     # Services.create_active_client(%{"user_id" => client_id, "company_id" => company_id})
     {:noreply, assign(socket, params: params, show_modal: true)}

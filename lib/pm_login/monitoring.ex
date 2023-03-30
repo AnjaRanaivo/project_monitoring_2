@@ -11,6 +11,7 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Services.ActiveClient
   alias PmLogin.Services.ToolGroup
   alias PmLogin.Services.Tool
+  alias PmLogin.Services.Company
   alias PmLogin.Login.User
   alias PmLogin.Login
   alias PmLogin.Services
@@ -277,28 +278,26 @@ defmodule PmLogin.Monitoring do
     end
   end
 
-  def validate_start_deadline_requests(changeset) do
-    date_start = get_field(changeset, :date_post)
+  def validate_deadline_requests(changeset) do
+    # date_start = get_field(changeset, :date_post)
+    today = Date.utc_today()
     deadline = get_field(changeset, :deadline)
 
-    if date_start != nil and deadline != nil do
-      dt_start = date_start |> to_string |> string_to_date
+    if deadline != nil do
       dt_deadline = deadline |> to_string |> string_to_date
-
-      case Date.compare(dt_deadline, dt_start) do
-        :lt ->
+      cond do
+        Date.compare(dt_deadline, today) == :lt ->
           changeset
           |> add_error(
-            :deadline_before_dtstart,
-            "La date d'échéance ne peut pas être antérieure à la date de début"
+            :deadline,
+            "La date d'échéance ne peut pas être antérieure à aujourd'hui"
           )
-
-        _ ->
-          changeset
+          true ->
+            changeset
+        end
+      else
+        changeset
       end
-    else
-      changeset
-    end
   end
 
   def validate_start_end(changeset) do
@@ -1371,12 +1370,279 @@ defmodule PmLogin.Monitoring do
 
   def list_tools_group_by_user_id(user_id) do
     query =
-      from g in ToolGroup,
+      from (tg in ToolGroup),
+      join: c in Company,
+      on: c.id == tg.company_id,
       join: a in ActiveClient,
-      on: g.active_client_id == a.id,
-      join: u in User,
-      on: u.id == a.user_id,
-      where: u.id == ^user_id
+      on: a.company_id == c.id,
+      where: a.user_id == ^user_id
+    Repo.all(query)
+  end
+
+  def get_company_by_user_id(user_id) do
+    query = from c in Company,
+    join: a in ActiveClient,
+    on: a.company_id == c.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id
+    Repo.one(query)
+  end
+
+  def list_company_clients_requests_not_seen_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.seen == false
+    Repo.all(query)
+  end
+
+  def list_clients_requests_not_seen_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.seen == false
+    Repo.all(query)
+  end
+
+  def search_requests_not_seen(user_id,search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.seen == false and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def list_company_clients_requests_finished_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.finished == true
+    Repo.all(query)
+  end
+
+  def list_clients_requests_finished_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.finished == true
+    Repo.all(query)
+  end
+
+  def search_requests_finished(user_id,search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.finished == true and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def list_company_clients_requests_done_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.done == true and cr.finished == false
+    Repo.all(query)
+  end
+
+  def list_clients_requests_done_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.done == true and cr.finished == false
+    Repo.all(query)
+  end
+
+  def search_requests_done(user_id,search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.done == true and cr.finished == false and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def list_company_clients_requests_ongoing_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.ongoing == true and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
+  def list_clients_requests_ongoing_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.ongoing == true and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
+  def search_requests_ongoing(user_id,search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.ongoing == true and cr.done == false and cr.finished == false
+     and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def list_company_clients_requests_seen_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+    company_id = get_company_by_user_id(user_id).id
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    where: a.company_id == ^company_id and cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
+  def list_clients_requests_seen_by_clients_user_id(user_id) do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
+  def search_requests_seen(user_id,search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: u.id == ^user_id and cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
+     and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
     Repo.all(query)
   end
 
@@ -1658,11 +1924,10 @@ defmodule PmLogin.Monitoring do
     # Récupérer la date actuelle et le changer en chaine de caractères
     date_today = NaiveDateTime.local_now()
 
-    month_ago =
-      NaiveDateTime.new!(date_today.year, date_today.month - 1, date_today.day, 23, 59, 59)
+    # month_ago =
+    #   NaiveDateTime.new!(date_today.year, date_today.month - 1, date_today.day, 23, 59, 59)
 
-
-    # IO.inspect(month_ago)
+    month_ago = NaiveDateTime.add(date_today, -60*60*24*30, :second)
 
     query =
       from t in Task,

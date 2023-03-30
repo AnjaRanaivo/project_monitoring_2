@@ -1,0 +1,45 @@
+
+<div class="main-admin-index" style="margin-bottom: -22rem;">
+<center>
+  <button data-switch="#my_demands" class="btn-project-client-admin"><span class="material-icons">
+        person_pin
+        </span>Utilisateur</button>
+</center>
+<div class="row" style="margin-top: 50px; padding: 0">
+    <div class="row">
+      <a href={Routes.clients_request_path(@socket, :my_company_requests_2)} class="column" style="padding: 0">
+        <div class="card-style">
+          <img 
+            class="image-fit-cover" 
+            src={ Routes.static_path(@socket, "/images/2.jpg" )} 
+          />
+          <div style="padding: 20px;">
+            <p style="margin: 0 0 0 0">Requêtes</p>
+          </div>
+        </div>
+      </a>
+       <a href={Routes.company_path(@socket, :my_company_2)} class="column" style="padding: 0">
+        <div class="card-style">
+          <img 
+            class="image-fit-cover" 
+            src={ Routes.static_path(@socket, "/images/11.jpg" )} 
+          />
+          <div style="padding: 20px;">
+            <p style="margin: 0 0 0 0">Ma Société</p>
+          </div>
+        </div>
+    </a>
+    <a href={Routes.user_path(@socket, :show, @curr_user_id)} class="column" style="padding: 0">
+      <div class="card-style">
+        <img 
+          class="image-fit-cover" 
+          src={ Routes.static_path(@socket, "/images/4.jpg" )} 
+        />
+        <div style="padding: 20px;">
+          <p style="margin: 0 0 0 0">Mon profil</p>
+        </div>
+      </div>
+    </a>
+    </div>
+  </div>
+</div>

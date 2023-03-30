@@ -1,4 +1,4 @@
-<div style="min-width: 120rem !important; background: #1F2937; margin-left: -22rem;">
+<div style="min-width: 120rem !important;margin-left: -22rem;">
     <table class="table-tasks" id="" style="font-size: 11px; margin-left: 0; padding: 5rem; margin-top: -9rem;">
         <thead>
           <tr>
@@ -9,6 +9,7 @@
             <th>Nom d'utilisateur</th>
             <!-- <th>Description</th> -->
             <th>Adresse e-mail</th>
+            <th>Droit</th>
           </tr>
         </thead>
         <tbody>
@@ -16,6 +17,8 @@
           <tr>
             <td><%= ac.user.username %></td>
             <td><%= ac.user.email %></td>
+            <td><%= ac.rights_clients.name %></td>
+
           </tr>
         <% end %>
         </tbody>

@@ -26,7 +26,16 @@ defmodule PmLoginWeb.UserController do
           Login.is_contributor?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ContributorIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           # Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
-          Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClient2IndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+          # Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClient2IndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+
+          #Pour un client administrateur
+          Login.is_active_client_admin?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientAdminLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+
+          #Pour un client demandeur
+          Login.is_active_client_demandeur?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientDemandeurLive, session: %{"current_user" => Login.get_curr_user(conn), "curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+
+          #Pour un client utilisateur
+          Login.is_active_client_utilisateur?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientUtilisateurLive, session: %{"current_user" => Login.get_curr_user(conn), "curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           Login.is_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ClientIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
@@ -35,6 +44,8 @@ defmodule PmLoginWeb.UserController do
           Login.is_archived?(conn) -> conn |> put_flash(:error, "Votre compte a été archivé!")|> delete_session(:curr_user_id) |>redirect(to: Routes.page_path(conn, :index))
 
           true -> redirect(conn, to: Routes.page_path(conn, :index))
+
+
         end
 
       else

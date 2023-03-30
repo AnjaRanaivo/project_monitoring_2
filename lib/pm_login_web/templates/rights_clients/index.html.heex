@@ -1,0 +1,26 @@
+<h1>Listing Rights clients</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for rights_clients <- @rights_clients do %>
+    <tr>
+      <td><%= rights_clients.name %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.rights_clients_path(@conn, :show, rights_clients) %></span>
+        <span><%= link "Edit", to: Routes.rights_clients_path(@conn, :edit, rights_clients) %></span>
+        <span><%= link "Delete", to: Routes.rights_clients_path(@conn, :delete, rights_clients), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Rights clients", to: Routes.rights_clients_path(@conn, :new) %></span>

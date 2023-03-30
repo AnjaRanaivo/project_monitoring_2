@@ -1,4 +1,4 @@
-defmodule PmLoginWeb.Services.MyRequests2Live do
+defmodule PmLoginWeb.Services.MyCompanyRequestsLive do
   use Phoenix.LiveView
   alias PmLogin.Monitoring
   alias PmLogin.Services
@@ -17,7 +17,6 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
 
     Services.subscribe()
     Services.subscribe_to_request_topic()
-
     layout =
       case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
         1 -> {PmLoginWeb.LayoutView, "active_client_request_admin_layout_live.html"}
@@ -28,11 +27,11 @@ defmodule PmLoginWeb.Services.MyRequests2Live do
 
     projects = Monitoring.list_projects_ongoing_by_clients_user_id(curr_user_id)
     list_clients_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
-    clients_requests_not_seen = Monitoring.list_clients_requests_not_seen_by_clients_user_id(curr_user_id)
-    clients_requests_seen = Monitoring.list_clients_requests_seen_by_clients_user_id(curr_user_id)
-    clients_requests_ongoing = Monitoring.list_clients_requests_ongoing_by_clients_user_id(curr_user_id)
-    clients_requests_done = Monitoring.list_clients_requests_done_by_clients_user_id(curr_user_id)
-    clients_requests_finished = Monitoring.list_clients_requests_finished_by_clients_user_id(curr_user_id)
+    clients_requests_not_seen = Monitoring.list_company_clients_requests_not_seen_by_clients_user_id(curr_user_id)
+    clients_requests_seen = Monitoring.list_company_clients_requests_seen_by_clients_user_id(curr_user_id)
+    clients_requests_ongoing = Monitoring.list_company_clients_requests_ongoing_by_clients_user_id(curr_user_id)
+    clients_requests_done = Monitoring.list_company_clients_requests_done_by_clients_user_id(curr_user_id)
+    clients_requests_finished = Monitoring.list_company_clients_requests_finished_by_clients_user_id(curr_user_id)
 
     {:ok,
      socket

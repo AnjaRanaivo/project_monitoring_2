@@ -1,22 +1,14 @@
-defmodule PmLoginWeb.Services.MyCompany2Live do
+defmodule PmLoginWeb.User.ActiveClientUtilisateurLive do
   use Phoenix.LiveView
   alias PmLogin.Services
 
-  def mount(_params, %{"curr_user_id"=>curr_user_id}, socket) do
+  def mount(_params, %{"curr_user_id"=>curr_user_id, "current_user" => current_user}, socket) do
     Services.subscribe()
-    active_client = Services.get_active_client_from_userid!(curr_user_id)
-    layout =
-      case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
-        1 -> {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
-        2 -> {PmLoginWeb.LayoutView, "active_client_demandeur_layout_live.html"}
-        3 -> {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
-        _ -> {}
-      end
+
     {:ok,
        socket
-       |> assign(curr_user_id: curr_user_id,show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4), active_client: active_client),
-
-       layout: layout
+       |> assign(curr_user_id: curr_user_id,current_user: current_user, show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4)),
+       layout: {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
        }
   end
 
@@ -53,7 +45,7 @@ defmodule PmLoginWeb.Services.MyCompany2Live do
   end
 
   def render(assigns) do
-   PmLoginWeb.CompanyView.render("my_company.html", assigns)
+   PmLoginWeb.UserView.render("active_client_utilisateur_index.html", assigns)
   end
 
 end

@@ -3,9 +3,17 @@ defmodule PmLoginWeb.User.ClientProfile2Live do
   alias PmLogin.Services
   alias PmLogin.Login
   def mount(_params, %{"curr_user_id" => curr_user_id, "user" => user}, socket) do
+
+    layout =
+    case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
+      1 -> {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
+      2 -> {PmLoginWeb.LayoutView, "active_client_demandeur_layout_live.html"}
+      3 -> {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
+      _ -> {}
+    end
     Services.subscribe()
     layout = cond do
-      Login.is_id_active_client?(curr_user_id) -> {PmLoginWeb.LayoutView, "active_client_2_layout_live.html"}
+      Login.is_id_active_client?(curr_user_id) -> layout
       true -> {PmLoginWeb.LayoutView, "client_layout_live.html"}
     end
 
@@ -16,6 +24,11 @@ defmodule PmLoginWeb.User.ClientProfile2Live do
        }
   end
 
+  @spec handle_event(
+          <<_::64, _::_*8>>,
+          map,
+          atom | %{:assigns => atom | map, optional(any) => any}
+        ) :: {:noreply, any}
   def handle_event("switch-notif", %{}, socket) do
     notifs_length = socket.assigns.notifs |> length
     curr_user_id = socket.assigns.curr_user_id
