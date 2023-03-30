@@ -949,3 +949,9 @@ header nav a {
   border-color: #17A2B8;
  }
 
+ .btn-project-client-admin {
+  background-color: #0284C7;
+  border-color:#0284C7;
+  color: #fff;
+}
+
