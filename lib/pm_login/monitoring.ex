@@ -2759,6 +2759,9 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+
+
+  # List all the tasks recently in control
   def list_tasks_recently_in_control do
     card_query =
       from c in Card,
