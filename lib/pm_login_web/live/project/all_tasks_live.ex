@@ -9,7 +9,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
   alias PmLogin.Kanban
 
 # A ajouter dans params
-  def mount(params, %{"curr_user_id" => curr_user_id}, socket) do
+  def mount(_params, %{"curr_user_id" => curr_user_id}, socket) do
     Services.subscribe()
     Monitoring.subscribe()
 

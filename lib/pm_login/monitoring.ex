@@ -7,7 +7,7 @@ defmodule PmLogin.Monitoring do
   import PmLogin.Utilities
   alias PmLogin.Repo
   alias PmLogin.Kanban
-  alias PmLogin.Monitoring.{Status, Task, Planified, Priority, TaskRecord}
+  alias PmLogin.Monitoring.{Status, Task, Planified, Priority, TaskRecord, TaskHistory}
   alias PmLogin.Services.ActiveClient
   alias PmLogin.Services.ToolGroup
   alias PmLogin.Services.Tool
@@ -2957,6 +2957,45 @@ defmodule PmLogin.Monitoring do
       preload: [active_client: ^active_client_query,request_type: ^request_type_query,tool: ^tool_query, tasks: ^tasks_query],
       where: cr.id == ^id
       Repo.one(query)
+  end
+
+  # TASK HISTORY
+  # Create task history
+  def create_task_history(attrs \\ %{}) do
+    %TaskHistory{}
+    |> TaskHistory.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  # List the history of a given task
+  def list_history_tasks(project_id) do
+    query = from th in TaskHistory,
+            join: t in Task,
+            on: t.id == th.task_id,
+            join: p in Project,
+            on: p.id == t.project_id,
+            where: p.id == ^project_id,
+            preload: [:task, :intervener, :status_from, :status_to],
+            order_by: [desc: :tracing_date],
+            select: th
+    Repo.all(query)
+  end
+
+  # List all task history
+  def list_history_tasks do
+    query = from th in TaskHistory,
+            preload: [:task, :intervener, :status_from, :status_to],
+            order_by: [desc: :tracing_date],
+            select: th
+    Repo.all(query)
+  end
+
+  # Get a task history
+  def get_task_history!(task_history_id) do
+    query = from th in TaskHistory,
+            where: th.id == ^task_history_id,
+            preload: [:task, :intervener, :status_from, :status_to]
+    Repo.one(query)
   end
 
 end

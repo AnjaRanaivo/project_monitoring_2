@@ -1,6 +1,8 @@
 defmodule PmLoginWeb.ProjectView do
   alias PmLoginWeb.LiveComponent.{
     SurveyLiveComponent,
+    # Task History reason modal
+    ReasonTaskHistoryModalLive,
     TaskModalLive,
     PlusModalLive,
     ModifModalLive,
