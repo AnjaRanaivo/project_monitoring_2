@@ -14,6 +14,7 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Services.Company
   alias PmLogin.Login.User
   alias PmLogin.Login
+  alias PmLogin.Kanban.Stage
   alias PmLogin.Services
   alias PmLogin.Services.RequestType
   alias PmLogin.Login.User
@@ -2982,6 +2983,16 @@ defmodule PmLogin.Monitoring do
 
     Repo.one(query)
 
+  end
+
+  def get_card_by_task_id(id) do
+    stage_query = from(s in Stage)
+    task_query = from(t in Task)
+
+    query = from c in Card,
+      preload: [stage: ^stage_query, task: ^task_query],
+      where: c.task_id == ^id
+    Repo.one(query)
   end
 
 end
