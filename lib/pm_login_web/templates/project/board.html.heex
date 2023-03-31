@@ -338,7 +338,7 @@
 
 
             <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-              <%= card.task.title %>
+              <a href={ Routes.task_path(@socket, :show, card.task.id) }><%= card.task.title %></a>
             </div>
 
             <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">

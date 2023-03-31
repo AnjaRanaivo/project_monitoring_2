@@ -1,0 +1,170 @@
+<div class="row">
+    <div class="column basecontents__without__radius my__company__title">
+      <h1 class="h__company__title"><%= @task.title %></h1>
+  </div>
+</div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Priorité</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @task.description %></td>
+            <td><%= @task.status.title %></td>
+            <td><%= @task.priority.title %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Date de début</th>
+            <th>Date fin</th>
+            <th>Progression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= if not is_nil(@task.date_start) do %>
+                <%= PmLogin.Utilities.simple_date_format(@task.date_start) %>
+                <% end %></td>
+            <td><%= if not is_nil(@task.date_end) do %>
+                <%= PmLogin.Utilities.simple_date_format(@task.date_end) %>
+                <% end %></td>
+            <td><%= @task.progression %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Attributeur</th>
+            <th>Contributeur</th>
+            <th>Date d'échéance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= PmLogin.Login.get_user!(@task.attributor_id).username %></td>
+            <td><%= if is_nil(@task.contributor_id) do %>
+              <%= PmLogin.Login.get_user!(@task.attributor_id).username %>
+            <% else %>
+              <%= PmLogin.Login.get_user!(@task.contributor_id).username %>
+            <% end %>
+            </td>
+            <td><%= if not is_nil(@task.deadline) do %><%= PmLogin.Utilities.simple_date_format(@task.deadline) %><% end %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Liste des tâches filles <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Attributeur</th>
+            <th>Contributeur</th>
+            <th>Progression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for task <- @task.children do %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+            <td><%= if is_nil(task.contributor_id) do %>
+              <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+            <% else %>
+              <%= PmLogin.Login.get_user!(task.contributor_id).username %>
+            <% end %>
+            </td>
+            <td><%= task.progression %></td>
+          </tr>
+          <%= end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Tâche mère <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Attributeur</th>
+            <th>Contributeur</th>
+            <th>Progression</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= if not is_nil(@task.parent_id) do %>
+          <tr>
+            <td><%= @task.parent.title %></td>
+            <td><%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %></td>
+            <td><%= if is_nil(@task.parent.contributor_id) do %>
+              <%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %>
+            <% else %>
+              <%= PmLogin.Login.get_user!(@task.parent.contributor_id).username %>
+            <% end %>
+            </td>
+            <td><%= @task.parent.progression %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+      <h3 class="header__link__title"><a id="adm">Requête Client <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <table id="tb-auth">
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Nom du client</th>
+            <th>Date d'envoi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= if not is_nil(@task.clients_request_id) do %>
+          <tr>
+            <td><%= @task.clients_request.title %></td>
+            <td><%= @task.clients_request.active_client.user.username %></td>
+            <td><%= if not is_nil(@task.clients_request.date_post) do %>
+                <%= PmLogin.Utilities.simple_date_format_with_hours(@task.clients_request.date_post) %>
+            <% end %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+ 
