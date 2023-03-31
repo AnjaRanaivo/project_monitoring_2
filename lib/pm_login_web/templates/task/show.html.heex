@@ -1,172 +1,179 @@
 <div class="row">
+
     <div class="column basecontents__without__radius my__company__title">
-      <h1 class="h__company__title"><%= @task.title %></h1>
+     <h3 class="h__company__title"><%= @task.title %></h3>
+    
+    </div>
+ 
+    <div class="col">
+     <p style="margin-top:50px;">Nombre approximatif d'heures par jour ouvrable pour l'intervenant pour terminer cette tâche avant la date d'échéance:
+        <%= PmLogin.Monitoring.avg_working_hours(@task) %> heures
+      </p>
+    <div style="margin-left:200px">
+      <a title="Commenter" style="color : black"
+    class="bi bi-chat-dots comment__icon" phx-click="show_comments_modal" phx-value-id={PmLogin.Monitoring.get_card_by_task_id(@task.id).id}>
+    </a>
+    <a title="Modifier" style="color : black"
+                  class="bi bi-pencil modif__icon" phx-click="show_modif_modal" phx-value-id={PmLogin.Monitoring.get_card_by_task_id(@task.id).id}>
+    </a>
+    <a  class="btn btn-primary" onclick="history.back()">Retour</a>
+    </div>
+    
+
   </div>
 </div>
 
-<a title="Commenter" style="color : black"
-class="bi bi-chat-dots comment__icon" phx-click="show_comments_modal" phx-value-id={PmLogin.Monitoring.get_card_by_task_id(@task.id).id}>
-</a>
-<a title="Modifier" style="color : black"
-              class="bi bi-pencil modif__icon" phx-click="show_modif_modal" phx-value-id={PmLogin.Monitoring.get_card_by_task_id(@task.id).id}>
-            </a>
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+
+  <div class="" style="background-color: white;width:1350px;margin-left:-300px;margin-top:30px">
+    <div class="" >
+    <div class="row">
+      <div class="col" style="margin-left:50px;width:600px;">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Description</th>
-            <th>Priorité</th>
-            <th>Statut</th>
+            <th style="font-size:12px">Description</th>
+            <th style="font-size:12px">Statut</th>
+            <th style="font-size:12px">Priorité</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= @task.description %></td>
-            <td><%= @task.status.title %></td>
-            <td><%= @task.priority.title %></td>
+            <td style="font-size:12px"><%= @task.description %></td>
+            <td style="font-size:12px"><%= @task.status.title %></td>
+            <td style="font-size:12px"><%= @task.priority.title %></td>
           </tr>
         </tbody>
       </table>
-      <p>Nombre approximatif d'heures par jour ouvrable pour l'intervenant pour terminer cette tâche avant la date d'échéance:
-        <%= PmLogin.Monitoring.avg_working_hours(@task) %> heures
-      </p>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      </div>
+      <div class="col"  style="width:600px;margin-left:70px">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Avancement <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Date de début</th>
-            <th>Date fin</th>
-            <th>Progression</th>
+            <th style="font-size:12px">Date de début</th>
+            <th style="font-size:12px">Date fin</th>
+            <th style="font-size:12px">Progression</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= if not is_nil(@task.date_start) do %>
+            <td style="font-size:12px"><%= if not is_nil(@task.date_start) do %>
                 <%= PmLogin.Utilities.simple_date_format(@task.date_start) %>
                 <% end %></td>
-            <td><%= if not is_nil(@task.date_end) do %>
+            <td style="font-size:12px"><%= if not is_nil(@task.date_end) do %>
                 <%= PmLogin.Utilities.simple_date_format(@task.date_end) %>
                 <% end %></td>
-            <td><%= @task.progression %></td>
+            <td style="font-size:12px"><%= @task.progression %></td>
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
-  </div>
+      
+     
+    </div>
+
 
   <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+    <div class="col"  style="margin-left:50px;width:600px;">
+      <h3 class="header__link__title" style="font-size:20px"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Attributeur</th>
-            <th>Contributeur</th>
-            <th>Date d'échéance</th>
+            <th style="font-size:12px">Attributeur</th>
+            <th style="font-size:12px">Contributeur</th>
+            <th style="font-size:12px">Date d'échéance</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= PmLogin.Login.get_user!(@task.attributor_id).username %></td>
-            <td><%= if is_nil(@task.contributor_id) do %>
+            <td style="font-size:12px"><%= PmLogin.Login.get_user!(@task.attributor_id).username %></td>
+            <td style="font-size:12px"><%= if is_nil(@task.contributor_id) do %>
               <%= PmLogin.Login.get_user!(@task.attributor_id).username %>
             <% else %>
               <%= PmLogin.Login.get_user!(@task.contributor_id).username %>
             <% end %>
             </td>
-            <td><%= if not is_nil(@task.deadline) do %><%= PmLogin.Utilities.simple_date_format(@task.deadline) %><% end %></td>
+            <td style="font-size:12px"><%= if not is_nil(@task.deadline) do %><%= PmLogin.Utilities.simple_date_format(@task.deadline) %><% end %></td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Liste des tâches filles <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+    <div class="col" style="width:600px;margin-left:70px">
+       <h3 class="header__link__title" style="font-size:20px"><a id="adm">Liste des tâches filles <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Nom</th>
-            <th>Attributeur</th>
-            <th>Contributeur</th>
-            <th>Progression</th>
+            <th style="font-size:12px">Nom</th>
+            <th style="font-size:12px">Attributeur</th>
+            <th style="font-size:12px">Contributeur</th>
+            <th style="font-size:12px">Progression</th>
           </tr>
         </thead>
         <tbody>
           <%= for task <- @task.children do %>
           <tr>
-            <td><%= task.title %></td>
-            <td><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
-            <td><%= if is_nil(task.contributor_id) do %>
+            <td style="font-size:12px"><%= task.title %></td>
+            <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+            <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>
               <%= PmLogin.Login.get_user!(task.attributor_id).username %>
             <% else %>
               <%= PmLogin.Login.get_user!(task.contributor_id).username %>
             <% end %>
             </td>
-            <td><%= task.progression %></td>
+            <td style="font-size:12px"><%= task.progression %></td>
           </tr>
           <%= end %>
         </tbody>
       </table>
     </div>
   </div>
-
   <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Tâche mère <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+    <div class="col"  style="width:600px;margin-left:50px">
+      <h3 class="header__link__title" style="font-size:20px"><a id="adm">Tâche mère <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Nom</th>
-            <th>Attributeur</th>
-            <th>Contributeur</th>
-            <th>Progression</th>
+            <th style="font-size:12px">Nom</th>
+            <th style="font-size:12px">Attributeur</th>
+            <th style="font-size:12px">Contributeur</th>
+            <th style="font-size:12px">Progression</th>
           </tr>
         </thead>
         <tbody>
           <%= if not is_nil(@task.parent_id) do %>
           <tr>
-            <td><%= @task.parent.title %></td>
-            <td><%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %></td>
-            <td><%= if is_nil(@task.parent.contributor_id) do %>
+            <td style="font-size:12px"><%= @task.parent.title %></td>
+            <td style="font-size:12px"><%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %></td>
+            <td style="font-size:12px"><%= if is_nil(@task.parent.contributor_id) do %>
               <%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %>
             <% else %>
               <%= PmLogin.Login.get_user!(@task.parent.contributor_id).username %>
             <% end %>
             </td>
-            <td><%= @task.parent.progression %></td>
+            <td style="font-size:12px"><%= @task.parent.progression %></td>
           </tr>
           <% end %>
         </tbody>
       </table>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Requête Client <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+    <div class="col"  style="width:600px;margin-left:70px">
+      <h3 class="header__link__title" style="font-size:20px"><a id="adm">Requête Client <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Titre</th>
-            <th>Nom du client</th>
-            <th>Date d'envoi</th>
+            <th style="font-size:12px">Titre</th>
+            <th style="font-size:12px">Nom du client</th>
+            <th style="font-size:12px">Date d'envoi</th>
           </tr>
         </thead>
         <tbody>
           <%= if not is_nil(@task.clients_request_id) do %>
           <tr>
-            <td><%= @task.clients_request.title %></td>
-            <td><%= @task.clients_request.active_client.user.username %></td>
-            <td><%= if not is_nil(@task.clients_request.date_post) do %>
+            <td style="font-size:12px"><%= @task.clients_request.title %></td>
+            <td style="font-size:12px"><%= @task.clients_request.active_client.user.username %></td>
+            <td style="font-size:12px"><%= if not is_nil(@task.clients_request.date_post) do %>
                 <%= PmLogin.Utilities.simple_date_format_with_hours(@task.clients_request.date_post) %>
             <% end %></td>
           </tr>
@@ -175,6 +182,7 @@ class="bi bi-chat-dots comment__icon" phx-click="show_comments_modal" phx-value-
       </table>
     </div>
   </div>
+ </div>
   
   <%= live_component(@socket, PmLoginWeb.LiveComponent.CommentsModalLive, id: "confirm-arch" , title: "Commentaires" , body: nil,
             right_button: "Oui" , right_button_action: "arch" , right_button_param: "" , #@arch_id
