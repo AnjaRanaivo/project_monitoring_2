@@ -337,8 +337,8 @@
             <% end %>
 
 
-            <div class="card__name" style="margin-top: 10px; font-size: 11px;">
-              <a href={ Routes.task_path(@socket, :show, card.task.id) }><%= card.task.title %></a>
+              <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <%= card.task.title %>
             </div>
 
             <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
@@ -419,7 +419,7 @@
                  padding-right: 4px;
                  z-index: 0;
                 ">
-            <a title="Afficher" style={"display: #{ if card.task.hidden, do: "none !important" };"}
+            <!--<a title="Afficher" style={"display: #{ if card.task.hidden, do: "none !important" };"}
               class="bi bi-plus plus__icon" phx-click="show_plus_modal" phx-value-id={card.id}>
             </a>
 
@@ -429,6 +429,10 @@
 
             <a title="Modifier" style={"display: #{ if card.task.hidden, do: "none !important" }; padding: 8px;"}
               class="bi bi-pencil modif__icon" phx-click="show_modif_modal" phx-value-id={card.id}>
+            </a>-->
+
+            <a title="Afficher" style={"display: #{ if card.task.hidden, do: "none !important" };"}
+              class="bi bi-plus plus__icon" href={ Routes.task_path(@socket, :show, card.task.id) }>
             </a>
 
             <%= if @is_attributor or @is_contributor do %>
