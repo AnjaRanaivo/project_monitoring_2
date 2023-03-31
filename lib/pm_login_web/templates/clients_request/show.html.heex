@@ -12,10 +12,14 @@
           </div>
     </div>
   </div>
+  <div class="" style="margin-top: 50px; padding: 0;">
+    <div class="">
+      <div class="">
+        <div class="" style="background-color: white; margin-left:-300px;width:1300px">
 
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+         <div class="row">
+          <div class="col-md-6" style="margin-left:40px;width:600px;">
+                  <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
@@ -37,22 +41,19 @@
             <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
             En cours
             <% end %>
-        <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
-        Accomplie
-        <% end %>
-    <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
-    Clôturée
-      <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
+            Accomplie
+            <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
+            Clôturée
+            <% end %>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+          </div>
+          <div class="col-md-6" style="width:600px;margin-left:35px">
+            <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
@@ -67,12 +68,12 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
+          </div>
+        </div>
 
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+         <div class="row" style="width:100%;">
+          <div class="col-md-6"  style="margin-left:40px;width:600px;">
+            <h3 class="header__link__title"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
@@ -89,12 +90,9 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+          </div>
+          <div class="col-md-6" style="width:600px;margin-left:35px">
+            <h3 class="header__link__title"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
@@ -120,14 +118,11 @@
           <%= end %>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+          </div>
+        </div>       
       <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
-  <%= if not Enum.empty?(@client_request.file_urls) do %>
+      <%= if not Enum.empty?(@client_request.file_urls) do %>
                         <td data-label="Fichiers" style="min-height: 40px;">
                           <div class="" style="display: flex; float: right;">
                               <%= for url <- @client_request.file_urls do %>
@@ -160,6 +155,13 @@
                             </div>
                           </td>
                         <% end %>
-                      </table>
-                        </div>
-                      </div>
+          </table>
+        <div class="">
+            <a href="#" class="btn btn-primary" onclick="history.back()">Retour</a>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+
