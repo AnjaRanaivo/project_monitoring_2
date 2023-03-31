@@ -419,7 +419,7 @@
                  padding-right: 4px;
                  z-index: 0;
                 ">
-            <a title="Afficher" style={"display: #{ if card.task.hidden, do: "none !important" };"}
+            <!--<a title="Afficher" style={"display: #{ if card.task.hidden, do: "none !important" };"}
               class="bi bi-plus plus__icon" phx-click="show_plus_modal" phx-value-id={card.id}>
             </a>
 
@@ -429,7 +429,7 @@
 
             <a title="Modifier" style={"display: #{ if card.task.hidden, do: "none !important" }; padding: 8px;"}
               class="bi bi-pencil modif__icon" phx-click="show_modif_modal" phx-value-id={card.id}>
-            </a>
+            </a>-->
 
             <%= if @is_attributor or @is_contributor do %>
               <%= if card.task.status_id == 3 do %>
