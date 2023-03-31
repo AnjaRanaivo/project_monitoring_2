@@ -79,7 +79,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       )
 
 
-    {:ok, socket, layout: {PmLoginWeb.LayoutView, "admin_layout_live.html"}}
+    {:ok, socket, layout: {PmLoginWeb.LayoutView, "board_layout_live.html"}}
   end
 
   def handle_event("delete_card", %{"id" => id}, socket) do

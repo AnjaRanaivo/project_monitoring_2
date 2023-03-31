@@ -37,6 +37,7 @@ defmodule PmLoginWeb.Task.ShowLive do
         3 -> {PmLoginWeb.LayoutView, "contributor_board_live.html"}
         _ -> {}
       end
+
     {:ok,
        socket
        |> assign(
