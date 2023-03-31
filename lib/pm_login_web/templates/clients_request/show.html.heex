@@ -1,34 +1,48 @@
+
+<center>
 <div class="row">
-    <div class="column basecontents__without__radius my__company__title">
-      <h1 class="h__company__title"><%= @client_request.title %></h1>
-      <div 
+
+      <div class="column basecontents__without__radius my__company__title">
+      <h1 class="h__company__title" ><%= @client_request.title %></h1>
+      
+        <div 
             style={"
               color: #fff;
               margin: 5px 0 5px 0;
+              margin-top:50px;
+              margin-left:-100px;
               font-size: 10px;background:#{if @client_request.is_urgent, do: '#d82a2a' , else: '#031d2e' };
             "}
           >
-            #<%= @client_request.uuid %>
+          #<%= @client_request.uuid %>
           </div>
+        
     </div>
-  </div>
 
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+
+  </div>
+  </center>
+  <div class="" style="margin-top: 50px; padding: 0;">
+    <div class="">
+      <div class="">
+        <div class="" style="background-color: white; margin-left:-300px;width:1350px">
+
+         <div class="row">
+          <div class="col-md-6" style="margin-left:50px;width:600px;">
+                  <h3 class="header__link__title" style="font-size:20px;margin-right:500px"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Outil</th>
-            <th>Type de la demande</th>
-            <th>Statut</th>
+            <th style="font-size:12px">Outil</th>
+            <th style="font-size:12px">Type de la demande</th>
+            <th style="font-size:12px">Statut</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= @client_request.tool.name %></td>
-            <td><%= @client_request.request_type.name %></td>
-            <td><%= if not @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+            <td style="font-size:12px"><%= @client_request.tool.name %></td>
+            <td style="font-size:12px"><%= @client_request.request_type.name %></td>
+            <td style="font-size:12px"><%= if not @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
                     Pas encore vue
                     <% end %>
                 <%= if @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
@@ -37,97 +51,88 @@
             <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
             En cours
             <% end %>
-        <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
-        Accomplie
-        <% end %>
-    <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
-    Clôturée
-      <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
+            Accomplie
+            <% end %>
+            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
+            Clôturée
+            <% end %>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+          </div>
+          <div class="col-md-6" style="width:600px;margin-left:70px">
+            <h3 class="header__link__title" style="font-size:20px;margin-left:500px"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Détails</th>
-            <th>Attentes</th>
+            <th style="font-size:12px">Détails</th>
+            <th style="font-size:12px">Attentes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= @client_request.content %></td>
-            <td><%= @client_request.expectation %></td>
+            <td style="font-size:12px"><%= @client_request.content %></td>
+            <td style="font-size:12px"><%= @client_request.expectation %></td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
+          </div>
+        </div>
 
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+         <div class="row" style="width:100%">
+          <div class="col-md-6"  style="margin-left:50px;width:600px;">
+            <h3 class="header__link__title" style="font-size:20px"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Date d'échéance</th>
-            <th>Date de finition</th>
+            <th style="font-size:12px">Date d'échéance</th>
+            <th style="font-size:12px">Date de finition</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><%= Utilities.simple_date_format(@client_request.deadline) %></td>
-            <td><%= if !is_nil(@client_request.date_finished) do %>
+            <td style="font-size:12px"><%= Utilities.simple_date_format(@client_request.deadline) %></td>
+            <td  style="font-size:12px"><%= if !is_nil(@client_request.date_finished) do %>
               <%= Utilities.simple_date_format(@client_request.date_finished) %>
             <%= end %></td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
-      <h3 class="header__link__title"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+          </div>
+          <div class="col-md-6" style="width:600px;margin-left:70px">
+            <h3 class="header__link__title" style="font-size:20px"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
         <thead>
           <tr>
-            <th>Nom</th>
-            <th>Attributeur</th>
-            <th>Contributeur</th>
-            <th>Progression</th>
+            <th style="font-size:12px">Nom</th>
+            <th style="font-size:12px">Attributeur</th>
+            <th style="font-size:12px">Contributeur</th>
+            <th style="font-size:12px">Progression</th>
           </tr>
         </thead>
         <tbody>
           <%= for task <- @client_request.tasks do %>
           <tr>
-            <td><%= task.title %></td>
-            <td><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
-            <td><%= if is_nil(task.contributor_id) do %>
+            <td style="font-size:12px"><%= task.title %></td>
+            <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+            <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>
               <%= PmLogin.Login.get_user!(task.attributor_id).username %>
             <% else %>
               <%= PmLogin.Login.get_user!(task.contributor_id).username %>
             <% end %>
             </td>
-            <td><%= task.progression %></td>
+            <td style="font-size:12px"><%= task.progression %></td>
           </tr>
           <%= end %>
         </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="column basecontents__without__radius esp__adm__col hover__growing">
+          </div>
+        </div>       
       <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
       <table id="tb-auth">
-  <%= if not Enum.empty?(@client_request.file_urls) do %>
+      <%= if not Enum.empty?(@client_request.file_urls) do %>
                         <td data-label="Fichiers" style="min-height: 40px;">
                           <div class="" style="display: flex; float: right;">
                               <%= for url <- @client_request.file_urls do %>
@@ -160,6 +165,13 @@
                             </div>
                           </td>
                         <% end %>
-                      </table>
-                        </div>
-                      </div>
+          </table>
+        <div class="">
+            <a href="#" class="btn btn-primary" onclick="history.back()">Retour</a>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+

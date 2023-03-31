@@ -14,6 +14,7 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Services.Company
   alias PmLogin.Login.User
   alias PmLogin.Login
+  alias PmLogin.Kanban.Stage
   alias PmLogin.Services
   alias PmLogin.Services.RequestType
   alias PmLogin.Login.User
@@ -2995,6 +2996,41 @@ defmodule PmLogin.Monitoring do
     query = from th in TaskHistory,
             where: th.id == ^task_history_id,
             preload: [:task, :intervener, :status_from, :status_to]
+    Repo.one(query)
+  end
+
+  def get_task_by_id(id) do
+    parent_query = from(tp in Task)
+
+    children_query = from tc in Task,
+      where: tc.parent_id == ^id
+
+    status_query = from(s in Status)
+
+    priority_query = from(s in Priority)
+
+
+    user_query = from(u in User)
+    active_client_query = from ac in ActiveClient,
+        preload: [user: ^user_query]
+    client_request_query = from cr in ClientsRequest,
+        preload: [active_client: ^active_client_query]
+
+    query = from t in Task,
+    preload: [parent: ^parent_query,children: ^children_query,status: ^status_query,priority: ^priority_query,clients_request: ^client_request_query],
+    where: t.id == ^id
+
+    Repo.one(query)
+
+  end
+
+  def get_card_by_task_id(id) do
+    stage_query = from(s in Stage)
+    task_query = from(t in Task)
+
+    query = from c in Card,
+      preload: [stage: ^stage_query, task: ^task_query],
+      where: c.task_id == ^id
     Repo.one(query)
   end
 
