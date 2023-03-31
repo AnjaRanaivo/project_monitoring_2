@@ -2,14 +2,14 @@
     Toutes les tâches (<%= Enum.count(@tasks) %>)
 </h3>
 
-  <table class="table-tasks" id="" style="font-size: 11px; margin-left: -61.5% !important; %">
+  <table id="" style="font-size: 11px;">
     <thead>
       <tr>
         <th>
           <form phx-change="tasks_filtered_by_project" style="margin-bottom: -2rem;">
             <select
               name="project_id"
-              style="margin-bottom: O;   "
+              style="margin-bottom: O; width : 150px  "
             >
             <% 
               project = elem(@project_filter, 0)
@@ -191,7 +191,7 @@
         <!-- Afficher les tâches si son statut est différent de Achevée(s) et que c'est pas archivé -->
         <%= if task.hidden == false do %>
           <tr>
-            <td data-label="Projet" style="word-wrap: anywhere; min-width: 125px;">
+            <td  data-label="Projet" style="word-wrap: anywhere; min-width: 150px;">
               <%= link "#{task.project.title}", to: Routes.project_path(@socket, :board, task.project_id), class: "all-tasks-project-title-2" %>
             </td>
             <td data-label="Nom" style="word-wrap: anywhere; min-width: 150px;">
