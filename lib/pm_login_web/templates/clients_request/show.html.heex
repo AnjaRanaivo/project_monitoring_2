@@ -115,15 +115,15 @@
         <tbody>
           <%= for task <- @client_request.tasks do %>
           <tr>
-            <td><%= task.title %></td>
-            <td><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
-            <td><%= if is_nil(task.contributor_id) do %>
+            <td style="font-size:12px"><%= task.title %></td>
+            <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+            <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>
               <%= PmLogin.Login.get_user!(task.attributor_id).username %>
             <% else %>
               <%= PmLogin.Login.get_user!(task.contributor_id).username %>
             <% end %>
             </td>
-            <td><%= task.progression %></td>
+            <td style="font-size:12px"><%= task.progression %></td>
           </tr>
           <%= end %>
         </tbody>
