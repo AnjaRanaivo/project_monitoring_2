@@ -73,9 +73,18 @@ defmodule PmLoginWeb.Project.BoardLive do
     tasks_history = Monitoring.list_history_tasks_by_project(pro_id)
 
     task_history = List.first(Monitoring.get_last_history_task_with_reason_to_be_checked(pro_id, curr_user_id))
-    show_reason_task_history_modal = if not is_nil(task_history) and (is_nil(task_history.reason) and (task_history.status_from_id > task_history.status_to_id)), do: true, else: false
-    IO.inspect task_history
-    IO.puts show_reason_task_history_modal
+    from_status = if not is_nil(task_history), do: task_history.status_from_id, else: 1
+    to_status = if not is_nil(task_history), do: task_history.status_to_id, else: 1
+    # test_bool = if not is_nil(task_history) and (from_status > to_status), do: true, else: false
+    # IO.puts from_status
+    # IO.puts to_status
+    # IO.puts test_bool
+
+    show_reason_task_history_modal = if (not is_nil(task_history)) and (is_nil(task_history.reason) and (from_status > to_status)), do: true, else: false
+
+    # IO.inspect task_history
+    # IO.puts show_reason_task_history_modal
+
     {:ok,
      socket
      |> assign(
