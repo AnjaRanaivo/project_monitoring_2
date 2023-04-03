@@ -4,6 +4,7 @@ defmodule PmLogin.Monitoring.TaskHistory do
   alias PmLogin.Login.User
   alias PmLogin.Monitoring.Task
   alias PmLogin.Monitoring.Status
+  alias PmLogin.Services
 
   schema "tasks_history" do
     belongs_to :task, Task
@@ -28,16 +29,24 @@ defmodule PmLogin.Monitoring.TaskHistory do
     |> cast(attrs, [:task_id, :intervener_id, :tracing_date, :status_from_id, :status_to_id, :reason])
     |> put_tracing_date()
     |> put_reason()
+    |> put_change(:inserted_at, Services.current_date)
   end
 
   defp put_tracing_date(changeset) do
     changeset
-    |> put_change(:tracing_date, NaiveDateTime.local_now())
+    |> put_change(:tracing_date, Services.current_date)
   end
 
   defp put_reason(changeset) do
     changeset
     |> validate_length(:reason, max: 1000, message: "Motif trop long !")
+  end
+
+  def update_reason_changeset(task_history, attrs) do
+    task_history
+    |> cast(attrs, [:reason])
+    |> put_reason()
+    |> put_change(:updated_at, Services.current_date)
   end
 
 end

@@ -6,7 +6,7 @@ defmodule PmLoginWeb.LiveComponent.ReasonTaskHistoryModalLive do
   alias PmLogin.Utilities
 
   @defaults %{
-    left_button: "Cancel",
+    left_button: nil,
     left_button_action: nil,
     left_button_param: nil,
     right_button: "OK",
@@ -21,7 +21,7 @@ defmodule PmLoginWeb.LiveComponent.ReasonTaskHistoryModalLive do
     <div id={"modal-#{@id}"}>
       <!-- Modal Background -->
       <div id="modif_modal_container" class="modal-container" style={"visibility: #{ if @show_reason_task_history_modal, do: "visible", else: "hidden" }; opacity: #{ if @show_reason_task_history_modal, do: "1 !important", else: "0" };"}>
-        <%= if not is_nil(@card) do %>
+        <%= if not is_nil(@task_history) do %>
         <div class="modal-inner-container">
           <div class="modal-card-task">
             <div class="modal-inner-card" style="width: 450px">
@@ -29,7 +29,6 @@ defmodule PmLoginWeb.LiveComponent.ReasonTaskHistoryModalLive do
               <%= if @title != nil do %>
               <div class="modal-title">
                 <%= @title %>
-                <a href="#" class="x__close" style="position: relative; left: 0; margin-top: -5px;" title="Fermer" phx-click="left-button-click" phx-target={"#modal-#{@id}"}><i class="bi bi-x"></i></a>
               </div>
               <% end %>
 
@@ -43,34 +42,25 @@ defmodule PmLoginWeb.LiveComponent.ReasonTaskHistoryModalLive do
               <!-- MY FORM -->
               <div class="modal-body">
 
-              <.form let={f} for={@task_history} phx-submit="confirm_reason" style="margin: 0" novalidate>
+              <form phx-submit="confirm_reason" style="margin: 0" novalidate>
                  <table class="table-tasks-mobile" style="font-size: 11px;">
                     <tbody>
+                      <tr><p style="color: #727272;"><%= @task_history.task.title %></p></tr>
                       <tr>
                         <td data-label="Motif">
-                          <input id="task_history_reason" name="task_history[reason]" value={@task_history.reason} style="width: 300px; margin-bottom: 0;" placeholder="Motif"/>
-                          <%= error_tag f, :reason %>
+                          <input required type="text" id="task_history_reason" name="reason" style="width: 300px; margin-bottom: 0;" placeholder="Motif"/>
                         </td>
                       </tr>
                     </tbody>
                   </table>
 
                       <div class="modal-buttons" style="margin-top: -15px; margin-bottom: -15px;">
-                        <!-- Left Button -->
-                        <button class="button button-outline"
-                                type="button"
-                                phx-click="left-button-click"
-                                phx-target={"#modal-#{@id}"}>
-                          <div>
-                            <%= @left_button %>
-                          </div>
-                        </button>
-                          <div class="">
-                            <%= submit "Valider", class: "button right-button" %>
-                          </div>
+                        <div class="">
+                          <%= submit "Valider", class: "button right-button" %>
+                        </div>
                       </div>
 
-              </.form>
+              </form>
               </div>
 
 

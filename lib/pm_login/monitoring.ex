@@ -19,7 +19,7 @@ defmodule PmLogin.Monitoring do
   alias PmLogin.Services.RequestType
   alias PmLogin.Login.User
   alias PmLogin.Kanban.{Board, Stage, Card}
-  alias PmLogin.Services.ClientsRequest
+  alias PmLogin.Services.{ClientsRequest, ActiveClient}
 
   @topic inspect(__MODULE__)
   def subscribe do
@@ -2800,8 +2800,9 @@ defmodule PmLogin.Monitoring do
             select: c.id
 
     query = from t in Task,
-            preload: [:project, :status, :priority, card: ^card_query],
-            where: t.project_id == ^project_id
+            preload: [:project, :status, :priority, :clients_request, card: ^card_query],
+            where: t.project_id == ^project_id,
+            order_by: [desc: t.inserted_at]
     Repo.all(query)
   end
 
@@ -2968,8 +2969,31 @@ defmodule PmLogin.Monitoring do
     |> Repo.insert()
   end
 
-  # List the history of a given task
-  def list_history_tasks(project_id) do
+  # Update task history reason
+  def update_task_history_reason(%TaskHistory{} = task_history, attrs) do
+    task_history
+    |> TaskHistory.update_reason_changeset(attrs)
+    |> Repo.update()
+  end
+
+
+  # Get the latests tasks without reason but must have one
+  def get_last_history_task_with_reason_to_be_checked(project_id, user_id) do
+    query = from th in TaskHistory,
+            join: t in Task,
+            on: t.id == th.task_id,
+            join: p in Project,
+            on: p.id == t.project_id,
+            where: p.id == ^project_id and th.intervener_id == ^user_id,
+            preload: [:task, :intervener, :status_from, :status_to],
+            order_by: [desc: :updated_at],
+            limit: 1,
+            select: th
+    Repo.all(query)
+  end
+
+  # List the history of a given project
+  def list_history_tasks_by_project(project_id) do
     query = from th in TaskHistory,
             join: t in Task,
             on: t.id == th.task_id,
@@ -2977,7 +3001,19 @@ defmodule PmLogin.Monitoring do
             on: p.id == t.project_id,
             where: p.id == ^project_id,
             preload: [:task, :intervener, :status_from, :status_to],
-            order_by: [desc: :tracing_date],
+            order_by: [desc: :inserted_at],
+            select: th
+    Repo.all(query)
+  end
+
+  # List the history of a given task
+  def list_history_tasks_by_id(task_id) do
+    query = from th in TaskHistory,
+            join: t in Task,
+            on: t.id == th.task_id,
+            where: t.id == ^task_id,
+            preload: [:task, :intervener, :status_from, :status_to],
+            order_by: [desc: :inserted_at],
             select: th
     Repo.all(query)
   end
