@@ -254,7 +254,8 @@
     <div class="col-md-10" style="width: 83%">
   <section id="the_board" class="board" phx-hook="Board" style="">
     <%= for stage <- @board.stages do %>
-    <div data-stage-id={ stage.id } class="stage basecontents__without__shadow__and__radius">
+    <div data-stage-id={ stage.id } class={if stage.status_id != 1 do "stage basecontents__without__shadow__and__radius" 
+    else "stage_first basecontents__without__shadow__and__radius" end}>
         <div class="stage__header basecontents__without__radius" id="stage__header__sticked">
           <div class="stage__name">
             <%= stage.name %>
@@ -492,7 +493,6 @@
   <div class="col-md-2 board_history" style="width: 17%">
 
     <div class="stage_history" style="background-color: #fff;">
-        <div class="stage" style="background-color: #fff;">
         <div style="height: 100%; padding-left: 15px;padding-right: 10px;">
           <div 
             style={"
@@ -546,7 +546,6 @@
           <% end %>
           <% end %>
         </div>
-    </div>
       
     </div>
   </div>
