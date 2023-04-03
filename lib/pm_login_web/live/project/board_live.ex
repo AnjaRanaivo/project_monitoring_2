@@ -142,7 +142,6 @@ defmodule PmLoginWeb.Project.BoardLive do
     IO.puts "--------------------------------------------------------------------------- INIT TASK HISTORY ---------------------------------------------------------------------------"
     IO.inspect task_history
     IO.puts show_reason_task_history_modal
-    {:noreply, update(socket, :show_reason_task_history_modal, show_reason_task_history_modal)}
     {:noreply,
       socket
       |> assign(
