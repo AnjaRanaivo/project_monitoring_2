@@ -32,11 +32,16 @@ defmodule PmLoginWeb.Task.ShowLive do
 
     layout =
       case Login.get_user!(curr_user_id).right_id do
-        1 -> {PmLoginWeb.LayoutView, "board_layout_live.html"}
-        2 -> {PmLoginWeb.LayoutView, "attributor_board_live.html"}
-        3 -> {PmLoginWeb.LayoutView, "contributor_board_live.html"}
+        # 1 -> {PmLoginWeb.LayoutView, "board_layout_live.html"}
+        # 2 -> {PmLoginWeb.LayoutView, "attributor_board_live.html"}
+        # 3 -> {PmLoginWeb.LayoutView, "contributor_board_live.html"}
+        # _ -> {}
+        1 -> {PmLoginWeb.LayoutView, "admin_layout_live.html"}
+        2 -> {PmLoginWeb.LayoutView, "attributor_layout_live.html"}
+        3 -> {PmLoginWeb.LayoutView, "contributor_layout_live.html"}
         _ -> {}
       end
+
     {:ok,
        socket
        |> assign(
