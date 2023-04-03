@@ -29,13 +29,13 @@ defmodule PmLoginWeb.UserController do
           # Login.is_active_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClient2IndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           #Pour un client administrateur
-          Login.is_active_client_admin?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientAdminLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+          Login.is_active_client?(conn) and Login.is_active_client_admin?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientAdminLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           #Pour un client demandeur
-          Login.is_active_client_demandeur?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientDemandeurLive, session: %{"current_user" => Login.get_curr_user(conn), "curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+          Login.is_active_client?(conn) and Login.is_active_client_demandeur?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientDemandeurLive, session: %{"current_user" => Login.get_curr_user(conn), "curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           #Pour un client utilisateur
-          Login.is_active_client_utilisateur?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientUtilisateurLive, session: %{"current_user" => Login.get_curr_user(conn), "curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
+          Login.is_active_client?(conn) and Login.is_active_client_utilisateur?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ActiveClientUtilisateurLive, session: %{"current_user" => Login.get_curr_user(conn), "curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 
           Login.is_client?(conn) -> LiveView.Controller.live_render(conn, PmLoginWeb.User.ClientIndexLive, session: %{"current_user" => Login.get_curr_user(conn),"curr_user_id" => Login.get_curr_user(conn).id}, router: PmLoginWeb.Router)
 

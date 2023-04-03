@@ -229,7 +229,7 @@ defmodule PmLogin.Login.User do
     |> crypt_pass
     |> put_default_right
     |> put_default_profile_picture
-    |> put_change(:function_id, 0)
+    |> put_change(:function_id, nil)
   end
 
   defp apply_log_action(changeset) do
