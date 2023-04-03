@@ -489,42 +489,32 @@
     <% end %>
   </section>
   </div>
-  <div class="col-md-2">
+  <div class="col-md-2 board_history">
 
-    <div class="stage" style="background-color: #fff;">
-      <div style="height: 100%; padding-left: 15px;padding-right: 10px;">
-        <div 
-          style={"
-            display: inline-block;
-            color: #fff;
-            margin: 5px 0 5px 0;
-            font-size: 10px;background:#031d2e;
-          "}
-        >
-        </div>
+    <div class="stage_history" style="background-color: #fff;">
         <div class="stage__name" style="text-align: center;margin-top: 5px;">
           <p style="text-decoration: underline; font-size: 12px, font-weight: bold;">Historique</p>
         </div>
         <%= for task_history <- @tasks_history do %>
-          <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;">
+          <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;margin-left: 13px;">
             <p style="display: inline;"><%= task_history.intervener.username%></p>
             <p style="display: inline;"> - </p>
             <p style="word-wrap: anywhere; color: #727272; display: inline;">
               <%= Utilities.simple_date_format_with_hours_onboard(task_history.inserted_at) %>
             </p>
           </div>
-          <div class="card__name" style="font-size: 11px;">
+          <div class="card__name" style="font-size: 11px;margin-left: 13px;">
             <a href="#" ><%= task_history.task.title %></a>
           </div>          
-          <p style="font-size: 11px;">
+          <p style="font-size: 11px;margin-left: 13px;">
             <%= task_history.status_from.title %> &#x2192; <%= task_history.status_to.title %>
           </p>
           <hr style="border-top: 0.1rem solid #b9bcbf!important;">
         <% end %>
-      </div>
       
     </div>
-  </section>
+  </div>
+</div>
 
   <%= live_component(ReasonTaskHistoryModalLive, id: "confirm-arch" , title: "Motif" , body: nil,
           right_button: nil, right_button_action: nil, right_button_param: nil, left_button: nil,
