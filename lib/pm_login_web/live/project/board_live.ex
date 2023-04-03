@@ -80,7 +80,7 @@ defmodule PmLoginWeb.Project.BoardLive do
     # IO.puts to_status
     # IO.puts test_bool
 
-    show_reason_task_history_modal = if (not is_nil(task_history)) and (is_nil(task_history.reason) and (from_status > to_status)), do: true, else: false
+    show_reason_task_history_modal = if (not is_nil(task_history)) and (is_nil(task_history.reason) and ((from_status > to_status) or (to_status == 2))), do: true, else: false
 
     # IO.inspect task_history
     # IO.puts show_reason_task_history_modal
