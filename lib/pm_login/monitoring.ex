@@ -2986,7 +2986,7 @@ defmodule PmLogin.Monitoring do
             on: p.id == t.project_id,
             where: p.id == ^project_id and th.intervener_id == ^user_id,
             preload: [:task, :intervener, :status_from, :status_to],
-            order_by: [desc: :updated_at],
+            order_by: [desc: :inserted_at],
             limit: 1,
             select: th
     Repo.all(query)
