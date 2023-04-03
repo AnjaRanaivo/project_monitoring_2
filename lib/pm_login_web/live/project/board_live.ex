@@ -80,7 +80,7 @@ defmodule PmLoginWeb.Project.BoardLive do
     # IO.puts to_status
     # IO.puts test_bool
 
-    show_reason_task_history_modal = if (not is_nil(task_history)) and (is_nil(task_history.reason) and ((from_status > to_status) or (to_status == 2))), do: true, else: false
+    show_reason_task_history_modal = if (not is_nil(task_history)) and (is_nil(task_history.reason) and ((from_status > to_status) or (to_status == 2) or (to_status == 0))), do: true, else: false
 
     # IO.inspect task_history
     # IO.puts show_reason_task_history_modal
@@ -195,11 +195,11 @@ defmodule PmLoginWeb.Project.BoardLive do
   end
 
   def cards_list_primary_tasks(old_list) do
-    old_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end)
+    old_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
 
   def cards_list_secondary_tasks(old_list) do
-    old_list |> Enum.filter(fn card -> not is_nil(card.task.parent_id) end)
+    old_list |> Enum.filter(fn card -> not is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
 
   def cards_list_filtered_nocontributor(old_list) do
@@ -285,8 +285,18 @@ defmodule PmLoginWeb.Project.BoardLive do
     task = Monitoring.get_task_with_card!(id)
     card = Kanban.get_card!(task.card.id)
 
-    Monitoring.remove_card(card.task_id)
     # Monitoring.remove_task(card.task_id)
+
+    curr_user_id = socket.assigns.curr_user_id
+    attrs = %{
+      "task_id" => card.task.id,
+      "intervener_id" => curr_user_id,
+      "status_from_id" => card.task.status_id,
+      "status_to_id" => 0
+    }
+    Monitoring.update_task(card.task, %{"status_id" => 0})
+    Monitoring.create_task_history(attrs)
+    # Monitoring.remove_card(card.task_id)
 
     curr_user_id = socket.assigns.curr_user_id
     content = "Tâche #{task.title} supprimé par #{Login.get_user!(curr_user_id).username}."
@@ -299,7 +309,8 @@ defmodule PmLoginWeb.Project.BoardLive do
      |> clear_flash()
      |> assign(delete_task_modal: false)
      |> put_flash(:info, "Tâche #{task.title} supprimé.")
-     |> push_event("AnimateAlert", %{})}
+     |> push_event("AnimateAlert", %{})
+     |> push_redirect(to: socket.assigns.ref)}
   end
 
   def handle_event(

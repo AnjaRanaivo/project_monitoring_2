@@ -2186,7 +2186,7 @@ defmodule PmLogin.Monitoring do
   # REAL TASK CREATION WITH CARD
 
   def cards_list_primary_tasks(old_list) do
-    old_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end)
+    old_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
 
   def spawn_task(%Planified{} = planified) do

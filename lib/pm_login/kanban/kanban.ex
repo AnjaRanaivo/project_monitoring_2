@@ -141,7 +141,14 @@ defmodule PmLogin.Kanban do
   end
 
   def get_card!(id) do
-    Repo.get(Card, id)
+
+    task_query = from t in Task
+
+    query = from c in Card,
+            preload: [task: ^task_query],
+            where: c.id == ^id
+
+    Repo.one!(query)
   end
 
   def get_all_card() do

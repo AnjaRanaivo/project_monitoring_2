@@ -250,8 +250,8 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-10">
+  <div class="row" style="width: 100%">
+    <div class="col-md-10" style="width: 83%">
   <section id="the_board" class="board" phx-hook="Board" style="">
     <%= for stage <- @board.stages do %>
     <div data-stage-id={ stage.id } class="stage basecontents__without__shadow__and__radius">
@@ -489,7 +489,7 @@
     <% end %>
   </section>
   </div>
-  <div class="col-md-2 board_history">
+  <div class="col-md-2 board_history" style="width: 17%">
 
     <div class="stage_history" style="background-color: #fff;">
         <div class="stage" style="background-color: #fff;">
