@@ -508,21 +508,21 @@
           </div>
           <%= if not is_nil(@tasks_history) do %>
           <%= for task_history <- @tasks_history do %>
-            <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;">
+            <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;margin-left:13px">
               <p style="display: inline;"><%= task_history.intervener.username%></p>
               <p style="display: inline;"> - </p>
               <p style="word-wrap: anywhere; color: #727272; display: inline;">
                 <%= Utilities.simple_date_format_with_hours_onboard(task_history.inserted_at) %>
               </p>
             </div>
-            <div class="card__name" style="font-size: 11px;">
-              <a href="#" ><%= task_history.task.title %></a>
+            <div class="card__name" style="font-size: 11px;margin-left:13px">
+              <a href={ Routes.task_path(@socket, :show, task_history.task.id) } ><%= task_history.task.title %></a>
             </div>          
-            <p style="font-size: 11px;">
+            <p style="font-size: 11px;margin-left:13px">
               <%= task_history.status_from.title %> &#x2192; <%= task_history.status_to.title %>
             </p>
             <%= if not is_nil(task_history.reason) do %>
-            <p style="font-size: 11px; color: #727272">
+            <p style="font-size: 11px; color: #727272;margin-left:13px">
               <b style="color: #000; text-decoration:underline;">Motif</b> : <%= task_history.reason %>
             </p>
             <% end %>
@@ -531,15 +531,15 @@
           <% end %>
           <%= if not is_nil(@tasks) do %>
           <%= for task <- @tasks do %>
-            <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;">
+            <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;margin-left:13px">
               <p style="word-wrap: anywhere; color: #727272; display: inline;">
                 <%= Utilities.simple_date_format_with_hours_onboard(task.inserted_at) %>
               </p>
             </div>
-            <div class="card__name" style="font-size: 11px;">
-              <a href="#" ><%= task.title %></a>
+            <div class="card__name" style="font-size: 11px;margin-left:13px">
+              <a href={ Routes.task_path(@socket, :show, task.id) } ><%= task.title %></a>
             </div>          
-            <p style="font-size: 11px;">
+            <p style="font-size: 11px;margin-left:13px">
               Créé
             </p>
             <hr style="border-top: 0.1rem solid #b9bcbf!important;">
