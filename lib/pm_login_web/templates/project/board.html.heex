@@ -491,46 +491,45 @@
   </div>
   <div class="col-md-2">
 
-  <div class="stage" style="background-color: #fff;">
-    <div style="height: 100%; padding-left: 15px;padding-right: 10px;">
-      <div 
-        style={"
-          display: inline-block;
-          color: #fff;
-          margin: 5px 0 5px 0;
-          font-size: 10px;background:#031d2e;
-        "}
-      >
-      </div>
-      <div class="stage__name" style="text-align: center;margin-top: 5px;">
-        <p style="text-decoration: underline; font-size: 12px, font-weight: bold;">Historique</p>
-      </div>
-      <%= for task_history <- @tasks_history do %>
-        <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;">
-          <p style="display: inline;"><%= task_history.intervener.username%></p>
-          <p style="display: inline;"> - </p>
-          <p style="word-wrap: anywhere; color: #727272; display: inline;">
-            <%= Utilities.simple_date_format_with_hours_onboard(task_history.inserted_at) %>
-          </p>
+    <div class="stage" style="background-color: #fff;">
+      <div style="height: 100%; padding-left: 15px;padding-right: 10px;">
+        <div 
+          style={"
+            display: inline-block;
+            color: #fff;
+            margin: 5px 0 5px 0;
+            font-size: 10px;background:#031d2e;
+          "}
+        >
         </div>
-        <div class="card__name" style="font-size: 11px;">
-          <a href="#" ><%= task_history.task.title %></a>
-        </div>          
-        <p style="font-size: 11px;">
-          <%= task_history.status_from.title %> &#x2192; <%= task_history.status_to.title %>
-        </p>
-        <hr style="border-top: 0.1rem solid #b9bcbf!important;">
-      <% end %>
+        <div class="stage__name" style="text-align: center;margin-top: 5px;">
+          <p style="text-decoration: underline; font-size: 12px, font-weight: bold;">Historique</p>
+        </div>
+        <%= for task_history <- @tasks_history do %>
+          <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;">
+            <p style="display: inline;"><%= task_history.intervener.username%></p>
+            <p style="display: inline;"> - </p>
+            <p style="word-wrap: anywhere; color: #727272; display: inline;">
+              <%= Utilities.simple_date_format_with_hours_onboard(task_history.inserted_at) %>
+            </p>
+          </div>
+          <div class="card__name" style="font-size: 11px;">
+            <a href="#" ><%= task_history.task.title %></a>
+          </div>          
+          <p style="font-size: 11px;">
+            <%= task_history.status_from.title %> &#x2192; <%= task_history.status_to.title %>
+          </p>
+          <hr style="border-top: 0.1rem solid #b9bcbf!important;">
+        <% end %>
+      </div>
+      
     </div>
-  </div>
-    
-  </div>
-  </div>
+  </section>
 
-  <%= live_component(@socket, ReasonTaskHistoryModalLive, id: "confirm-arch" , title: "Motif" , body: nil,
-          right_button: nil, right_button_action: nil, right_button_param: nil, left_button: "Retour" ,
-          left_button_action: "cancel-reason-task-history", show_reason_task_history_modal: @show_reason_task_history_modal, 
-          task_history: @task_history , card: @card) %>
+  <%= live_component(ReasonTaskHistoryModalLive, id: "confirm-arch" , title: "Motif" , body: nil,
+          right_button: nil, right_button_action: nil, right_button_param: nil, left_button: nil,
+          left_button_action: nil, show_reason_task_history_modal: @show_reason_task_history_modal, 
+          task_history: @task_history) %>
 
 
   <%= live_component(@socket, TaskModalLive, id: "confirm-arch" , title: "Créer tâche" , body: nil, right_button: nil,
