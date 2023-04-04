@@ -22,9 +22,9 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
       <!-- Modal Background -->
       <div id="modif_modal_container" class="modal-container" style={"visibility: #{ if @show_modif_modal, do: "visible", else: "hidden" }; opacity: #{ if @show_modif_modal, do: "1 !important", else: "0" };"}>
         <%= if not is_nil(@card) do %>
-        <div class="modal-inner-container">
-          <div class="modal-card-task">
-            <div class="modal-inner-card" style="width: 450px">
+        <div class="modal-update">
+          <div class="modal-task-update" >
+            <div class="modal-inner-card" >
               <!-- Title -->
               <%= if @title != nil do %>
               <div class="modal-title">
@@ -63,27 +63,27 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                     <tbody>
                       <tr>
                         <td data-label="Nom">
-                          <input id="task_title" name="task[title]" type="text" value={@card.name} style="width: 300px; margin-bottom: 0;" placeholder="Nom de la tâche"/>
+                          <input id="task_title" name="task[title]" type="text" value={@card.name} style="width: 600px; margin-bottom: 0;" placeholder="Nom de la tâche"/>
 
                           <%= error_tag_modif f, :title %>
                         </td>
                         <td data-label="Description">
-                          <input id="task_description" name="task[description]" value={@card.task.description} style="width: 300px; margin-bottom: 0;" placeholder="Description"/>
+                          <textarea id="task_description" name="task[description]" value={@card.task.description} style="width: 600px; margin-bottom: 0;" placeholder="Description"><%= @card.task.description %></textarea>
                           <%= error_tag_modif f, :description %>
                         </td>
                         <td data-label="Attributeur">
                           <div style="display: inline-flex;">
-                            <img class="profile-pic-mini" style="width: 20px; height: 20px;"
+                            <img class="profile-pic-mini" style="width: 20px; height: 20px;margin-left: -600px;"
                                 src={Routes.static_path(@socket, "/#{@card.task.attributor.profile_picture}")}/>
 
-                            <div style="margin-top: 2px; margin-left: 5px;">
+                            <div style="margin-top: 2px; margin-left:20px;">
                               <%= @card.task.attributor.username %>
                             </div>
                           </div>
                         </td>
                         <td data-label="Contributeur">
                           <%= if @is_admin or @is_attributor do %>
-                            <%= select f, :contributor_id, @attributors ++ @contributors, selected: @card.task.contributor_id, style: "width: 200px; margin-bottom: 0;" %>
+                            <%= select f, :contributor_id, @attributors ++ @contributors, selected: @card.task.contributor_id, style: "width: 600px; margin-bottom: 0;" %>
                             <%= error_tag_modif f, :contributor_id %>
                           <% else %>
                             <%= if !is_nil(@card.task.contributor_id) do %>
@@ -97,19 +97,19 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                           <%= if @is_contributor and is_nil(@card.task.parent_id) do %>
                             <%= @card.task.priority.title %>
                           <% else %>
-                            <%= select f, :priority_id, @priorities, value: @card.task.priority_id, style: "width: 150px; margin-bottom: 0;" %>
+                            <%= select f, :priority_id, @priorities, value: @card.task.priority_id, style: "width: 600px; margin-bottom: 0;" %>
                           <% end %>
                         </td>
                         <td data-label="Date de début">
                           <%= if (@is_admin or @is_attributor)do %>
-                            <%= date_input f, :date_start, value: @card.task.date_start, style: "width: 150px; margin-bottom: 0;"%>
+                            <%= date_input f, :date_start, value: @card.task.date_start, style: "width: 600px; margin-bottom: 0;"%>
                           <% else %>
                             <%= Utilities.letters_date_format(@card.task.date_start) %>
                           <% end %>
                         </td>
                         <td data-label="Date d'échéance">
                         <%= if (@is_admin or @is_attributor) do %>
-                          <%= date_input f, :deadline, value: @card.task.deadline, style: "width: 150px; margin-bottom: 0;" %>
+                          <%= date_input f, :deadline, value: @card.task.deadline, style: "width: 600px; margin-bottom: 0;" %>
 
                           <%= error_tag_modif f, :deadline %>
                           <%= error_tag_modif f, :deadline_lt %>
@@ -120,7 +120,7 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                       </td>
                         <td data-label="Date de fin">
                           <%= if @is_contributor and @card.task.status_id == 4 do %>
-                            <%= date_input f, :date_end, value: @card.task.date_end, style: "width: 150px; margin-bottom: 0;" %>
+                            <%= date_input f, :date_end, value: @card.task.date_end, style: "width: 600px; margin-bottom: 0;" %>
                             <%= error_tag_modif f, :dt_end_lt_start %>
                           <% else %>
                               <%= if !is_nil(@card.task.date_end) do %>
@@ -130,8 +130,9 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                               <% end %>
                           <% end %>
                         </td>
-                        <td data-label="Durée estimée">
+                        <td data-label="Durée estimée" >
                             <%
+
                               estimated_duration = @card.task.estimated_duration / 60
                                                 # trunc, retourne la partie entier
                               i_hour             = trunc(estimated_duration)
@@ -146,13 +147,13 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                             %>
 
                           <%= if @is_admin or @is_attributor do %>
-                            <input id="task_estimated_duration_hour_performed" name="task[hour_performed]" type="hidden" min="0" placeholder="Heure" value={hour_p} style="max-width: 125px; margin-bottom: 0; height: auto;" required>
+                            <input id="task_estimated_duration_hour_performed" name="task[hour_performed]" type="hidden" min="0" placeholder="Heure" value={hour_p} style="max-width: 600px; margin-bottom: 0; height: auto;" required>
 
-                            <input id="task_estimated_duration_minutes_performed" name="task[minutes_performed]" type="hidden" min="0" max="60" placeholder="Minutes" value={minutes_p} style="max-width: 125px; margin-bottom: 0; height: auto;" required>
+                            <input id="task_estimated_duration_minutes_performed" name="task[minutes_performed]" type="hidden" min="0" max="60" placeholder="Minutes" value={minutes_p} style="max-width: 600px; margin-bottom: 0; height: auto;" required>
 
-                            <input id="task_estimated_duration_hour" name="task[hour]" type="number" min="0" placeholder="Heure" value={i_hour} style="max-width: 125px; margin-bottom: 0; height: auto;" required/> h
+                            <input id="task_estimated_duration_hour" name="task[hour]" type="number" min="0" placeholder="Heure" value={i_hour} style="max-width: 600px; margin-bottom: 0; height: auto;" required/> h
 
-                            <input id="task_estimated_duration_minutes" name="task[minutes]" type="number" min="0" max="60" placeholder="Minutes" value={i_minutes} style="max-width: 125px; margin-bottom: 0; height: auto;"required/> m
+                            <input id="task_estimated_duration_minutes" name="task[minutes]" type="number" min="0" max="60" placeholder="Minutes" value={i_minutes} style="max-width: 600px; margin-top: 2px; height: auto;margin-right:-4px"required/> m
                             <%= error_tag_modif f, :negative_estimated %>
                           <% else %>
                             <%=
@@ -165,7 +166,7 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                             %>
                           <% end %>
                         </td>
-                        <td data-label="Durée effectuée">
+                        <td data-label="Durée effectuée" style="width: 600px;">
                           <%=
                             cond do
                               hour_p == 0 and minutes_p >= 0 -> if minutes_p > 1, do: "#{minutes_p} minutes", else: "#{minutes_p} minute"
@@ -176,7 +177,7 @@ defmodule PmLoginWeb.LiveComponent.ModifModalLive do
                           %>
                         </td>
                         <td data-label="Progression">
-                          <input id="task_progression" name="task[progression]" style="width: 70px; margin-bottom: 0;" type="number" value={@card.task.progression} min="0" max="100"> %
+                          <input id="task_progression" name="task[progression]" style="width: 600px; margin-bottom: 0;" type="number" value={@card.task.progression} min="0" max="100"> %
 
                           <%= error_tag_modif f, :invalid_progression %>
                           <%= error_tag_modif f, :progression_not_int %>
