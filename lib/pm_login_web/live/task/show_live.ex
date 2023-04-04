@@ -30,6 +30,8 @@ defmodule PmLoginWeb.Task.ShowLive do
     attributors = Login.list_attributors()
     list_attributors = Enum.map(attributors, fn %User{} = a -> {a.username, a.id} end)
 
+    tasks_history = Monitoring.list_history_tasks_by_task_id(id)
+
     layout =
       case Login.get_user!(curr_user_id).right_id do
         # 1 -> {PmLoginWeb.LayoutView, "board_layout_live.html"}
@@ -57,6 +59,7 @@ defmodule PmLoginWeb.Task.ShowLive do
        is_contributor: Monitoring.is_contributor?(curr_user_id),
        is_attributor: Monitoring.is_attributor?(curr_user_id),
        card: nil,
+       tasks_history: tasks_history,
        show_modif_modal: false,
        task_changeset: task_changeset,
        contributors: list_contributors,
