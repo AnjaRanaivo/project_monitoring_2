@@ -338,6 +338,7 @@ defmodule PmLoginWeb.Project.IndexLive do
 
     case Monitoring.create_task_with_card(new_params) do
       {:ok, task} ->
+        Monitoring.update_task(task, %{"clients_request_id" => params["client_request_id"]})
         this_board = board
 
         this_project = board.project
@@ -366,7 +367,7 @@ defmodule PmLoginWeb.Project.IndexLive do
         clients_request = Services.get_clients_request!(params["client_request_id"])
 
         clients_request_params = %{
-          "task_id" => task.id,
+          # "task_id" => task.id,
           "project_id" => task.project_id
         }
 

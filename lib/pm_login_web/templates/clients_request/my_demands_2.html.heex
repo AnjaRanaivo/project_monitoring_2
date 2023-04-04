@@ -21,6 +21,7 @@
         <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
       </div>
     </form>
+    <button onclick="show_finished()" style="margin-left:15px" >Afficher les demandes clôturées</button>
   </div>
 </div>
 
@@ -217,7 +218,7 @@
       <%= end %>
   </div>
   
-  <div data-stage-id="" class="stage_req">
+  <div data-stage-id="" class="stage_req" id="tasks_finished" style="display: none;">
     <div class="stage__header" id="stage__header__sticked">
       <div class="stage__name">
         Clôturée
@@ -411,3 +412,11 @@
 %>
 
 <br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function show_finished(){
+    // document.getElementById("list_task").style.display = 'block';
+    $("#tasks_finished").toggle();
+  }
+</script>

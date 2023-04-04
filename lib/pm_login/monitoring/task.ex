@@ -75,7 +75,7 @@ defmodule PmLogin.Monitoring.Task do
 
   def update_changeset(task, attrs) do
     task
-    |> cast(attrs, [:title, :description, :progression, :deadline,:date_start, :date_end, :estimated_duration, :performed_duration, :contributor_id, :priority_id, :status_id, :is_major])
+    |> cast(attrs, [:title, :description, :progression, :deadline,:date_start, :date_end, :estimated_duration, :performed_duration, :contributor_id, :priority_id, :status_id, :is_major, :clients_request_id])
     # |> Monitoring.validate_dates_without_deadline
     |> validate_required(:title, message: "Nom de tâche ne doit pas être vide!")
     |> validate_length(:title, max: 300, message: "Nom de tâche trop long !")
