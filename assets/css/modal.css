@@ -45,6 +45,14 @@
   z-index: 999;
 }
 
+.modal-update {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 999;
+}
+
 @media (max-width: 638px) {
   .modal-inner-container {
     margin: auto;
@@ -94,6 +102,18 @@
   height: auto;
   width: auto;
   max-width: 50rem;
+  border-radius: 0.4rem;
+  /* margin: 0.5rem;
+  
+
+  /* border-radius: 6px; */
+  background-color: #fff;
+  /* background-color: red; */
+}
+
+.modal-task-update {
+  height: auto;
+  width: 1000px;
   border-radius: 0.4rem;
   /* margin: 0.5rem;
   
