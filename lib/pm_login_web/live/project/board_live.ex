@@ -11,7 +11,7 @@ defmodule PmLoginWeb.Project.BoardLive do
     SecondaryModalLive,
     ReasonTaskHistoryModalLive
   }
-
+  alias PmLogin.Kanban.Card
   alias PmLoginWeb.ProjectView
   alias PmLogin.Monitoring
   alias PmLogin.Kanban
@@ -195,11 +195,27 @@ defmodule PmLoginWeb.Project.BoardLive do
   end
 
   def cards_list_primary_tasks(old_list) do
-    old_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
+    new_list = for card <- old_list do
+                  day_blocked = if (card.task.status_id == 2) and (not is_nil(Monitoring.get_last_task_history(card.task.id))) do
+                                  Date.diff(Date.utc_today(),Monitoring.get_last_task_history(card.task.id).inserted_at |> NaiveDateTime.to_date())
+                                else
+                                  0
+                                end
+                  card |> Map.from_struct() |> Map.put(:day_blocked ,day_blocked)
+                end
+    new_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
 
   def cards_list_secondary_tasks(old_list) do
-    old_list |> Enum.filter(fn card -> not is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
+    new_list = for card <- old_list do
+                  day_blocked = if (card.task.status_id == 2) and (not is_nil(Monitoring.get_last_task_history(card.task.id))) do
+                                  Date.diff(Date.utc_today(),Monitoring.get_last_task_history(card.task.id).inserted_at |> NaiveDateTime.to_date())
+                                else
+                                  0
+                                end
+                  card |> Map.from_struct() |> Map.put(:day_blocked ,day_blocked)
+                end
+    new_list |> Enum.filter(fn card -> not is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
 
   def cards_list_filtered_nocontributor(old_list) do
