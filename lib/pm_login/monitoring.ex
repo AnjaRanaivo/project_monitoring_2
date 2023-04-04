@@ -3006,19 +3006,6 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
-  def list_history_tasks_by_task_id(task_id) do
-    query = from th in TaskHistory,
-            join: t in Task,
-            on: t.id == th.task_id,
-            join: p in Project,
-            on: p.id == t.project_id,
-            where: t.id == ^task_id,
-            preload: [:task, :intervener, :status_from, :status_to],
-            order_by: [desc: :inserted_at],
-            select: th
-    Repo.all(query)
-  end
-
   # List the history of a given task
   def list_history_tasks_by_id(task_id) do
     query = from th in TaskHistory,

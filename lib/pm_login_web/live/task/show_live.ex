@@ -30,7 +30,7 @@ defmodule PmLoginWeb.Task.ShowLive do
     attributors = Login.list_attributors()
     list_attributors = Enum.map(attributors, fn %User{} = a -> {a.username, a.id} end)
 
-    tasks_history = Monitoring.list_history_tasks_by_task_id(id)
+    tasks_history = Monitoring.list_history_tasks_by_id(id)
 
     layout =
       case Login.get_user!(curr_user_id).right_id do
