@@ -3018,6 +3018,17 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def get_last_task_history(task_id) do
+    query = from th in TaskHistory,
+            join: t in Task,
+            on: t.id == th.task_id,
+            where: t.id == ^task_id,
+            preload: [:task, :intervener, :status_from, :status_to],
+            order_by: [desc: :inserted_at],
+            select: th
+    Repo.one(query)
+  end
+
   # List all task history
   def list_history_tasks do
     query = from th in TaskHistory,
