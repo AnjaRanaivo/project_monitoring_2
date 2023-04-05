@@ -53,7 +53,7 @@
           <thead>
             <tr>
               <th style="font-size:12px">Date de début</th>
-              <th style="font-size:12px">Date fin</th>
+              <th style="font-size:12px">Date de finition</th>
               <th style="font-size:12px">Progression</th>
             </tr>
           </thead>
@@ -162,6 +162,7 @@
               <th style="font-size:12px">Titre</th>
               <th style="font-size:12px">Nom du client</th>
               <th style="font-size:12px">Date d'envoi</th>
+              <th style="font-size:12px">Date de finition</th>
             </tr>
           </thead>
           <tbody>
@@ -171,6 +172,9 @@
               <td style="font-size:12px"><%= @task.clients_request.active_client.user.username %></td>
               <td style="font-size:12px"><%= if not is_nil(@task.clients_request.date_post) do %>
                   <%= PmLogin.Utilities.simple_date_format_with_hours(@task.clients_request.date_post) %>
+              <% end %></td>
+              <td style="font-size:12px"><%= if not is_nil(@task.clients_request.date_finished) do %>
+                  <%= PmLogin.Utilities.simple_date_format_with_hours(@task.clients_request.date_finished) %>
               <% end %></td>
             </tr>
             <% end %>
