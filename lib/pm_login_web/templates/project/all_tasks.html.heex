@@ -16,6 +16,7 @@
               project_id = elem(@project_filter, 1)
               default_project_filter = {"Tout", "9000"}
             %>
+            <%= project_id %>
               <option value={project_id} selected={@project_filter == @project_filter}><%= project %></option>
               <option value="9000" selected={@project_filter == default_project_filter}>Tout</option>
               <%= for project <- @projects do %>
@@ -34,7 +35,6 @@
         <th>
           <form phx-change="tasks_filtered_by_status" style="margin-bottom: -2rem;">
             <select
-              id="task_filter"
               name="status_id"
               style="margin-bottom: O;   "
             >
@@ -61,7 +61,6 @@
         <th>
           <form phx-change="tasks_filtered_by_priority" style="margin-bottom: -2rem;">
             <select
-              id="task_filter"
               name="priority_id"
               style="margin-bottom: O;   "
             >
@@ -88,7 +87,6 @@
         <th>
           <form phx-change="tasks_filtered_by_attributor" style="margin-bottom: -2rem;">
             <select
-              id="task_filter"
               name="attributor_id"
               style="margin-bottom: O;   "
             >
@@ -117,7 +115,6 @@
         <th> 
           <form phx-change="tasks_filtered_by_contributor" style="margin-bottom: -2rem;">
             <select
-              id="task_filter"
               name="contributor_id"
               style="margin-bottom: O;"
             >
@@ -147,7 +144,6 @@
         <th>
           <form phx-change="tasks_filtered_by_customer" style="margin-bottom: -2rem;">
             <select
-              id="task_filter"
               name="customer_id"
               style="margin-bottom: O;  "
             >
@@ -161,15 +157,13 @@
               <%= for active_client <- @active_clients do %>
 
                 <%
-                customer_filter = {active_client.id, PmLogin.Login.get_username(active_client.user_id)}
+                customer_filter = {elem(active_client, 0), elem(active_client, 1)}
                 %>
 
-                <option value={active_client.id} selected={@customer_filter == customer_filter}>
-                  <%= PmLogin.Login.get_username(active_client.user_id) %>
+                <option value={elem(active_client, 1)} selected={@customer_filter == customer_filter}>
+                  <%= elem(active_client, 0) %>
                 </option>
               <% end %>
-
-              <option value="-1">Sans client</option>
             </select>
           </form>
         </th>

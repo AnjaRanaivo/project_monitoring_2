@@ -1660,6 +1660,19 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+
+  # Return tasks list according to project
+  def list_tasks_by_project(project_id) do
+    card_query =
+            from c in Card,
+            select: c.id
+
+    query = from t in Task,
+            preload: [:project, :status, :priority, :clients_request, card: ^card_query],
+            where: t.project_id == ^project_id,
+            order_by: [desc: t.inserted_at]
+    Repo.all(query)
+  end
   def list_all_tasks_with_card do
     card_query =
       from c in Card,
@@ -1667,7 +1680,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       order_by: [desc: t.updated_at]
     Repo.all(query)
   end
@@ -1700,10 +1713,60 @@ defmodule PmLogin.Monitoring do
 
     query = from t in Task,
             where: t.project_id in ^project_id,
-            preload: [:project, :status, :priority, card: ^card_query],
+            preload: [:project, :status, :priority, :clients_request, card: ^card_query],
             order_by: [desc: t.updated_at]
 
     Repo.all(query)
+  end
+
+  def list_all_tasks_with_card_by_active_client_user_id(user_id) do
+    card_query = from c in Card,
+                 select: c.id
+
+    project_query = from p in Project,
+                    join: ac in ActiveClient,
+                    on: p.active_client_id == ac.id,
+                    where: ac.user_id == ^user_id,
+                    select: p.id
+
+    project_id = Repo.all(project_query)
+
+    query = from t in Task,
+            where: t.project_id in ^project_id,
+            preload: [:project, :status, :priority, :clients_request, card: ^card_query],
+            order_by: [desc: t.updated_at]
+
+    Repo.all(query)
+  end
+
+  def list_all_tasks_with_card_by_active_client_id_2(active_client_id) do
+    card_query =
+      from c in Card,
+        select: c.id
+
+    query =
+      from t in Task,
+      join: p in Project,
+      on: p.id == t.project_id,
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
+      where: p.active_client == ^active_client_id,
+      order_by: [desc: t.updated_at]
+    Repo.all(query)
+    # card_query = from c in Card,
+    #              select: c.id
+
+    # project_query = from p in Project,
+    # where: p.active_client_id == ^active_client_id,
+    # select: p.id
+
+    # project_id = Repo.all(project_query)
+
+    # query = from t in Task,
+    #         where: t.project_id in ^project_id,
+    #         preload: [:project, :status, :priority, :clients_request, card: ^card_query],
+    #         order_by: [desc: t.updated_at]
+
+    # Repo.all(query)
   end
 
   # Récupérer la liste des tâches par mise à jour d'ordre décroissant
@@ -1751,7 +1814,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       where: t.status_id == ^status_id
 
     Repo.all(query)
@@ -1783,7 +1846,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       where: t.status_id != 5 and t.contributor_id == ^contributor_id
 
     Repo.all(query)
@@ -1822,7 +1885,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       where: t.contributor_id == ^contributor_id and t.attributor_id == ^attributor_id
 
     Repo.all(query)
@@ -1849,7 +1912,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       where: t.status_id != 5 and is_nil(t.contributor_id)
 
     Repo.all(query)
@@ -2793,18 +2856,6 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
-  # Return tasks list according to project
-  def list_tasks_by_project(project_id) do
-    card_query =
-            from c in Card,
-            select: c.id
-
-    query = from t in Task,
-            preload: [:project, :status, :priority, :clients_request, card: ^card_query],
-            where: t.project_id == ^project_id,
-            order_by: [desc: t.inserted_at]
-    Repo.all(query)
-  end
 
   # Return tasks list according to priority
   def list_tasks_by_priority(priority_id) do
@@ -2813,7 +2864,7 @@ defmodule PmLogin.Monitoring do
             select: c.id
 
     query = from t in Task,
-            preload: [:project, :status, :priority, card: ^card_query],
+            preload: [:project, :status, :priority, :clients_request, card: ^card_query],
             where: t.priority_id == ^priority_id
     Repo.all(query)
   end
@@ -2826,7 +2877,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       where: t.status_id != 5 and t.attributor_id == ^attributor_id
 
     Repo.all(query)
@@ -2840,7 +2891,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-      preload: [:project, :status, :priority, card: ^card_query],
+      preload: [:project, :status, :priority, :clients_request, card: ^card_query],
       where: t.status_id != 5 and is_nil(t.attributor)
 
     Repo.all(query)
@@ -2856,69 +2907,69 @@ defmodule PmLogin.Monitoring do
     project_query =
       case project_id do
         "9000" -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: true
         _      -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.project_id == ^project_id
       end
 
     status_query =
       case status_id do
         "9000" -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: true
         _      -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.status_id == ^status_id
       end
 
     priority_query =
       case priority_id do
         "9000" -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: true
         _      -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.priority_id == ^priority_id
       end
 
     attributor_query =
       case attributor_id do
         "9000" -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: true
         "-1"   -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.attributor_id != 5 and is_nil(t.attributor_id)
         _      -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.attributor_id == ^attributor_id
       end
 
     contributor_query =
       case contributor_id do
         "9000" -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: true
         "-1"   -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.contributor_id != 5 and is_nil(t.contributor_id)
         _      -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.contributor_id == ^contributor_id
       end
 
     customer_query =
       case customer_id do
         "9000" -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: true
         "-1"   -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.customer_id != 5 and is_nil(t.customer_id)
         _      -> from t in Task,
-                    preload: [:project, :status, :priority, card: ^card_query],
+                    preload: [:project, :status, :priority, :clients_request, card: ^card_query],
                     where: t.customer_id == ^customer_id
       end
 
