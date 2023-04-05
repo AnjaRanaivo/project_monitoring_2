@@ -361,7 +361,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       if length(list_tasks) > 0 do
         socket.assigns.status_filter
       else
-        {"STatut", "9000"}
+        {"Statut", "9000"}
       end
     attributor_filter =
       if length(list_tasks) > 0 do
@@ -443,7 +443,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       if length(list_tasks) > 0 do
         socket.assigns.status_filter
       else
-        {"STatut", "9000"}
+        {"Statut", "9000"}
       end
     priority_filter =
       if length(list_tasks) > 0 do
@@ -525,7 +525,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       if length(list_tasks) > 0 do
         socket.assigns.status_filter
       else
-        {"STatut", "9000"}
+        {"Statut", "9000"}
       end
     priority_filter =
       if length(list_tasks) > 0 do
@@ -618,7 +618,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       if length(list_tasks) > 0 do
         socket.assigns.status_filter
       else
-        {"STatut", "9000"}
+        {"Statut", "9000"}
       end
     priority_filter =
       if length(list_tasks) > 0 do
