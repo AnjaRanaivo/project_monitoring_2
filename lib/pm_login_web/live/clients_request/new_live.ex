@@ -59,6 +59,7 @@ defmodule PmLoginWeb.ClientsRequest.NewLive do
   end
 
   def handle_event("change-request", params, socket) do
+    IO.inspect(socket)
     {:noreply, socket}
   end
 

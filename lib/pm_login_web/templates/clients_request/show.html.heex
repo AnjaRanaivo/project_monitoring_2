@@ -165,48 +165,58 @@
                             </div>  
                           </td>  
                         <% end %>
-                        <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
-                        <.form let={f} for={@changeset} phx-change="change-request" phx-submit="update-file">
-                        <div>
-                           <label class="btn btn-lg btn-primary file_input_btn" style="margin-left:600px">
-                            <%=  live_file_input(@uploads.file, class: "file_inputs") %>
-                            <i class="bi bi-upload"></i>
-                            Charger fichiers
-                          </label>
-                        </div>
-                        <%= for entry <- @uploads.file.entries do %>
-                        <div class="row">
-                          <div class="column">
-
-                            <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
-                            <%= live_img_preview entry, height: 50 %>
-                            <% else %>
-                            <p class="file__name__upload"><%= entry.client_name %></p>
-                            <% end %>
-
-                          </div>
-                          <div class="column">
-                            <progress value={entry.progress } max="100" />
-                          </div>
-                          <div class="column">
-                            <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
-                          </div>
-                        </div>
-                        <% end %>
-                        <div class="row">
-                          <button type="submit" style="float: right;" ><i class="bi bi-send"></i>Envoyer la requête</button>
-                        </div>
-                        </.form>
-                      <%= end %>
                       
                         
           </table>
-        <div class="">
+
+<%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+                        
+          <.form let={f} for={@changeset} phx-change="change-request" phx-submit="update-file">
+              
+                <div class="column">
+                <label class="btn btn-lg btn-primary file_input_btn" style="margin-left:600px">
+                  <%=  live_file_input(@uploads.file, class: "file_inputs") %>
+                  <i class="bi bi-upload"></i>
+                  Charger fichiers
+                </label>
+              </div>
+            <%= for {_ref, msg} <- @uploads.file.errors do %>
+            <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
+            <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
+            <% end %>
+            <% end %>
+            <%= for entry <- @uploads.file.entries do %>
+            <div class="row">
+              <div class="column">
+
+                <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
+                <%= live_img_preview entry, height: 50 %>
+                <% else %>
+                <p class="file__name__upload"><%= entry.client_name %></p>
+                <% end %>
+
+              </div>
+              <div class="column">
+                <progress value={entry.progress } max="100" />
+              </div>
+              <div class="column">
+                <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
+              </div>
+            </div>
+            <% end %>
+
+            <div class="row">
+              <button type="submit" style="margin-left:600px" ><i class="bi bi-send"></i>Ajouter les fichiers</button>
+            </div>
+          </.form>
+          <% end %>
+
+          <div class="">
             <a  class="btn btn-primary" onclick="history.back()">Retour</a>
           </div>
+          
       </div>
+    </div>
+    </div>
   </div>
-  </div>
-</div>
-
 
