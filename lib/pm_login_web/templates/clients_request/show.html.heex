@@ -130,7 +130,7 @@
       </table>
           </div>
         </div>       
-      <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+      <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/></a></h3>
       <table id="tb-auth">
       <%= if not Enum.empty?(@client_request.file_urls) do %>
                         <td data-label="Fichiers" style="min-height: 40px;">
@@ -162,9 +162,28 @@
                                   <br>
                                 <% end %>
                               <% end %>
-                            </div>
-                          </td>
+                            </div>  
+                          </td>  
                         <% end %>
+                        <div style="margin-right:660px">
+                          <a title="Ajouter" style=" 
+                                box-shadow: 0px 11px 35px 2px rgba(90, 87, 87, 0.2);
+                                background-color: #34495e; 
+                                float:right;
+                                margin-top: -20px;
+                                padding-right: 4px;
+                                width:30px;
+                                height:30px;
+                                z-index: 0;
+                                " class="bi bi-plus plus__icon" href={ }>
+                          </a>
+                           <label class="btn btn-lg btn-primary file_input_btn">
+                            <%!-- <%=  live_file_input(@uploads.file, class: "file_inputs") %> --%>
+                            <i class="bi bi-upload"></i>
+                            Charger fichiers
+                          </label>
+                        </div>
+                        
           </table>
         <div class="">
             <a  class="btn btn-primary" onclick="history.back()">Retour</a>

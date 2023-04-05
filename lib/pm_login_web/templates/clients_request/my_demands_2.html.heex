@@ -214,6 +214,19 @@
           <p style="font-size: 8px;">
             Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_done.date_post) %>
           </p>
+          <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+            <div style="margin-top:-20px;margin-left:120px">
+              <button 
+              class="button-cr-modify"
+              phx-click="cloture-request" 
+              phx-value-id={clients_request_done.id}
+            >
+              <i class="bi bi-check-all"></i>
+              Cloturer 
+            </button>
+            </div>
+            
+          <% end %>
         </div>
       <%= end %>
   </div>
