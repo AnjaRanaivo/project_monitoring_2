@@ -209,13 +209,13 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       end
     attributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.attributor_filter
       else
         {"Attributeur", "9000"}
       end
     contributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.contributor_filter
       else
         {"Contributeur", "9000"}
       end
@@ -287,13 +287,13 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       end
     attributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.attributor_filter
       else
         {"Attributeur", "9000"}
       end
     contributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.contributor_filter
       else
         {"Contributeur", "9000"}
       end
@@ -365,13 +365,13 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       end
     attributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.attributor_filter
       else
         {"Attributeur", "9000"}
       end
     contributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.contributor_filter
       else
         {"Contributeur", "9000"}
       end
@@ -453,7 +453,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       end
     contributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.contributor_filter
       else
         {"Contributeur", "9000"}
       end
@@ -535,7 +535,7 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       end
     attributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.attributor_filter
       else
         {"Attributeur", "9000"}
       end
@@ -628,13 +628,13 @@ defmodule PmLoginWeb.Project.AllTasksLive do
       end
     attributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.attributor_filter
       else
         {"Attributeur", "9000"}
       end
     contributor_filter =
       if length(list_tasks) > 0 do
-        socket.assigns.status_filter
+        socket.assigns.contributor_filter
       else
         {"Contributeur", "9000"}
       end
