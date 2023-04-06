@@ -955,3 +955,16 @@ header nav a {
   color: #fff;
 }
 
+@media (max-width: 900px) {
+  /* .btn-project-client-admin {
+    margin-top: -200px;
+  } */
+  .main-admin-index{
+    margin-top: -160px;
+  }
+  .carte-mobile-profil{
+    margin-right: 10px;
+  }
+}
+
+
