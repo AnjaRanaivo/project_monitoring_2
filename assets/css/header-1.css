@@ -153,10 +153,9 @@
 }
 
 .mobile__notif {
-  position: fixed;
-  top: 75px;
-  left: 20px;
-  z-index: 700;
+  top: 500px;
+  left: 100px;
+  margin-left: 25px;
 }
 
 @media (min-width: 651px) {
@@ -194,7 +193,7 @@
   .nav__toggle {
     display: block;
     position: absolute;
-    right: 1rem;
+    right: -1rem !important;
     top: 1rem;
   }
 }
