@@ -158,7 +158,7 @@
   margin-left: 25px;
 }
 
-@media (min-width: 651px) {
+@media (min-width: 701px) {
   .mobile__notif {
     display: none !important;
   }
