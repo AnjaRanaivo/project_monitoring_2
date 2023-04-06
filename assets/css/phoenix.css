@@ -955,16 +955,38 @@ header nav a {
   color: #fff;
 }
 
-@media (max-width: 900px) {
-  /* .btn-project-client-admin {
-    margin-top: -200px;
-  } */
+@media screen and (min-width: 1460px) {
   .main-admin-index{
-    margin-top: -160px;
-  }
-  .carte-mobile-profil{
-    margin-right: 10px;
+    margin-top: 0px;
   }
 }
-
-
+@media screen and (min-width: 720px) and (max-width: 1240px) {
+  .main-admin-index{
+    margin-top: -120px;
+  }
+}
+@media screen and (max-width: 720px) {
+  .main-admin-index{
+    margin-top: -100px;
+  }
+}
+@media screen and (min-width: 580px) and (max-width: 632px) {
+  .main-admin-index{
+    margin-top: -275px;
+  }
+}
+@media screen and (min-width: 525px) and (max-width: 579px) {
+  .main-admin-index{
+    margin-top: -250px;
+  }
+}
+@media screen and (min-width: 420px) and (max-width: 524px) {
+  .main-admin-index{
+    margin-top: -200px;
+  }
+}
+@media screen and (min-width: 352px) and (max-width: 419px) {
+  .main-admin-index{
+    margin-top: -175px;
+  }
+}
