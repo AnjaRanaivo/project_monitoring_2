@@ -90,6 +90,40 @@
   color: #fff;
 }
 
+.menu-client-request-2{
+  display: flex;
+}
+
+.mobile-menu-client-request {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .menu-client-request-2{
+    display: none;
+  }
+  .mobile-menu-client-request {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .menu-client-request-2{
+    display: none;
+  }
+  .mobile-menu-client-request {
+    display: block;
+    width: 100%;
+  }
+}
+
+.btn-clotured {
+  width: 300px;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
 
 @media (max-width: 1560px) {  
   .responsive-customer-request,

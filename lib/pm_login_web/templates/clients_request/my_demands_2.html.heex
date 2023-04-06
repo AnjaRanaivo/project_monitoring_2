@@ -1,29 +1,58 @@
   
-  <div class="responsive-customer-request">
-  <div class="button-project-list" style="display: flex; margin-left: 15px">
-    <p style="    height: 3.8rem;
-    display: flex;
-    align-items: center;"><span class="material-icons">
-      receipt_long
-    </span>Liste des demandes</p>
-    <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
-      <a href={ Routes.clients_request_path(@socket, :new) } class="btn btn-lg btn-primary" style="    height: 3.8rem;
+    <div class="menu-client-request-2" >
+      <p style="    height: 3.8rem;
       display: flex;
-      align-items: center; gap: 1rem; margin-left: 15px">
-        <i class="bi bi-plus-circle" style="font-size: 1.7rem;"></i> Faire une nouvelle demande
-      </a>
-    <%= end %>
+      align-items: center;"><span class="material-icons">
+        receipt_long
+      </span>Liste des demandes</p>
+      <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+        <a href={ Routes.clients_request_path(@socket, :new) } class="btn btn-lg btn-primary" style="    height: 3.8rem;
+        display: flex;
+        align-items: center; gap: 1rem; margin-left: 15px">
+          <i class="bi bi-plus-circle" style="font-size: 1.7rem;"></i> Faire une nouvelle demande
+        </a>
+      <%= end %>
 
-    <form phx-change="request-search-2" style="margin-bottom: -2rem;">
-      <div class="request-search">
-        <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
-        
-        <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+      <form phx-change="request-search-2" style="margin-bottom: -2rem;">
+        <div class="request-search">
+          <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
+          
+          <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+        </div>
+      </form>
+      <button onclick="show_finished()" style="margin-left:15px" >Afficher les demandes clôturées</button>
+    </div>
+
+    <div class="mobile-menu-client-request">
+      <div class="row">
+        <p style="    height: 3.8rem;
+        display: flex;
+        align-items: center;margin-left: 15px;margin-top:15px"><span class="material-icons">
+          receipt_long
+        </span>Liste des demandes</p>
       </div>
-    </form>
-    <button onclick="show_finished()" style="margin-left:15px" >Afficher les demandes clôturées</button>
-  </div>
-</div>
+      <div class="row">
+        <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+          <a href={ Routes.clients_request_path(@socket, :new) } style="    height: 3.8rem;
+          align-items: center; margin-left: 15px">
+            <i class="bi bi-plus-circle" style="font-size: 1.7rem;"></i> Faire une nouvelle demande
+          </a>
+        <%= end %>
+      </div>
+
+      <div class="row">
+        <form phx-change="request-search-2" style="margin-bottom: -2rem;">
+          <div class="request-search">
+            <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
+            
+            <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+      <button class="btn-clotured" onclick="show_finished()" >Afficher les demandes clôturées</button>
+    </div>
+    </div>
 
 <section id="the_board" class="board_req">
   <div data-stage-id="" class="stage_req">
