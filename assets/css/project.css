@@ -98,11 +98,29 @@
   display: none;
 }
 
+.old-detail-request{
+  display: flex;
+}
+
+.mobile-detail-request {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .menu-client-request-2{
     display: none;
   }
   .mobile-menu-client-request {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .old-detail-request{
+    display: none;
+  }
+  .mobile-detail-request {
     display: block;
     width: 100%;
   }
