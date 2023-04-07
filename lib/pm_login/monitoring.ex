@@ -718,7 +718,7 @@ defmodule PmLogin.Monitoring do
 
     query =
       from t in Task,
-        where: t.contributor_id == ^con_id,
+        where: t.contributor_id == ^con_id and t.status_id > 0,
         preload: [:project, :status, :priority, card: ^card_query],
         order_by: [desc: t.priority_id]
 
@@ -742,7 +742,7 @@ defmodule PmLogin.Monitoring do
     query =
       from t in Task,
         # Récupérer les tâches en étant un contributeur
-        where: t.contributor_id == ^con_id,
+        where: t.contributor_id == ^con_id and t.status_id>0,
         preload: [:project, :status, :priority, card: ^card_query],
         order_by: [desc: t.priority_id]
 
@@ -757,7 +757,7 @@ defmodule PmLogin.Monitoring do
     query =
       from t in Task,
         # Récupérer les tâches en étant un contributeur
-        where: t.attributor_id == ^con_id,
+        where: t.attributor_id == ^con_id and t.status_id>0,
         preload: [:project, :status, :priority, card: ^card_query],
         order_by: [desc: t.priority_id]
 
@@ -797,18 +797,24 @@ defmodule PmLogin.Monitoring do
   end
 
   def remove_card(task_id) do
-    task_query =
-      from t in Task,
-        where: t.id == ^task_id,
-        select: t
+    # task_query =
+    #   from t in Task,
+    #     where: t.id == ^task_id,
+    #     select: t
 
+    # query =
+    #   from c in Card,
+    #     where: c.task_id == ^task_id,
+    #     select: c
+
+    # Repo.delete_all(query)
+    # Repo.delete_all(task_query)
     query =
-      from c in Card,
-        where: c.task_id == ^task_id,
-        select: c
+      from t in Task,
+        where: t.id == ^task_id
 
-    Repo.delete_all(query)
-    Repo.delete_all(task_query)
+    Repo.update_all(query, set: [status_id: 0])
+    |> broadcast_hidden_change([:tasks, :shown])
   end
 
   # def remove_task(task_id) do

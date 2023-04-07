@@ -560,7 +560,7 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
 
       <div class="my__modal__container" style={"visibility: #{ if @delete_task_modal, do: "visible" , else: "hidden" };
         opacity: #{ if @delete_task_modal, do: "1 !important" , else: "0" };"}>
-        <div class="container my__modal__card archive__modal__card">
+        <div class="modal-inner-container modal-card-task">
           <a class="x__close" title="Fermer" phx-click="close_modal"><i class="bi bi-x"></i></a>
           <div class="row">
             <div class="column">
