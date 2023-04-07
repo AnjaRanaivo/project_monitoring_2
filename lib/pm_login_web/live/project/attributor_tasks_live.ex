@@ -721,9 +721,6 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
                       />
                     </td>
                     <td data-label="Actions" class="d-action">
-                      <div style="display: flex;
-                                  margin-top: 40px;
-                                  justify-content: end;">
                         <!--
                         <input
                           title="Mettre à jour"
@@ -733,33 +730,34 @@ defmodule PmLoginWeb.Project.AttributorTasksLive do
                         />
                         -->
 
-                        <button
+                        <p><button
                           title="Mettre à jour"
                           class="table-button btn-mobile"
                           type="submit"
-                          style="margin-top: -40px; background-color: #0059b8; border-color: #0059b8"
+                          style="background-color: #0059b8; border-color: #0059b8"
                         >
-                          Mettre à jour
-                        </button>
+                        Mettre à jour
+                        </button></p>
+                        <p>
                         <div
                           title="Afficher"
                           class="table-button btn-mobile"
                           phx-click="show_plus_modal"
                           phx-value-id={task.card}
-                          style="margin: -40px 5 0 5; background-color: #2ecc71; border-color: #2ecc71"
+                          style="background-color: #2ecc71; border-color: #2ecc71"
                         >
                           Afficher
-                        </div>
+                        </div></p>
+                        <p>
                         <div
                           title="Supprimer"
                           class="table-button btn-mobile"
                           phx-click="delete_task"
                           phx-value-id={task.id}
-                          style="margin-top: -40px; background-color: #e74c3c; border-color: #e74c3c"
+                          style="background-color: #e74c3c; border-color: #e74c3c"
                         >
                           Supprimer
-                        </div>
-                      </div>
+                        </div></p>
                     </td>
                   </form>
                     <td class="btn-table">
