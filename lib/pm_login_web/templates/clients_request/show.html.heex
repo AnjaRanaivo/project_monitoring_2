@@ -1,222 +1,376 @@
 
-<center>
-<div class="row">
+  <center>
+    <div class="row">
 
-      <div class="column basecontents__without__radius my__company__title">
-      <h1 class="h__company__title" ><%= @client_request.title %></h1>
-      
-        <div 
-            style={"
-              color: #fff;
-              margin: 5px 0 5px 0;
-              margin-top:50px;
-              margin-left:-100px;
-              font-size: 10px;background:#{if @client_request.is_urgent, do: '#d82a2a' , else: '#031d2e' };
-            "}
-          >
-          #<%= @client_request.uuid %>
+          <div class="column basecontents__without__radius my__company__title">
+            <h1 class="h__company__title" ><%= @client_request.title %></h1>
+          
+            <div 
+                style={"
+                  color: #fff;
+                  margin: 5px 0 5px 0;
+                  margin-top:50px;
+                  margin-left:-100px;
+                  font-size: 10px;background:#{if @client_request.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+                "}
+              >
+              #<%= @client_request.uuid %>
+            </div>
+            
           </div>
-        
     </div>
-
-
-  </div>
   </center>
-  <div class="" style="margin-top: 50px; padding: 0;">
-    <div class="">
       <div class="">
-        <div class="" style="background-color: white; margin-left:-300px;width:1350px">
-
-         <div class="row">
-          <div class="col-md-6" style="margin-left:50px;width:600px;">
+        <div class="old-detail-request">
+          <div class="" style="margin-top: 50px; padding: 0;">
+            <div class="" style="background-color: white; margin-left:-300px;width:1350px">
+              <div class="row">
+                <div class="col-md-6" style="margin-left:50px;width:600px;">
                   <h3 class="header__link__title" style="font-size:20px;margin-right:500px"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
-      <table id="tb-auth">
-        <thead>
-          <tr>
-            <th style="font-size:12px">Outil</th>
-            <th style="font-size:12px">Type de la demande</th>
-            <th style="font-size:12px">Statut</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="font-size:12px"><%= @client_request.tool.name %></td>
-            <td style="font-size:12px"><%= @client_request.request_type.name %></td>
-            <td style="font-size:12px"><%= if not @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
-                    Pas encore vue
-                    <% end %>
-                <%= if @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
-                Vue
+                    <table id="tb-auth">
+                      <thead>
+                        <tr>
+                          <th style="font-size:12px">Outil</th>
+                          <th style="font-size:12px">Type de la demande</th>
+                          <th style="font-size:12px">Statut</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="font-size:12px"><%= @client_request.tool.name %></td>
+                          <td style="font-size:12px"><%= @client_request.request_type.name %></td>
+                          <td style="font-size:12px"><%= if not @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                                  Pas encore vue
+                                  <% end %>
+                              <%= if @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                              Vue
+                              <% end %>
+                          <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                          En cours
+                          <% end %>
+                          <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
+                          Accomplie
+                          <% end %>
+                          <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
+                          Clôturée
+                          <% end %>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6" style="width:600px;margin-left:70px">
+                  <h3 class="header__link__title" style="font-size:20px;margin-left:500px"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+                    <table id="tb-auth">
+                      <thead>
+                        <tr>
+                          <th style="font-size:12px">Détails</th>
+                          <th style="font-size:12px">Attentes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="font-size:12px"><%= @client_request.content %></td>
+                          <td style="font-size:12px"><%= @client_request.expectation %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+
+              <div class="row" style="width:100%">
+                <div class="col-md-6"  style="margin-left:50px;width:600px;">
+                  <h3 class="header__link__title" style="font-size:20px"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+                    <table id="tb-auth">
+                      <thead>
+                        <tr>
+                          <th style="font-size:12px">Date d'échéance</th>
+                          <th style="font-size:12px">Date de finition</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="font-size:12px"><%= Utilities.simple_date_format(@client_request.deadline) %></td>
+                          <td  style="font-size:12px"><%= if !is_nil(@client_request.date_finished) do %>
+                            <%= Utilities.simple_date_format(@client_request.date_finished) %>
+                          <%= end %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6" style="width:600px;margin-left:70px">
+                  <h3 class="header__link__title" style="font-size:20px"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+                    <table id="tb-auth">
+                      <thead>
+                        <tr>
+                          <th style="font-size:12px">Nom</th>
+                          <th style="font-size:12px">Attributeur</th>
+                          <th style="font-size:12px">Contributeur</th>
+                          <th style="font-size:12px">Progression</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%= for task <- @client_request.tasks do %>
+                        <tr>
+                          <td style="font-size:12px"><%= task.title %></td>
+                          <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+                          <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>
+                            <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+                          <% else %>
+                            <%= PmLogin.Login.get_user!(task.contributor_id).username %>
+                          <% end %>
+                          </td>
+                          <td style="font-size:12px"><%= task.progression %></td>
+                        </tr>
+                        <%= end %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>       
+              <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/></a></h3>
+              <table id="tb-auth">
+                <%= if not Enum.empty?(@client_request.file_urls) do %>
+                  <td data-label="Fichiers" style="min-height: 40px;">
+                    <div class="" style="display: flex; float: right;">
+                      <%= for url <- @client_request.file_urls do %>
+                        <%= if Path.extname(url) in [".jpg", ".jpeg", ".png"] do %>
+                          <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
+                            <i class="bi bi-file-earmark-image" title={Path.basename(url)} style="color: #2c3e50"></i>
+                          </a>
+                        <% else %>
+                          <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
+                            <%= cond do %>
+                              <% String.ends_with?(Path.basename(url), ".pdf")   -> %> <i class="bi bi-filetype-pdf" title={Path.basename(url)} style="color: #e13f2d;"></i>
+                              <% String.ends_with?(Path.basename(url), ".txt")   -> %> <i class="bi bi-filetype-txt" title={Path.basename(url)} style="color: #7f8c8d;"></i>
+                              <% String.ends_with?(Path.basename(url), ".odt")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                              <% String.ends_with?(Path.basename(url), ".ods")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                              <% String.ends_with?(Path.basename(url), ".odp ")  -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                              <% String.ends_with?(Path.basename(url), ".csv")   -> %> <i class="bi bi-filetype-csv" title={Path.basename(url)} style="color: #1da355;"></i>
+                              <% String.ends_with?(Path.basename(url), ".xml")   -> %> <i class="bi bi-filetype-xml" title={Path.basename(url)} style="color: #f39c12;"></i>
+                              <% String.ends_with?(Path.basename(url), ".xls ")  -> %> <i class="bi bi-filetype-xls" title={Path.basename(url)} style="color: #27ae60;"></i>
+                              <% String.ends_with?(Path.basename(url), ".xlsx")  -> %> <i class="bi bi-filetype-xlsx" title={Path.basename(url)} style="color: #27ae60;"></i>
+                              <% String.ends_with?(Path.basename(url), ".ppt")   -> %> <i class="bi bi-filetype-ppt" title={Path.basename(url)} style="color: #e67e22;"></i>
+                              <% String.ends_with?(Path.basename(url), ".pptx ") -> %> <i class="bi bi-filetype-pptx" title={Path.basename(url)} style="color: #e67e22;"></i>
+                              <% String.ends_with?(Path.basename(url), ".doc")   -> %> <i class="bi bi-filetype-doc" title={Path.basename(url)} style="color: #2980b9;"></i>
+                              <% String.ends_with?(Path.basename(url), ".docx")  -> %> <i class="bi bi-filetype-docx" title={Path.basename(url)} style="color: #2980b9;"></i>
+                              <% true -> %>
+                            <% end %>
+                          </a>
+                          <br>
+                        <% end %>
+                      <% end %>
+                    </div>  
+                  </td>  
                 <% end %>
-            <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
-            En cours
-            <% end %>
-            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
-            Accomplie
-            <% end %>
-            <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
-            Clôturée
-            <% end %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-          </div>
-          <div class="col-md-6" style="width:600px;margin-left:70px">
-            <h3 class="header__link__title" style="font-size:20px;margin-left:500px"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
-      <table id="tb-auth">
-        <thead>
-          <tr>
-            <th style="font-size:12px">Détails</th>
-            <th style="font-size:12px">Attentes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="font-size:12px"><%= @client_request.content %></td>
-            <td style="font-size:12px"><%= @client_request.expectation %></td>
-          </tr>
-        </tbody>
-      </table>
+              </table>
+            </div>
           </div>
         </div>
 
-         <div class="row" style="width:100%">
-          <div class="col-md-6"  style="margin-left:50px;width:600px;">
-            <h3 class="header__link__title" style="font-size:20px"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
-      <table id="tb-auth">
-        <thead>
-          <tr>
-            <th style="font-size:12px">Date d'échéance</th>
-            <th style="font-size:12px">Date de finition</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="font-size:12px"><%= Utilities.simple_date_format(@client_request.deadline) %></td>
-            <td  style="font-size:12px"><%= if !is_nil(@client_request.date_finished) do %>
-              <%= Utilities.simple_date_format(@client_request.date_finished) %>
-            <%= end %></td>
-          </tr>
-        </tbody>
-      </table>
-          </div>
-          <div class="col-md-6" style="width:600px;margin-left:70px">
-            <h3 class="header__link__title" style="font-size:20px"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
-      <table id="tb-auth">
-        <thead>
-          <tr>
-            <th style="font-size:12px">Nom</th>
-            <th style="font-size:12px">Attributeur</th>
-            <th style="font-size:12px">Contributeur</th>
-            <th style="font-size:12px">Progression</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= for task <- @client_request.tasks do %>
-          <tr>
-            <td style="font-size:12px"><%= task.title %></td>
-            <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
-            <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>
-              <%= PmLogin.Login.get_user!(task.attributor_id).username %>
-            <% else %>
-              <%= PmLogin.Login.get_user!(task.contributor_id).username %>
-            <% end %>
-            </td>
-            <td style="font-size:12px"><%= task.progression %></td>
-          </tr>
-          <%= end %>
-        </tbody>
-      </table>
-          </div>
-        </div>       
-      <h3 class="header__link__title"><a id="adm">Liste des fichiers <br/></a></h3>
-      <table id="tb-auth">
-      <%= if not Enum.empty?(@client_request.file_urls) do %>
-                        <td data-label="Fichiers" style="min-height: 40px;">
-                          <div class="" style="display: flex; float: right;">
-                              <%= for url <- @client_request.file_urls do %>
-                                <%= if Path.extname(url) in [".jpg", ".jpeg", ".png"] do %>
-                                  <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
-                                    <i class="bi bi-file-earmark-image" title={Path.basename(url)} style="color: #2c3e50"></i>
-                                  </a>
-                                <% else %>
-                                  <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
-                                    <%= cond do %>
-                                      <% String.ends_with?(Path.basename(url), ".pdf")   -> %> <i class="bi bi-filetype-pdf" title={Path.basename(url)} style="color: #e13f2d;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".txt")   -> %> <i class="bi bi-filetype-txt" title={Path.basename(url)} style="color: #7f8c8d;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".odt")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".ods")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".odp ")  -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".csv")   -> %> <i class="bi bi-filetype-csv" title={Path.basename(url)} style="color: #1da355;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".xml")   -> %> <i class="bi bi-filetype-xml" title={Path.basename(url)} style="color: #f39c12;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".xls ")  -> %> <i class="bi bi-filetype-xls" title={Path.basename(url)} style="color: #27ae60;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".xlsx")  -> %> <i class="bi bi-filetype-xlsx" title={Path.basename(url)} style="color: #27ae60;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".ppt")   -> %> <i class="bi bi-filetype-ppt" title={Path.basename(url)} style="color: #e67e22;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".pptx ") -> %> <i class="bi bi-filetype-pptx" title={Path.basename(url)} style="color: #e67e22;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".doc")   -> %> <i class="bi bi-filetype-doc" title={Path.basename(url)} style="color: #2980b9;"></i>
-                                      <% String.ends_with?(Path.basename(url), ".docx")  -> %> <i class="bi bi-filetype-docx" title={Path.basename(url)} style="color: #2980b9;"></i>
-                                      <% true -> %>
-                                    <% end %>
-                                  </a>
-                                  <br>
-                                <% end %>
+        <div class="mobile-detail-request">
+          <div class="row">
+            <div class="column basecontents__without__radius esp__adm__col hover__growing">
+              <h3 class="header__link__title"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+              <table id="tb-auth">
+                <thead>
+                  <tr>
+                    <th>Outil</th>
+                    <th>Type de la demande</th>
+                    <th>Statut</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= @client_request.tool.name %></td>
+                    <td><%= @client_request.request_type.name %></td>
+                    <td><%= if not @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                              Pas encore vue
                               <% end %>
-                            </div>  
-                          </td>  
-                        <% end %>
-                      
-                        
-          </table>
-
-<%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
-                        
-          <.form let={f} for={@changeset} phx-change="change-request" phx-submit="update-file">
+                          <%= if @client_request.seen and not @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                          Vue
+                          <% end %>
+                      <%= if @client_request.seen and @client_request.ongoing and not @client_request.done and not @client_request.finished do %>
+                      En cours
+                      <% end %>
+                      <%= if @client_request.seen and @client_request.ongoing and @client_request.done and not @client_request.finished do %>
+                      Accomplie
+                      <% end %>
+                      <%= if @client_request.seen and @client_request.ongoing and @client_request.done and @client_request.finished do %>
+                      Clôturée
+                      <% end %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="column basecontents__without__radius esp__adm__col hover__growing">
+              <h3 class="header__link__title"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+              <table id="tb-auth">
+                <thead>
+                  <tr>
+                    <th>Détails</th>
+                    <th>Attentes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= @client_request.content %></td>
+                    <td><%= @client_request.expectation %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        
+        
+          <div class="row">
+            <div class="column basecontents__without__radius esp__adm__col hover__growing">
+              <h3 class="header__link__title"><a id="adm">Dates <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+              <table id="tb-auth">
+                <thead>
+                  <tr>
+                    <th>Date d'échéance</th>
+                    <th>Date de finition</th>
+        
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= Utilities.simple_date_format(@client_request.deadline) %></td>
+                    <td><%= if !is_nil(@client_request.date_finished) do %>
+                      <%= Utilities.simple_date_format(@client_request.date_finished) %>
+                    <%= end %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="column basecontents__without__radius esp__adm__col hover__growing">
+              <h3 class="header__link__title"><a id="adm">Liste des tâches <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+              <table id="tb-auth">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Attributeur</th>
+                    <th>Contributeur</th>
+                    <th>Progression</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for task <- @client_request.tasks do %>
+                  <tr>
+                    <td><%= task.title %></td>
+                    <td><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+                    <td><%= if is_nil(task.contributor_id) do %>
+                      <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+                    <% else %>
+                      <%= PmLogin.Login.get_user!(task.contributor_id).username %>
+                    <% end %>
+                    </td>
+                    <td><%= task.progression %></td>
+                  </tr>
+                  <%= end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        
               
-                <div class="column">
-                <label class="btn btn-lg btn-primary file_input_btn" style="margin-left:600px">
+          <div class="row">
+            <div class="column basecontents__without__radius esp__adm__col hover__growing">
+              <h3 class="header__link__title"><a id="adm">Liste des fichiers<br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+              <table id="tb-auth">
+                <%= if not Enum.empty?(@client_request.file_urls) do %>
+                                  <td data-label="Fichiers" style="min-height: 40px;">
+                                    <div class="" style="display: flex; float: right;">
+                                        <%= for url <- @client_request.file_urls do %>
+                                          <%= if Path.extname(url) in [".jpg", ".jpeg", ".png"] do %>
+                                            <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
+                                              <i class="bi bi-file-earmark-image" title={Path.basename(url)} style="color: #2c3e50"></i>
+                                            </a>
+                                          <% else %>
+                                            <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
+                                              <%= cond do %>
+                                                <% String.ends_with?(Path.basename(url), ".pdf")   -> %> <i class="bi bi-filetype-pdf" title={Path.basename(url)} style="color: #e13f2d;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".txt")   -> %> <i class="bi bi-filetype-txt" title={Path.basename(url)} style="color: #7f8c8d;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".odt")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".ods")   -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".odp ")  -> %> <i class="bi bi-files" title={Path.basename(url)} style="color: #2c3e50;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".csv")   -> %> <i class="bi bi-filetype-csv" title={Path.basename(url)} style="color: #1da355;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".xml")   -> %> <i class="bi bi-filetype-xml" title={Path.basename(url)} style="color: #f39c12;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".xls ")  -> %> <i class="bi bi-filetype-xls" title={Path.basename(url)} style="color: #27ae60;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".xlsx")  -> %> <i class="bi bi-filetype-xlsx" title={Path.basename(url)} style="color: #27ae60;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".ppt")   -> %> <i class="bi bi-filetype-ppt" title={Path.basename(url)} style="color: #e67e22;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".pptx ") -> %> <i class="bi bi-filetype-pptx" title={Path.basename(url)} style="color: #e67e22;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".doc")   -> %> <i class="bi bi-filetype-doc" title={Path.basename(url)} style="color: #2980b9;"></i>
+                                                <% String.ends_with?(Path.basename(url), ".docx")  -> %> <i class="bi bi-filetype-docx" title={Path.basename(url)} style="color: #2980b9;"></i>
+                                                <% true -> %>
+                                              <% end %>
+                                            </a>
+                                            <br>
+                                          <% end %>
+                                        <% end %>
+                                      </div>  
+                                    </td>  
+                                  <% end %>
+                                
+                                  
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+          <div class="upload-form">
+            <.form let={f} for={@changeset} phx-change="change-request" phx-submit="update-file">
+              <div class="column">
+                <label class="btn btn-lg btn-primary file_input_btn">
                   <%=  live_file_input(@uploads.file, class: "file_inputs") %>
                   <i class="bi bi-upload"></i>
                   Charger fichiers
                 </label>
               </div>
-            <%= for {_ref, msg} <- @uploads.file.errors do %>
-            <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
-            <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
-            <% end %>
-            <% end %>
-            <%= for entry <- @uploads.file.entries do %>
-            <div class="row">
-              <div class="column">
-
-                <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
-                <%= live_img_preview entry, height: 50 %>
-                <% else %>
-                <p class="file__name__upload"><%= entry.client_name %></p>
+              <%= for {_ref, msg} <- @uploads.file.errors do %>
+                <%= if Phoenix.Naming.humanize(msg)=="Too many files" do %>
+                <p class="alert alert-danger"><%= "Nombre de fichiers max : 5." %></p>
                 <% end %>
+              <% end %>
+              <%= for entry <- @uploads.file.entries do %>
+                <div class="row">
+                  <div class="column">
 
-              </div>
-              <div class="column">
-                <progress value={entry.progress } max="100" />
-              </div>
-              <div class="column">
-                <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
-              </div>
-            </div>
-            <% end %>
+                    <%= if Path.extname(entry.client_name)==".jpg" or Path.extname(entry.client_name)==".png" or Path.extname(entry.client_name)==".jpeg" do %>
+                    <%= live_img_preview entry, height: 50 %>
+                    <% else %>
+                    <p class="file__name__upload"><%= entry.client_name %></p>
+                    <% end %>
 
-            <div class="row">
-              <button type="submit" style="margin-left:600px" ><i class="bi bi-send"></i>Ajouter les fichiers</button>
-            </div>
-          </.form>
-          <% end %>
+                  </div>
+                  <div class="column">
+                    <progress value={entry.progress } max="100" />
+                  </div>
+                  <div class="column">
+                    <a href="#" phx-click="cancel-entry" phx-value-ref={entry.ref}>annuler</a>
+                  </div>
+                </div>
+              <% end %>
 
-          <div class="">
-            <a  class="btn btn-primary" onclick="history.back()">Retour</a>
+              <div class="row">
+                <button type="submit"><i class="bi bi-send"></i>Ajouter les fichiers</button>
+              </div>
+            </.form>
           </div>
-          
+        <% end %>
+
+        <div class="">
+          <a  class="btn btn-primary" onclick="history.back()">Retour</a>
+        </div>
       </div>
-    </div>
-    </div>
-  </div>
+    
+<!-- Mobileeeeeeeeeeeeee -->
 
