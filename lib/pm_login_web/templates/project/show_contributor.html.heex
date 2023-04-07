@@ -1,11 +1,11 @@
 <div class="conboard__container basecontents__without__radius">
     <div class="conboard__inner__container">
-        <div class="conboard__head">
-            <div class="card conboard_picsection basecontentswithout_radius" style="display: block;position: unset; background: transparent; width: 225px;">
+        <div class="conboard__head row">
+            <div class="col-sm-4 card conboard_picsection basecontentswithout_radius" style="display: block; margin: 0 auto; position: unset; background: transparent; width: 225px;">
                 <img class="conboard_pro_pic" src={ Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(@contributor_id) }") } />
                 <h3 style="margin-top: 10px;"><%= @contributor.username %></h3>
             </div>
-            <div class="conboard__bar__section">
+            <div class="col-sm-6 conboard__bar__section">
                 <h3 class="conboard__bar__title">Tâches achevées ces 7 derniers jours</h3>
                 <div class="container conboard__bar__container">
                     <%= @seven_chart %>
@@ -25,7 +25,7 @@
                     </thead>
             </table>
             <div class="task__section">
-                <table>
+                <table style="text-align: center;">
                     <tbody>
                     <%= for task <- @tasks do %>
                     <tr>
