@@ -1,9 +1,9 @@
 <div class="conboard__container basecontents__without__radius">
     <div class="conboard__inner__container">
         <div class="conboard__head">
-            <div class="conboard__pic__section basecontents__without__radius">
-                <img class="conboard__pro__pic" src={ Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(@contributor_id) }") }/>
-                <h1><%= @contributor.username %></h1>
+            <div class="card conboard_picsection basecontentswithout_radius" style="display: block;position: unset; background: transparent; width: 225px;">
+                <img class="conboard_pro_pic" src={ Routes.static_path(@socket, "/#{PmLogin.Login.get_profile_picture(@contributor_id) }") } />
+                <h3 style="margin-top: 10px;"><%= @contributor.username %></h3>
             </div>
             <div class="conboard__bar__section">
                 <h3 class="conboard__bar__title">Tâches achevées ces 7 derniers jours</h3>
@@ -13,14 +13,14 @@
             </div>
         </div>
         <div class="basecontents__without__radius conboard__foot">
-            <h1 class="conboard__foot__title">Comparatif des tâches</h1>
+            <h3 class="conboard__foot__title">Comparatif des tâches</h3>
             <table>
                     <thead>
                         <th>
-                           <h2 class="onboard__estimation__header">estimées</h2>
+                           <h4 class="onboard__estimation__header">estimées</h4>
                         </th>
                         <th>
-                           <h2 class="onboard__estimation__header">achevées</h2>
+                           <h4 class="onboard__estimation__header">achevées</h4>
                         </th>
                     </thead>
             </table>

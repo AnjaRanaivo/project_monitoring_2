@@ -31,8 +31,10 @@
 .conboard__bar__section{
     display: inline-block;
     height: 100%;
-    width: 80%;
+    width: 100%;
     justify-content: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .conboard__bar__title{
