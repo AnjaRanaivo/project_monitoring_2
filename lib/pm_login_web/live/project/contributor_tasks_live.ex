@@ -74,7 +74,7 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
        accept:
          ~w(.png .jpeg .jpg .pdf .txt .odt .ods .odp .csv .xml .xls .xlsx .ppt .pptx .doc .docx),
        max_entries: 5
-     ), layout: {PmLoginWeb.LayoutView, "contributor_layout_live.html"}}
+     ), layout: {PmLoginWeb.LayoutView, "contributor_tasks_layout_live.html"}}
   end
 
   def handle_event("status_and_progression_changed", params, socket) do
