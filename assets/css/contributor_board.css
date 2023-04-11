@@ -57,7 +57,7 @@
 .conboard__container{
     display: flex;
     width: 100%;
-    height: 170%;
+    height: 180%;
     padding-bottom: 10px;
     /* flex-wrap: wrap; */
 }
@@ -69,13 +69,13 @@
 .conboard__head{
     display: flex;
     width: 100%;
-    height: 30%;
+    height: 40%;
 }
 
 .conboard__foot{
     display: inline-block;
     width: 100%;
-    height: 70%;
+    height: 60%;
     /* margin-bottom: 40px; */
 }
 
