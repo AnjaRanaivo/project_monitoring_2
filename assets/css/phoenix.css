@@ -955,38 +955,142 @@ header nav a {
   color: #fff;
 }
 
-@media screen and (min-width: 1460px) {
+.web-projet-liste-attributeur{
+  display: block;
+  margin: 0 auto;
+}
+
+.mobile-projet-liste-attributeur{
+  display: none;
+ 
+}
+
+/* @media screen and (min-width: 1460px) {
   .main-admin-index{
     margin-top: 0px;
   }
-}
-@media screen and (min-width: 720px) and (max-width: 1240px) {
+  .web-projet-liste-attributeur{
+    display: block;
+    margin: 0 auto;
+  }
+  .mobile-projet-liste-attributeur{
+    display: none;
+  }
+  
+} */
+
+@media (max-width: 950px) {
   .main-admin-index{
     margin-top: -120px;
   }
+  .web-projet-liste-attributeur{
+    display: none;
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+    margin: 0 auto;
+  }
+  
+  
+}
+@media (max-width: 1045px) {
+  .main-admin-index{
+    margin-top: -120px;
+  }
+  .web-projet-liste-attributeur{
+    display: none;
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+/* @media screen and (min-width: 720px) and (max-width: 1240px) {
+  .main-admin-index{
+    margin-top: -120px;
+  }
+  .web-projet-liste-attributeur{
+    display: none;
+    
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+    margin: 0 auto;
+  }
+  
 }
 @media screen and (max-width: 720px) {
   .main-admin-index{
     margin-top: -100px;
   }
+  .web-projet-liste-attributeur{
+    display: none;
+    
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+    
+  }
+  
 }
 @media screen and (min-width: 580px) and (max-width: 632px) {
   .main-admin-index{
     margin-top: -275px;
   }
+  .web-projet-liste-attributeur{
+    display: none;
+    
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+    
+  }
+  
 }
 @media screen and (min-width: 525px) and (max-width: 579px) {
   .main-admin-index{
     margin-top: -250px;
+  }
+  .web-projet-liste-attributeur{
+    display: none;
+    
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+   
   }
 }
 @media screen and (min-width: 420px) and (max-width: 524px) {
   .main-admin-index{
     margin-top: -200px;
   }
+  .web-projet-liste-attributeur{
+    display: none;
+    
+  }
+  .mobile-projet-liste-attributeur{
+    display: block;
+   
+  }
+  
 }
 @media screen and (min-width: 352px) and (max-width: 419px) {
   .main-admin-index{
     margin-top: -175px;
   }
-}
+  .web-projet-liste-attributeur{
+    display: none;
+    
+  }
+  
+  .mobile-projet-liste-attributeur{
+    display: block;
+    
+   
+  }
+  
+} */
+
+
+
