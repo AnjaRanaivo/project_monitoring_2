@@ -100,8 +100,8 @@
 
 .modal-card-task {
   height: auto;
-  width: auto;
-  max-width: 50rem;
+  width: 80rem;
+  max-width: 80rem;
   border-radius: 0.4rem;
   /* margin: 0.5rem;
   
