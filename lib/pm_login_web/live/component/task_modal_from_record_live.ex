@@ -50,7 +50,7 @@ defmodule PmLoginWeb.LiveComponent.TaskModalFromRecordLive do
                   <div class="column">
                     <label class="zoom-out">Description</label>
                     <div class="zoom-out">
-                      <input id="task_description" name="task[description]" />
+                      <textarea id="task_description" name="task[description]"> </textarea>
                       <%= error_tag f, :description %>
                     </div>
                   </div>
