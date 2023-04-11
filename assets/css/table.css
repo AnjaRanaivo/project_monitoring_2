@@ -1,5 +1,5 @@
 .table-tasks {
-  margin-left: -200px;
+  /* margin-left: -36%; */
   margin-bottom: 1rem;
   border-spacing: 0 10px;
   border-collapse: separate;
@@ -98,7 +98,7 @@ th {
   display: none;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
 
   .table-tasks .btn-table {
     display: none;

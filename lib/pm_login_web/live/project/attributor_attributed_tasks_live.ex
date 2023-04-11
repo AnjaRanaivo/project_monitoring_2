@@ -81,7 +81,7 @@ defmodule PmLoginWeb.Project.AttributorAttributedTasksLive do
        accept:
          ~w(.png .jpeg .jpg .pdf .txt .odt .ods .odp .csv .xml .xls .xlsx .ppt .pptx .doc .docx),
        max_entries: 5
-     ), layout: {PmLoginWeb.LayoutView, "attributor_layout_live.html"}}
+     ), layout: {PmLoginWeb.LayoutView, "attributor_tasks_layout_live.html"}}
   end
 
   # Filtrer la liste des contributeurs par contributor_id
