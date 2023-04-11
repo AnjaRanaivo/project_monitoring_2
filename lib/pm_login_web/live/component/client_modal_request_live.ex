@@ -52,7 +52,7 @@ defmodule PmLoginWeb.LiveComponent.ClientModalRequestLive do
                   <div class="column">
                     <label class="zoom-out">Description</label>
                     <div class="zoom-out">
-                      <input id="task_description" name="task[description]" value={@client_request.content}/>
+                      <textarea id="task_description" name="task[description]" value={@client_request.content}>{@client_request.content}</textarea>
                       <%= error_tag f, :description %>
                     </div>
                   </div>
