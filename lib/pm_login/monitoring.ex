@@ -3082,6 +3082,7 @@ defmodule PmLogin.Monitoring do
             where: t.id == ^task_id,
             preload: [:task, :intervener, :status_from, :status_to],
             order_by: [desc: :inserted_at],
+            limit: 1,
             select: th
     Repo.one(query)
   end
