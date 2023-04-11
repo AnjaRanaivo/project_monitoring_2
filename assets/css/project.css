@@ -289,3 +289,20 @@
   color: #0069d9 !important;
 }
 
+.detail-task-2 {
+  margin-left:-80px
+}
+
+.tb-auth-2{
+  overflow-x: auto;
+  width: 100%;
+}
+
+@media (min-width: 1250px) {
+  .detail-task-2 {
+    background-color: white;width:1000px;margin-left:-300px;margin-top:30px;
+  }
+}
+
+
+

@@ -3056,7 +3056,7 @@ defmodule PmLogin.Monitoring do
             on: t.id == th.task_id,
             join: p in Project,
             on: p.id == t.project_id,
-            where: p.id == ^project_id,
+            where: p.id == ^project_id and t.status_id > 0,
             preload: [:task, :intervener, :status_from, :status_to],
             order_by: [desc: :inserted_at],
             select: th
