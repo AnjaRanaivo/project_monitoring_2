@@ -46,7 +46,7 @@
               <div class="column" style="margin-top: -4px; max-width: 37%;">
                 <%= if @is_admin or @is_attributor do %>
 
-                  <span class="material-icons-round filter__icon filt__and__sort__ico filter__icon__resized">person</span>
+                  <span class="material-icons-round filter_icon filtandsortico filtericon_resized">person</span>
                   <form class="form_under_fieldset" phx-change="attributor_selected">
         
                     <select class="field_under_form_under_fieldset select__resized" id="task_filter" name="attributor_select">
@@ -62,7 +62,7 @@
                   </form>
     
                 <span
-                  class="material-icons-round filter__icon filt__and__sort__ico filter__icon__resized">supervisor_account</span>
+                  class="material-icons-round filter_icon filtandsortico filtericon_resized">supervisor_account</span>
                 <form class="form_under_fieldset" phx-change="contributor_selected">
     
                   <select class="field_under_form_under_fieldset select__resized" id="task_filter"
@@ -82,7 +82,7 @@
                 <% end %>
                 
                 <%= if @is_admin or @is_attributor do %>
-                  <span class="material-icons-round filt__and__sort__ico filter__icon__resized">search</span>
+                  <span class="material-icons-round filt_andsortico filtericon_resized">search</span>
                 <% end %>
                 
                 <form class="form_under_fieldset" phx-change="search_task">
@@ -91,7 +91,7 @@
                 </form>
 
                 <%= if @is_contributor do %>
-                  <span class="material-icons-round filt__and__sort__ico filter__icon__resized">search</span>
+                  <span class="material-icons-round filt_andsortico filtericon_resized">search</span>
                 <% end %>
               </div>
 
@@ -99,17 +99,17 @@
               <%= if @is_admin or @is_attributor do %>
                 <div class="column" style="max-width: 16%">
                   <div class="form-check form-switch" style="margin-top: 3px;">
-                    <form class="vue__form__resized" phx-change="distinct_task">
+                    <form class="vue_form_resized" phx-change="distinct_task">
                       <div class="row">
                         <p style="font-size: 10px; margin-right: 5px;">Tâches</p>
                         <label class="switch" style="margin-right: 5px;">
-                          <input class="vues__fs__content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
+                          <input class="vues_fs_content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
                           checked={@showing_primaries}>
                           <span class="slider round"></span>
                         </label>
                         <p style="font-size: 10px; margin-right: 5px;">Sous-tâches</p>
                         <label class="switch">
-                          <input class="vues__fs__content" type="radio" id="secondary" name="task_view" value="subtask" style="margin-top: 0;"
+                          <input class="vues_fs_content" type="radio" id="secondary" name="task_view" value="subtask" style="margin-top: 0;"
                           checked={@showing_secondaries}>
                           <span class="slider round"></span>
                         </label>
@@ -120,17 +120,17 @@
               <% else %>
                 <div class="column" style="min-width: 10%">
                   <div class="form-check form-switch" style="margin-top: 3px;">
-                    <form class="vue__form__resized" phx-change="distinct_task">
+                    <form class="vue_form_resized" phx-change="distinct_task">
                       <div class="row">
                         <p style="font-size: 10px; margin-right: 5px;">Tâches</p>
                         <label class="switch" style="margin-right: 5px;">
-                          <input class="vues__fs__content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
+                          <input class="vues_fs_content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
                           checked={@showing_primaries}>
                           <span class="slider round"></span>
                         </label>
                         <p style="font-size: 10px; margin-right: 5px;">Sous-tâches</p>
                         <label class="switch">
-                          <input class="vues__fs__content" type="radio" id="secondary" name="task_view" value="subtask" style="margin-top: 0;"
+                          <input class="vues_fs_content" type="radio" id="secondary" name="task_view" value="subtask" style="margin-top: 0;"
                           checked={@showing_secondaries}>
                           <span class="slider round"></span>
                         </label>
@@ -249,6 +249,258 @@
 
     </div>
   </div>
+
+ <div class="boardheadermobile">
+    <div class="row">
+      <div class="board-menu-button-mobile" style="margin-bottom: 15px;">
+        <div class="column">
+          <%= cond do %>
+            <% @is_admin or @is_attributor or @is_contributor -> %>
+            <div class="row">
+              <div class="column" style="margin-bottom: 15px;">
+                <%= if @is_admin or @is_attributor do %>
+                  <h2 style="margin: 0; font-size: 12px; display: flex;">
+                    <span class="material-icons" style="font-size: 20px;">checklist_rtl</span>
+                    <div style="margin-top: 3px;">
+                      <%= @board.project.title %>
+                    </div>
+                  </h2>
+                <% end %>
+              
+                <%= if @is_contributor do %>
+                  <h2 style="margin: 0; font-size: 12px; display: flex;">
+                    <i class="bi bi-list-task" style="font-size: 20px"></i> 
+                    <div style="margin: 4 0 0 8">
+                      Mes tâches sur "<%= @board.project.title %>"
+                    </div>
+                  </h2>
+                <% end %>
+              
+                <div class=" " style="margin: -31px 0 0 0; float: right;">
+                  <p style="font-size: 10px; margin-bottom: 0px;"><!-- pour <b>
+                      <%= @board.project.active_client.company.name %> 
+                    </b>--><img class="profile-pic-header" src={
+                      Routes.static_path(@socket, "/#{@board.project.active_client.company.logo}" ) } width="50"
+                      style="position: relative; top: 10px; margin-left: 10px;" />
+                    <%= "#{@board.project.active_client.user.username}" %>
+                  </p>
+                </div>
+              </div>
+
+
+              <!-- <i style="margin-left: 20px; font-size: 13px;">
+                    <%= @board.project.description %>
+              </i> -->
+            </div>
+
+            <div class="row">
+              <div class="column" style="margin-top: -4px; max-width: 37%;">
+                <%= if @is_admin or @is_attributor do %>
+
+                  <span class="material-icons-round filter_icon filtandsortico filtericon_resized">person</span>
+                  <form class="form_under_fieldset" phx-change="attributor_selected">
+        
+                    <select class="field_under_form_under_fieldset select__resized" id="task_filter" name="attributor_select">
+                      <option value="" selected disabled hidden>Attributeur</option>
+                      <option value="9000">Tout</option>
+                      <%= for attributor <- @project_attributors do %>
+                      <option value={attributor.id}>
+                        <%= attributor.username %>
+                      </option>
+                      <% end %>
+                    </select>
+    
+                  </form>
+    
+                <span
+                  class="material-icons-round filter_icon filtandsortico filtericon_resized">supervisor_account</span>
+                <form class="form_under_fieldset" phx-change="contributor_selected">
+    
+                  <select class="field_under_form_under_fieldset select__resized" id="task_filter"
+                    name="contributor_select">
+                    <option value="" selected disabled hidden>Contributeur</option>
+                    <option value="9000">Tout</option>
+                    <%= for contributor <- @project_contributors do %>
+                    <option value={contributor.id}>
+                      <%= contributor.username %>
+                    </option>
+                    <% end %>
+                    <option value="-1">Sans contributeur</option>
+                  </select>
+    
+                </form>
+    
+                <% end %>
+                
+                <%= if @is_admin or @is_attributor do %>
+                  <span class="material-icons-round filt_andsortico filtericon_resized">search</span>
+                <% end %>
+                
+                <form class="form_under_fieldset" phx-change="search_task">
+                  <input class="field_under_form_under_fieldset select__resized" autocomplete="off" type="text"
+                    name="search-a" style="max-width: 100px; line-height: 10px;" placeholder="Rechercher ici">
+                </form>
+
+                <%= if @is_contributor do %>
+                  <span class="material-icons-round filt_andsortico filtericon_resized">search</span>
+                <% end %>
+              </div>
+
+
+              <%= if @is_admin or @is_attributor do %>
+                <div class="column" style="max-width: 50%">
+                  <div class="form-check form-switch" style="margin-top: 3px;">
+                    <form class="vue_form_resized" phx-change="distinct_task">
+                      <div class="row">
+                        <p style="font-size: 10px; margin-right: 5px;">Tâches</p>
+                        <label class="switch" style="margin-right: 5px;">
+                          <input class="vues_fs_content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
+                          checked={@showing_primaries}>
+                          <span class="slider round"></span>
+                        </label>
+                        <p style="font-size: 10px; margin-right: 5px;">Sous-tâches</p>
+                        <label class="switch">
+                          <input class="vues_fs_content" type="radio" id="secondary" name="task_view" value="subtask" style="margin-top: 0;"
+                          checked={@showing_secondaries}>
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              <% else %>
+                <div class="column" style="min-width: 10%">
+                  <div class="form-check form-switch" style="margin-top: 3px;">
+                    <form class="vue_form_resized" phx-change="distinct_task">
+                      <div class="row">
+                        <p style="font-size: 10px; margin-right: 5px;">Tâches</p>
+                        <label class="switch" style="margin-right: 5px;">
+                          <input class="vues_fs_content" type="radio" id="primary" name="task_view" value="task" style="margin-top: 0;"
+                          checked={@showing_primaries}>
+                          <span class="slider round"></span>
+                        </label>
+                        <p style="font-size: 10px; margin-right: 5px;">Sous-tâches</p>
+                        <label class="switch">
+                          <input class="vues_fs_content" type="radio" id="secondary" name="task_view" value="subtask" style="margin-top: 0;"
+                          checked={@showing_secondaries}>
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              <% end %>
+
+              <%= if @is_admin or @is_attributor do %>
+                <div class="column" style="max-width: 42%; margin-top: -10px;">
+                  <%= if @is_admin or @is_attributor or @is_contributor do %>
+                    <div 
+                      class="card-button-green" 
+                      type="button" 
+                      phx-click="show_task_modal"
+                      style="font-size: 10px; height: 30px; margin-top: 4px;"
+                    >
+                      Nouvelle tâche
+                    </div>
+
+                    <div 
+                      class="card-button" 
+                      type="button" 
+                      phx-click="show-secondary"
+                      style="font-size: 10px; height: 30px; margin-top: 4px;"
+                    >
+                      Création sous-tâche
+                    </div>
+                    
+                    <%= if @is_admin or @is_attributor do %>
+                      <div 
+                        class="card-button-orange" 
+                        type="button" 
+                        phx-click="show_hidden_tasks"
+                        style="font-size: 10px; height: 30px; margin-top: 4px;"
+                      >
+                        <i class="bi bi-archive" style="font-size: 16px; color: #fff; margin-right: 5px;"></i>
+                        Restaurer les tâches
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="column" style="min-width: 25%">
+                  <%= if @is_admin or @is_attributor or @is_contributor do %>
+                  <div 
+                    class="card-button-green" 
+                    type="button" 
+                    phx-click="show_task_modal"
+                    style="font-size: 10px; height: 30px; margin-top: -8px;"
+                  >
+                    Nouvelle tâche
+                  </div>
+
+                  <div 
+                    class="card-button" 
+                    type="button" 
+                    phx-click="show-secondary"
+                    style="font-size: 10px; height: 30px; margin-top: -8px;"
+                  >
+                    Création sous-tâche
+                  </div>
+                    
+                    <%= if @is_admin or @is_attributor do %>
+                      <div 
+                        class="card-button-orange" 
+                        type="button" 
+                        phx-click="show_hidden_tasks"
+                        style="font-size: 10px; height: 30px; margin-top: 4px;"
+                      >
+                        <i class="bi bi-archive" style="font-size: 16px; color: #fff; margin-right: 5px;"></i>
+                        Restaurer les tâches
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+
+              <div class="circular-progression" style="margin-top: 10px">
+                <% prog_color = 
+                  cond do @board.project.progression                                     <= 20  -> "#e63946"
+                          @board.project.progression > 20 and @board.project.progression <= 40  -> "#e76f51"
+                          @board.project.progression > 40 and @board.project.progression <= 60  -> "#ffba08"
+                          @board.project.progression > 60 and @board.project.progression <= 80  -> "#457b9d"
+                          @board.project.progression > 80 and @board.project.progression <= 100 -> "#2a9d8f"
+                          true                                                                  -> "black"
+                  end
+                %>
+
+                <div class="pie" style={"--p: #{@board.project.progression};--c:#{prog_color};--b:4px"}> <%= @board.project.progression %>% </div>
+              </div>
+
+
+            </div>
+          <% true -> %><h2></h2>
+
+          <% end %>
+
+
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="column">
+        <div class="key__cancel" phx-window-keydown="key_cancel">
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
   <div class="row" style="width: 100%">
     <div class="col-md-10" style="width: 83%">

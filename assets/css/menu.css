@@ -10,7 +10,19 @@
     box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
 }
 
-@media (max-width: 750px) {
+.board-menu-button-mobile {
+  margin: 0 auto;
+  padding: 10px;
+  width: inherit;
+  width: -moz-available;
+  max-width: 1200px;
+  max-height: 500px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: rgb(149 157 165 / 20%) 0px 8px 24px;
+}
+
+@media (max-width: 1090px) {
     .board-menu-button {
         height: auto;
     }
@@ -124,3 +136,24 @@
   @keyframes p {
     from{--p:0}
   }
+
+  .board-menu-button{
+    display: block;
+  }
+
+  .board-menu-button-mobile{
+    display: none;
+  }
+
+  @media (max-width: 1045px) {
+  .main-admin-index{
+    margin-top: -120px;
+  }
+  .board-menu-button{
+    display: none;
+  }
+  .board-menu-button-mobile{
+    display: block;
+    margin: 0 auto;
+  }
+}
