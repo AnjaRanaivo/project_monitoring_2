@@ -33,7 +33,7 @@
 
 </style>
 
-<div class="responsive-customer-request">
+<div class="web-projet-liste-attributeur">
   <% request = Enum.at(@not_ongoing_requests, @not_ongoing_index) %>
   <div class="card-info" data-id={request.id} id="card-drop" style="margin-bottom: -3rem; margin-right: 3rem;">
     <div class="row" style="margin-left: 0; align-items: center;">
@@ -152,6 +152,141 @@
     
       <% end %>
 
+
+</div>
+
+<!-- CSS Mobile-->
+<div class="mobile-projet-liste-attributeur">
+  <% request = Enum.at(@not_ongoing_requests, @not_ongoing_index) %>
+  <div class="row" style="margin: auto, width:50%;margin-bottom:100px">
+     
+        <div class="card-info" data-id={request.id} id="card-drop" style="">
+        <div class="row" style="margin-left: 0; align-items: center;">
+      
+          <div style="display: block; gap: 1rem;">
+
+            <div style="padding-left: 23px;">
+              <%="#{@not_ongoing_index+1} / #{@not_ongoing_requests |> length()}"  %>
+            </div>
+            <div style="display: flex;">
+              <a phx-click={if @prev_shown, do: "dec_ongoing_index"}>
+                <i class={"bi bi-chevron-left #{if @prev_shown, do: "customer-request-prev", else: "customer-request-prev-disabled"} "}></i>
+              </a>
+
+              <a phx-click={if @next_shown, do: "inc_ongoing_index"}>
+                <i class={"bi bi-chevron-right #{if @next_shown, do: "customer-request-next", else: "customer-request-next-disabled"} "}></i>
+              </a>
+            </div>
+
+
+          </div>
+    
+
+          <div class="col card-avatar-resize" style="padding-top: 0;">
+            <div class="card-avatar" style="width: 55px; height: 55px;">
+              <i class="bi bi-info-circle" style="font-size: 25px"></i>
+            </div>
+          </div>
+
+          <div class="col card-info-text-resize" style="padding-top: 0;">
+            <div class="card-info-text">
+                <div style="opacity: 0.7;">
+                  <p class="no-margin-p-tag" style="white-space: nowrap;"><%= "#{request.active_client.user.username} - #{request.active_client.company.name}" %></p>
+                  <p class="no-margin-p-tag">(<%= PmLogin.Services.count_list_client_request(request.active_client.user.id) %> demandes en attente)</p>
+                </div>
+              <div class="card-text-content" style="font-weight: bold;">
+                <%= request.title %>
+              </div>
+              <div class="card-date" style="font-size: 10px; opacity: 0.65;">
+                <%= Utilities.letters_date_format_with_hours request.date_post %>
+              </div>
+            </div>
+          </div>
+
+          <div class="col card-button-select-resize" style="padding-top: 0;">
+            <div class="card-button-select" style="margin-left: -2rem;">
+            <center>
+              <div 
+                class="row card-button" 
+                type="button" 
+                phx-click="show_detail_request_modal" 
+                phx-value-id={request.id}
+                style="background-color: #1a9e51;width:50%"
+              >
+                <i class="bi bi-eye" style="font-size: 1.5rem; margin-right: 5px"></i>
+                Voir
+              </div>
+              <div 
+                class="row card-button"
+                type="button"
+                phx-click="show_project_modal"
+                phx-value-id={request.id}
+                style="margin-top:1rem;width:50%"
+              >
+                Créer un projet
+              </div>
+              <div 
+                class="row card-button" 
+                type="button" 
+                phx-click="show_client_request_modal" 
+                phx-value-id={request.id}
+                style="margin-top:1rem;width:50%"
+              >
+                Créer une tâche
+              </div>
+              </center>
+            </div>
+          </div>
+      
+          </div>
+      </div>
+    </div>
+  
+    
+      <%= if PmLogin.Login.get_user!(@curr_user_id).right_id==1 or PmLogin.Login.get_user!(@curr_user_id).right_id==2 do
+      %>
+      
+        <div style={"margin-top: #{if @list_clients_requests == [], do: "8rem;", else: "0"}"}>
+          <div class="row button-project-list" style={"display: flex; width:50%;margin-top: #{if @list_clients_requests == [], do: "-8rem", else: "-6rem"}; margin-bottom: #{if @list_clients_requests == [], do: "1rem", else: "6rem"};margin-left:5rem;"}>
+            <a href={ Routes.project_path(@socket, :new) } class="btn btn-lg btn-primary" style="    height: 3.8rem;
+            display: flex;
+            align-items: center; gap: 1rem">
+              <i class="bi bi-plus-circle" style="font-size: 1.7rem;"></i> Nouveau projet
+            </a>
+          </div>
+          <div class="row">
+            <div class="col" style={"display: flex; width:50%;margin-bottom:2rem;"}>
+             <form phx-change="search-project">
+              <div class="project-search">
+              
+                <input type="text" name="project_search" id="projectSearch" placeholder="Rechercher un projet" style="width: 20rem;margin-top: -0.5rem;margin-left:-5rem;">
+              </div>
+              </form>
+            </div>
+            <div class="col" style="display: flex;width:50%;">
+              <form phx-change="status-project">
+                <select id="project_status_id" name="status_id" style="width: -moz-available;
+                margin-left: 2rem;
+                height: 3.8rem;">
+                  <option value="0">Tout</option>
+                  <option value="1">A faire</option>
+                  <option value="2">En blocage</option>
+                  <option value="3">En cours</option>
+                  <option value="4">En contrôle</option>
+                  <option value="5">Achevée(s)</option>
+                </select>
+              </form>
+            </div>  
+          </div>
+            
+         
+          
+         
+          
+        </div>
+      
+
+      <% end %>
 </div>
         <table id="tb-auth" class="table-sortable" style="margin-top: 10px; font-size: 13px">
           <thead>
