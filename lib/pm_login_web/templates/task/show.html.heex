@@ -24,7 +24,7 @@
 </div>
 
 
-  <div class="detail-task-2" style="">
+  <div class="detail-task-2" style="background-color: white;width:1000px;margin-left:-300px;margin-top:30px">
   <div class="row">
     <div class="col">
        <div class="row">
@@ -242,6 +242,226 @@
   </div>
   </div>
  </div>
+
+<div class="mobile-detail-task-2" style="">
+    <div class="row" >
+      <div class="column basecontents__without__radius esp__adm__col hover__growing">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+        <table id="tb-auth" class="tb-auth-2">
+          <thead>
+            <tr>
+              <th style="font-size:12px">Description</th>
+              <th style="font-size:12px">Statut</th>
+              <th style="font-size:12px">Priorité</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size:12px"><%= @task.description %></td>
+              <td style="font-size:12px"><%= @task.status.title %></td>
+              <td style="font-size:12px"><%= @task.priority.title %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="column basecontents__without__radius esp__adm__col hover__growing">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Avancement <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+        <table id="tb-auth" class="tb-auth-2">
+          <thead>
+            <tr>
+              <th style="font-size:12px">Date de début</th>
+              <th style="font-size:12px">Date de finition</th>
+              <th style="font-size:12px">Progression</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size:12px"><%= if not is_nil(@task.date_start) do %>
+                  <%= PmLogin.Utilities.simple_date_format(@task.date_start) %>
+                  <% end %></td>
+              <td style="font-size:12px"><%= if not is_nil(@task.date_end) do %>
+                  <%= PmLogin.Utilities.simple_date_format(@task.date_end) %>
+                  <% end %></td>
+              <td style="font-size:12px"><%= @task.progression %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="column basecontents__without__radius esp__adm__col hover__growing">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Contenus <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+        <table id="tb-auth" class="tb-auth-2">
+          <thead>
+            <tr>
+              <th style="font-size:12px">Attributeur</th>
+              <th style="font-size:12px">Contributeur</th>
+              <th style="font-size:12px">Date d'échéance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size:12px"><%= PmLogin.Login.get_user!(@task.attributor_id).username %></td>
+              <td style="font-size:12px"><%= if is_nil(@task.contributor_id) do %>
+                <%= PmLogin.Login.get_user!(@task.attributor_id).username %>
+              <% else %>
+                <%= PmLogin.Login.get_user!(@task.contributor_id).username %>
+              <% end %>
+              </td>
+              <td style="font-size:12px"><%= if not is_nil(@task.deadline) do %><%= PmLogin.Utilities.simple_date_format(@task.deadline) %><% end %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="column basecontents__without__radius esp__adm__col hover__growing">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Liste des tâches filles <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+        <table id="tb-auth" class="tb-auth-2">
+          <thead>
+            <tr>
+              <th style="font-size:12px">Nom</th>
+              <th style="font-size:12px">Attributeur</th>
+              <th style="font-size:12px">Contributeur</th>
+              <th style="font-size:12px">Progression</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for task <- @task.children do %>
+            <tr>
+              <td style="font-size:12px"><%= task.title %></td>
+              <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
+              <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>
+                <%= PmLogin.Login.get_user!(task.attributor_id).username %>
+              <% else %>
+                <%= PmLogin.Login.get_user!(task.contributor_id).username %>
+              <% end %>
+              </td>
+              <td style="font-size:12px"><%= task.progression %></td>
+            </tr>
+            <%= end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="column basecontents__without__radius esp__adm__col hover__growing">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Tâche mère <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+        <table id="tb-auth" class="tb-auth-2">
+          <thead>
+            <tr>
+              <th style="font-size:12px">Nom</th>
+              <th style="font-size:12px">Attributeur</th>
+              <th style="font-size:12px">Contributeur</th>
+              <th style="font-size:12px">Progression</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= if not is_nil(@task.parent_id) do %>
+            <tr>
+              <td style="font-size:12px"><%= @task.parent.title %></td>
+              <td style="font-size:12px"><%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %></td>
+              <td style="font-size:12px"><%= if is_nil(@task.parent.contributor_id) do %>
+                <%= PmLogin.Login.get_user!(@task.parent.attributor_id).username %>
+              <% else %>
+                <%= PmLogin.Login.get_user!(@task.parent.contributor_id).username %>
+              <% end %>
+              </td>
+              <td style="font-size:12px"><%= @task.parent.progression %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" >
+      <div class="column basecontents__without__radius esp__adm__col hover__growing">
+        <h3 class="header__link__title" style="font-size:20px"><a id="adm">Requête Client <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
+        <table id="tb-auth" class="tb-auth-2">
+          <thead>
+            <tr>
+              <th style="font-size:12px">Titre</th>
+              <th style="font-size:12px">Nom du client</th>
+              <th style="font-size:12px">Date d'envoi</th>
+              <th style="font-size:12px">Date de finition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= if not is_nil(@task.clients_request_id) do %>
+            <tr>
+              <td style="font-size:12px"><%= @task.clients_request.title %></td>
+              <td style="font-size:12px"><%= @task.clients_request.active_client.user.username %></td>
+              <td style="font-size:12px"><%= if not is_nil(@task.clients_request.date_post) do %>
+                  <%= PmLogin.Utilities.simple_date_format_with_hours(@task.clients_request.date_post) %>
+              <% end %></td>
+              <td style="font-size:12px"><%= if not is_nil(@task.clients_request.date_finished) do %>
+                  <%= PmLogin.Utilities.simple_date_format_with_hours(@task.clients_request.date_finished) %>
+              <% end %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row board_history_show" style="width: 17%">
+      <div class="stage_history_show" style="background-color: #fff;">
+        <div style="height: 100%; padding-left: 15px;padding-right: 10px;">
+          <div 
+            style={"
+              display: inline-block;
+              color: #fff;
+              margin: 5px 0 5px 0;
+              font-size: 10px;background:#031d2e;
+            "}
+            >
+          </div>
+          <div class="stage__name" style="text-align: center;margin-top: 5px;">
+            <p style="text-decoration: underline; font-size: 12px, font-weight: bold;">Historique</p>
+          </div>
+          <%= if not is_nil(@tasks_history) do %>
+          <%= for task_history <- @tasks_history do %>
+            <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;margin-left:13px">
+              <p style="display: inline;"><%= task_history.intervener.username%></p>
+              <p style="display: inline;"> - </p>
+              <p style="word-wrap: anywhere; color: #727272; display: inline;">
+                <%= Utilities.simple_date_format_with_hours_onboard(task_history.inserted_at) %>
+              </p>
+            </div>
+            <div class="card__name" style="font-size: 11px;margin-left:13px">
+              <a href={ Routes.task_path(@socket, :show, task_history.task.id) } ><%= task_history.task.title %></a>
+            </div>          
+            <p style="font-size: 11px;margin-left:13px">
+              <%= task_history.status_from.title %> &#x2192; <%= task_history.status_to.title %>
+            </p>
+            <%= if not is_nil(task_history.reason) do %>
+            <p style="font-size: 11px; color: #727272;margin-left:13px">
+              <b style="color: #000; text-decoration:underline;">Motif</b> : <%= task_history.reason %>
+            </p>
+            <% end %>
+            <hr style="border-top: 0.1rem solid #b9bcbf!important;">
+          <% end %>
+          <% end %>
+         
+         
+            <div style="display: flow-root list-item; margin-bottom: 3px; font-size: 10px;margin-left:13px">
+              <p style="word-wrap: anywhere; color: #727272; display: inline;">
+                <%= Utilities.simple_date_format_with_hours_onboard(@task.inserted_at) %>
+              </p>
+            </div>
+            <div class="card__name" style="font-size: 11px;margin-left:13px">
+              <a href={ Routes.task_path(@socket, :show, @task.id) } ><%= @task.title %></a>
+            </div>          
+            <p style="font-size: 11px;margin-left:13px">
+              Créé
+            </p>
+            <hr style="border-top: 0.1rem solid #b9bcbf!important;"> 
+        </div>
+      </div>
+    </div>
+</div>
   
   <%= live_component(@socket, PmLoginWeb.LiveComponent.CommentsModalLive, id: "confirm-arch" , title: "Commentaires" , body: nil,
             right_button: "Oui" , right_button_action: "arch" , right_button_param: "" , #@arch_id

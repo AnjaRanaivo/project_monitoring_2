@@ -149,11 +149,11 @@ defmodule PmLoginWeb.Services.MyCompanyRequestsLive do
   def handle_event("cloture-request", %{"id" => id}, socket) do
     request = Services.get_request_with_user_id!(id)
 
-    request =
-      case request.task_id do
-        nil -> Map.put_new(request, :type, "Le tâche")
-        _ -> Map.put_new(request, :type, "Le projet")
-      end
+    # request =
+    #   case request.task_id do
+    #     nil -> Map.put_new(request, :type, "Le tâche")
+    #     _ -> Map.put_new(request, :type, "Le projet")
+    #   end
 
     request =
       request
@@ -267,11 +267,22 @@ defmodule PmLoginWeb.Services.MyCompanyRequestsLive do
       # Envoyer l'email immédiatement
       if not request.finished, do: Process.send_after(self(), :send_email_to_user, 0)
 
+
+      clients_requests_not_seen = Monitoring.list_company_clients_requests_not_seen_by_clients_user_id(socket.assigns.curr_user_id)
+      clients_requests_seen = Monitoring.list_company_clients_requests_seen_by_clients_user_id(socket.assigns.curr_user_id)
+      clients_requests_ongoing = Monitoring.list_company_clients_requests_ongoing_by_clients_user_id(socket.assigns.curr_user_id)
+      clients_requests_done = Monitoring.list_company_clients_requests_done_by_clients_user_id(socket.assigns.curr_user_id)
+      clients_requests_finished = Monitoring.list_company_clients_requests_finished_by_clients_user_id(socket.assigns.curr_user_id)
       {:noreply,
         socket
         |> put_flash(:info, "La requête #{request.title} a été cloturée")
         |> assign(email: user.email, id: request.id)
-        |> assign(is_open_survey: false)
+        |> assign(is_open_survey: false,
+        clients_requests_not_seen: clients_requests_not_seen,
+        clients_requests_seen: clients_requests_seen,
+        clients_requests_ongoing: clients_requests_ongoing,
+        clients_requests_done: clients_requests_done,
+        clients_requests_finished: clients_requests_finished)
       }
     end
   end
