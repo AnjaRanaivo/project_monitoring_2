@@ -1,57 +1,173 @@
 
-<div class="row" style="margin-left:-300px;">
-  <div class="col-md-6">
-  <h2 style="margin-top:40px"><i class="bi bi-people-fill"></i> Clients </h2>
+<div class="clients-list-view">
+  <div class="row" style="margin-left:-300px;">
+    <div class="col-md-6">
+    <h2 style="margin-top:40px"><i class="bi bi-people-fill"></i> Clients </h2>
 
-<table class="table-list-users" style="width:100px;margin-left:-70px">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Client</th>
-      <th>email</th>
-      <th>Appartenant à la société</th>
-      <th>Droit</th>
-    </tr>
-  </thead>
-  <tbody>
-  <%= if @active_clients_selected do %>
-      <%= for active_client <- @active_clients do %>
-          <tr>
-            <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{active_client.user.profile_picture}")} width="50"/></td>
-            <td style="font-size:13px"><%= active_client.user.username %></td>
-            <td style="font-size:13px"><%= active_client.user.email %></td>
-            <td style="font-size:13px"><%= active_client.company.name %></td>
-            <td style="font-size:13px"><%= active_client.rights_clients.name %></td>
-            <!-- <td>
-              <span><%= link "Delete", to: Routes.active_client_path(@socket, :delete, active_client), method: :delete, data: [confirm: "Are you sure?"] %></span>
-            </td> -->
-          </tr>
-      <% end %>
-    <% else %>
-      <%= for active_client <- @active_clients do %>
-          <tr>
-            <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{active_client.profile_picture}")} width="50"/></td>
-            <td style="font-size:13px"><%= active_client.username %></td>
-            <td style="font-size:13px"><%= active_client.email %></td>
-            <td> - </td>
+  <table class="table-list-users" style="width:100px;margin-left:-70px">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Client</th>
+        <th>email</th>
+        <th>Appartenant à la société</th>
+        <th>Droit</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= if @active_clients_selected do %>
+        <%= for active_client <- @active_clients do %>
+            <tr>
+              <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{active_client.user.profile_picture}")} width="50"/></td>
+              <td style="font-size:13px"><%= active_client.user.username %></td>
+              <td style="font-size:13px"><%= active_client.user.email %></td>
+              <td style="font-size:13px"><%= active_client.company.name %></td>
+              <td style="font-size:13px"><%= active_client.rights_clients.name %></td>
+              <!-- <td>
+                <span><%= link "Delete", to: Routes.active_client_path(@socket, :delete, active_client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td> -->
+            </tr>
+        <% end %>
+      <% else %>
+        <%= for active_client <- @active_clients do %>
+            <tr>
+              <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{active_client.profile_picture}")} width="50"/></td>
+              <td style="font-size:13px"><%= active_client.username %></td>
+              <td style="font-size:13px"><%= active_client.email %></td>
+              <td> - </td>
 
-            <!-- <td>
-              <span><%= link "Delete", to: Routes.active_client_path(@socket, :delete, active_client), method: :delete, data: [confirm: "Are you sure?"] %></span>
-            </td> -->
+              <!-- <td>
+                <span><%= link "Delete", to: Routes.active_client_path(@socket, :delete, active_client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td> -->
+            </tr>
+        <% end %>
+    <% end %>
+    
+    </tbody>
+  </table>
+  </div>
+
+
+
+  <div class="col-md-4" style="margin-left:50px;">
+    <div>
+      <h2 style="margin-top:50px"><i class="bi bi-people"></i> Clients inactifs </h2>
+        <table id="tb-auth" style="width:200px;margin-top:20px" class="table-list-users">
+          <thead>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Affilier à une société</th>
+            <th>Droit</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <%= for client <- @inactives do %>
+            <tr>
+            <.form let={f} for={:my_form} phx-submit="activate_c">
+              <input type="hidden" name="client_id" value={client.id}>
+                <td style="font-size:12px"><%= client.username %></td>
+                <td style="font-size:12px"><%= client.email %></td>
+                <td><%= select f, "company_id", @companies, style: "width: -moz-available;" %></td>
+                <td><%= select f, "rights_clients_id", @rights_clients, style: "width: -moz-available;" %></td>
+                <td style="font-size:12px"><%= submit "Rendre actif", class: "btn btn-lg btn-primary" %></td>
+            </.form>
           </tr>
-      <% end %>
-  <% end %>
-  
-  </tbody>
-</table>
+            <% end %>
+          </tbody>
+        </table>
+    </div>
+  <center>
+    <h2><span class="material-icons mat__ico__big">maps_home_work</span> Liste des sociétés</h2>
+    <table class="table-list-users" style="margin-left:10px;width:50%">
+      <thead>
+        <tr>
+          <th></th>
+          <th style="font-size: 14px; font-weight: bold;">Nom de la société</th>
+
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+    <%= for company <- @companies_list do %>
+        <tr>
+          <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{company.logo}")} width="50"/></td>
+          <td style="font-size:13px"><%= company.name %></td>
+
+          <td>
+            <span><a href={Routes.company_path(@socket, :show, company)}><i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i></a></span>
+            <span><a href={Routes.company_path(@socket, :edit, company)}><i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i></a></span>
+            <!-- <span><%= link "Delete", to: Routes.company_path(@socket, :delete, company), method: :delete, data: [confirm: "Are you sure?"] %></span> -->
+          </td>
+        </tr>
+    <% end %>
+      </tbody>
+    </table>
+  </center>
+
+  <div class="row">
+    <div class="column" style="margin-left:80px">
+      <span><a href={Routes.company_path(@socket, :new)} class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Nouvelle société</a></span>
+    </div>
+    <div class="column">
+      <h3 style="text-align: right; float: right;"><a href={Routes.company_path(@socket, :services)} class="" style="" id="adm">>>Services>></a></h3>
+    </div>
+  </div>
+  </div>
+  </div>
 </div>
 
+<div class="mobile-clients-list-view">
+  <div class="row">
+    <h2><i class="bi bi-people-fill"></i> Clients </h2>
+
+    <table class="table-list-users">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Client</th>
+          <th>email</th>
+          <th>Appartenant à la société</th>
+          <th>Droit</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%= if @active_clients_selected do %>
+          <%= for active_client <- @active_clients do %>
+              <tr>
+                <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{active_client.user.profile_picture}")} width="50"/></td>
+                <td data-label="Client" style="font-size:13px"><%= active_client.user.username %></td>
+                <td data-label="email" style="font-size:13px"><%= active_client.user.email %></td>
+                <td data-label="Appartenant à la société" style="font-size:13px"><%= active_client.company.name %></td>
+                <td data-label="Droit" style="font-size:13px"><%= active_client.rights_clients.name %></td>
+                <!-- <td>
+                  <span><%= link "Delete", to: Routes.active_client_path(@socket, :delete, active_client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+                </td> -->
+              </tr>
+          <% end %>
+        <% else %>
+          <%= for active_client <- @active_clients do %>
+              <tr>
+                <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{active_client.profile_picture}")} width="50"/></td>
+                <td data-label="Client" style="font-size:13px"><%= active_client.username %></td>
+                <td data-label="email" style="font-size:13px"><%= active_client.email %></td>
+                <td> - </td>
+
+                <!-- <td>
+                  <span><%= link "Delete", to: Routes.active_client_path(@socket, :delete, active_client), method: :delete, data: [confirm: "Are you sure?"] %></span>
+                </td> -->
+              </tr>
+          <% end %>
+      <% end %>
+      
+      </tbody>
+    </table>
+  </div>
 
 
-<div class="col-md-4" style="margin-left:50px;">
-  <div>
-    <h2 style="margin-top:50px"><i class="bi bi-people"></i> Clients inactifs </h2>
-      <table id="tb-auth" style="width:200px;margin-top:20px" class="table-list-users">
+
+  <div class="row">
+    <h2><i class="bi bi-people"></i> Clients inactifs </h2>
+      <table id="tb-auth">
         <thead>
           <th>Nom</th>
           <th>Email</th>
@@ -64,10 +180,10 @@
           <tr>
           <.form let={f} for={:my_form} phx-submit="activate_c">
             <input type="hidden" name="client_id" value={client.id}>
-              <td style="font-size:12px"><%= client.username %></td>
-              <td style="font-size:12px"><%= client.email %></td>
-              <td><%= select f, "company_id", @companies, style: "width: -moz-available;" %></td>
-              <td><%= select f, "rights_clients_id", @rights_clients, style: "width: -moz-available;" %></td>
+              <td data-label="Nom" style="font-size:12px"><%= client.username %></td>
+              <td data-label="Email" style="font-size:12px"><%= client.email %></td>
+              <td data-label="Affilier à une société"><%= select f, "company_id", @companies, style: "width: -moz-available;" %></td>
+              <td data-label="Droit"><%= select f, "rights_clients_id", @rights_clients, style: "width: -moz-available;" %></td>
               <td style="font-size:12px"><%= submit "Rendre actif", class: "btn btn-lg btn-primary" %></td>
           </.form>
         </tr>
@@ -75,43 +191,44 @@
         </tbody>
       </table>
   </div>
-<center>
-  <h2><span class="material-icons mat__ico__big">maps_home_work</span> Liste des sociétés</h2>
-  <table class="table-list-users" style="margin-left:10px;width:50%">
-    <thead>
-      <tr>
-        <th></th>
-        <th style="font-size: 14px; font-weight: bold;">Nom de la société</th>
+  <div class="row">
+    <center>
+      <h2><span class="material-icons mat__ico__big">maps_home_work</span> Liste des sociétés</h2>
+      <table class="table-list-users" >
+        <thead>
+          <tr>
+            <th></th>
+            <th style="font-size: 14px; font-weight: bold;">Nom de la société</th>
 
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-  <%= for company <- @companies_list do %>
-      <tr>
-        <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{company.logo}")} width="50"/></td>
-        <td style="font-size:13px"><%= company.name %></td>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+      <%= for company <- @companies_list do %>
+          <tr>
+            <td><img class="profile-pic-mini" src={Routes.static_path(@socket, "/#{company.logo}")} width="50"/></td>
+            <td data-label="Nom de la société" style="font-size:13px"><%= company.name %></td>
 
-        <td>
-          <span><a href={Routes.company_path(@socket, :show, company)}><i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i></a></span>
-          <span><a href={Routes.company_path(@socket, :edit, company)}><i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i></a></span>
-          <!-- <span><%= link "Delete", to: Routes.company_path(@socket, :delete, company), method: :delete, data: [confirm: "Are you sure?"] %></span> -->
-        </td>
-      </tr>
-  <% end %>
-    </tbody>
-  </table>
-</center>
-
-<div class="row">
-  <div class="column" style="margin-left:80px">
-    <span><a href={Routes.company_path(@socket, :new)} class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Nouvelle société</a></span>
+            <td>
+              <span><a href={Routes.company_path(@socket, :show, company)}><i class="bi bi-info-circle btn btn-info btn-lg" style="font-size: 20px;"></i></a></span>
+              <span><a href={Routes.company_path(@socket, :edit, company)}><i class="bi bi-pencil-square btn btn-warning btn-lg" style="font-size: 20px;"></i></a></span>
+              <!-- <span><%= link "Delete", to: Routes.company_path(@socket, :delete, company), method: :delete, data: [confirm: "Are you sure?"] %></span> -->
+            </td>
+          </tr>
+      <% end %>
+        </tbody>
+      </table>
+    </center>
   </div>
-  <div class="column">
-    <h3 style="text-align: right; float: right;"><a href={Routes.company_path(@socket, :services)} class="" style="" id="adm">>>Services>></a></h3>
+
+  <div class="row">
+    <div class="column">
+      <span><a href={Routes.company_path(@socket, :new)} class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Nouvelle société</a></span>
+    </div>
+    <div class="column">
+      <h3 style="text-align: right; float: right;"><a href={Routes.company_path(@socket, :services)} class="" style="" id="adm">>>Services>></a></h3>
+    </div>
   </div>
-</div>
-</div>
 </div>
 
 

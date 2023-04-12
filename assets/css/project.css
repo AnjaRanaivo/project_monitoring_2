@@ -322,3 +322,20 @@
   }
 }
 
+.clients-list-view {
+  display :block;
+}
+
+.mobile-clients-list-view{
+  display: none;
+}
+
+@media (max-width: 1400px) {
+  .clients-list-view {
+    display :none;
+  }
+  
+  .mobile-clients-list-view{
+    display: block;
+  }
+}
