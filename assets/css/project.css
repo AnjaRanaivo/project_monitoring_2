@@ -304,5 +304,21 @@
   }
 }
 
+.records-menu {
+  display :block;
+}
 
+.mobile-records-menu{
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .records-menu {
+    display :none;
+  }
+  
+  .mobile-records-menu{
+    display: block;
+  }
+}
 

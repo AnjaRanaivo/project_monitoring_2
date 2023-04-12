@@ -40,7 +40,7 @@
 </div>
 
 <div style={"#{if @showing_activities, do: "display: none;"}padding: 20px;"}>
-    <div class="row">
+    <div class="row records-menu">
         <div class="column column-20">
             <h3>MES TÂCHES</h3>
         </div>
@@ -92,6 +92,57 @@
     
                 </form>
             </div>
+        </div>
+    </div>
+    <div class="mobile-records-menu">
+        <div class="row">
+            <h3>MES TÂCHES</h3>
+        </div>
+        <div 
+                class="row card-button-green" 
+                type="button" 
+                phx-click="show_task_modal"
+                style=""
+            >
+                <i class="bi bi-plus-circle"></i>Créer une tâche
+        </div>
+
+        <div 
+            class="row card-button" 
+            type="button" 
+            phx-click="start-meeting"
+            style="margin-top:10px"
+            >
+            <i class="bi bi-play-fill"></i>Démarrer réunion
+        </div>
+        <div 
+                class="row card-button-yellow" 
+                type="button" 
+                phx-click="start-pause"
+                style="margin-top:10px"
+            >
+                <i class="bi bi-play-fill"></i>Faire une pause
+        </div>
+        <div 
+            class="row card-button-orange" 
+            type="button" 
+            phx-click="start-incident"
+            style="margin-top:10px"
+        >
+            <i class="bi bi-play-fill"></i>Incident
+        </div>
+
+        <div class="row"><p style="margin-bottom: 0px;">Filtres</p></div>
+
+        <div class="row">
+        <form class="form_under_fieldset" phx-change="status-selected" style="margin-left: 10px;">
+
+            <select class="field_under_form_under_fieldset" id="task_filter" name="status_select" style="margin-bottom: 0px !important;">
+                <option value="0" selected>Non achevées</option>
+                <option value="1">Achevées</option>
+                <option value="2">Toutes les tâches</option>
+            </select>
+        </form>
         </div>
     </div>
     <div style="height: 700px; overflow: auto;">
