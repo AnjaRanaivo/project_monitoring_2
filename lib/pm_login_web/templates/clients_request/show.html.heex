@@ -289,7 +289,7 @@
                                   <td data-label="Fichiers" style="min-height: 40px;">
                                     <div class="" style="display: flex; float: right;">
                                         <%= for url <- @client_request.file_urls do %>
-                                          <%= if Path.extname(url) in [".jpg", ".jpeg", ".png"] do %>
+                                          <%= if Path.extname(url) in [".jpg", ".jpeg", ".png", ".PNG"] do %>
                                             <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
                                               <i class="bi bi-file-earmark-image" title={Path.basename(url)} style="color: #2c3e50"></i>
                                             </a>
