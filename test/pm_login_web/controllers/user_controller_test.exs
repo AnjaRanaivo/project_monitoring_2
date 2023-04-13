@@ -4,7 +4,7 @@ defmodule PmLoginWeb.UserControllerTest do
   import Plug.Conn
 
   describe "list" do
-    test "display user list for admin user" do
+    test "displays user list for admin user" do
       conn = build_conn()
       conn = Plug.Test.init_session(conn, %{curr_user_id: 57})
       conn = Login.put_session_user(conn, %Login.User{id: 57, right_id: 1})
