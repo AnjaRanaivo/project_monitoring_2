@@ -39,16 +39,16 @@ defmodule PmLoginWeb.UserControllerTest do
     test "with valid params" do
       user_params = %{username: "Mgbi", email: "admin@admin.mgbi", password: "0000"}
 
-      conn = post(conn(), "/auth", user: user_params)
+      conn = post(conn(), "/auth", user_params)
 
       assert conn.status == 200
-      assert Repo.get_by(MyApp.User, email: "admin@admin.mgbi") != nil
+      assert Repo.get_by(PmLogin.Login.User, email: "admin@admin.mgbi") != nil
     end
 
     test "with invalid params" do
       user_params = %{name: "Mgbi", email: "admin@admin.mgbi", password: "0001"}
 
-      conn = post(conn(), "/auth", user: user_params)
+      conn = post(conn(), "/auth", user_params)
 
       assert conn.status == 422
       assert json_response(conn)["errors"]["email"] == ["is invalid"]
