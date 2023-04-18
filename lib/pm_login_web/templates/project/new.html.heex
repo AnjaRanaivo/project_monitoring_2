@@ -36,6 +36,10 @@
         <%= password_input f, :password_confirmation %>
         <%= error_tag f, :password_confirmation %>
 
+        <label for="company_id" class="zoom-out">Droit: </label>
+        <%= select f, :rights_clients_id, @rights_clients, style: "width: -moz-available;" %>
+        <%= error_tag f, :rights_clients_id %>
+
         <label for="company_id" class="zoom-out">Pour société: </label>
         <%= select f, :company_id, @companies_ids, style: "width: -moz-available;" %>
         <%= error_tag f, :company_id %>

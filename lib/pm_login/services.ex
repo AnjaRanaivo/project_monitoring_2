@@ -1013,7 +1013,8 @@ defmodule PmLogin.Services do
   def get_client_request_id_by_project!(project_id) do
     query = from cr in ClientsRequest,
             where: cr.project_id == ^project_id,
-            select: cr.id
+            select: cr.id,
+            limit: 1
 
     Repo.one(query)
   end

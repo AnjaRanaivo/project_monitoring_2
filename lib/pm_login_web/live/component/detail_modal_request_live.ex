@@ -75,12 +75,12 @@ defmodule PmLoginWeb.LiveComponent.DetailModalRequestLive do
                         <td data-label="Fichiers" style="min-height: 40px;">
                           <div class="" style="display: flex; float: right;">
                               <%= for url <- @client_request.file_urls do %>
-                                <%= if Path.extname(url) in [".jpg", ".jpeg", ".png"] do %>
-                                  <a href={url} style="font-size: 25px; margin: 0 0 0 15px">
+                                <%= if Path.extname(url) in [".jpg", ".jpeg", ".png", ".PNG"] do %>
+                                  <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
                                     <i class="bi bi-file-earmark-image" title={Path.basename(url)} style="color: #2c3e50"></i>
                                   </a>
                                 <% else %>
-                                  <a href={url} download style="font-size: 25px; margin: 0 0 0 15px">
+                                  <a href={url} target="_blank" style="font-size: 25px; margin: 0 0 0 15px">
                                     <%= cond do %>
                                       <% String.ends_with?(Path.basename(url), ".pdf")   -> %> <i class="bi bi-filetype-pdf" title={Path.basename(url)} style="color: #e13f2d;"></i>
                                       <% String.ends_with?(Path.basename(url), ".txt")   -> %> <i class="bi bi-filetype-txt" title={Path.basename(url)} style="color: #7f8c8d;"></i>
