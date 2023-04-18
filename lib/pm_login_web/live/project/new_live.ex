@@ -3,7 +3,7 @@ defmodule PmLoginWeb.Project.NewLive do
   alias PmLogin.Services
   alias PmLogin.Login
   alias PmLogin.Login.User
-  alias PmLogin.Services
+  alias PmLogin.Services.Rights_clients
   alias PmLogin.Services.Company
   alias PmLogin.Services.ActiveClient
 
@@ -14,9 +14,12 @@ defmodule PmLoginWeb.Project.NewLive do
 
     companies = Services.list_companies()
     companies_ids = Enum.map(companies, fn(%Company{} = c) -> {c.name, c.id} end )
+    rights =
     {:ok,
        socket
-       |> assign(companies_ids: companies_ids, user_changeset: user_changeset, changeset: changeset, form: false, ac_ids: ac_ids, curr_user_id: curr_user_id, show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4)),
+       |> assign(companies_ids: companies_ids,
+        rights_clients: Enum.map(Services.list_rights_clients, fn %Rights_clients{} = r -> {r.name, r.id} end),
+        user_changeset: user_changeset, changeset: changeset, form: false, ac_ids: ac_ids, curr_user_id: curr_user_id, show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4)),
        layout: {PmLoginWeb.LayoutView, "admin_layout_live.html"}
        }
   end
@@ -79,7 +82,7 @@ defmodule PmLoginWeb.Project.NewLive do
     case Login.create_user_from_project(params["user"]) do
       {:ok, user} ->
         Login.broadcast_user_creation({:ok, user})
-        ac_params = %{"user_id" => user.id, "company_id" => params["user"]["company_id"]}
+        ac_params = %{"user_id" => user.id, "company_id" => params["user"]["company_id"], "rights_clients_id" => params["user"]["rights_clients_id"]}
         Services.create_active_client(ac_params)
 
         params = params["user"]
