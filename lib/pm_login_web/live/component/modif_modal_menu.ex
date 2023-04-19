@@ -184,6 +184,13 @@ defmodule PmLoginWeb.LiveComponent.ModifModalMenu do
                             <input id="task_estimated_duration_minutes" name="task[minutes]" type="number" min="0" max="60" placeholder="Minutes" value={i_minutes} style="max-width: 125px; margin-bottom: 0; height: auto;"required/> m
                             <%= error_tag_modif f, :negative_estimated %>
                           <% else %>
+                            <input id="task_estimated_duration_hour_performed" name="task[hour_performed]" type="hidden" min="0" placeholder="Heure" value={hour_p} style="max-width: 125px; margin-bottom: 0; height: auto;" required>
+
+                            <input id="task_estimated_duration_minutes_performed" name="task[minutes_performed]" type="hidden" min="0" max="60" placeholder="Minutes" value={minutes_p} style="max-width: 125px; margin-bottom: 0; height: auto;" required>
+
+                            <input id="task_estimated_duration_hour" name="task[hour]" type="hidden" min="0" placeholder="Heure" value={i_hour} style="max-width: 125px; margin-bottom: 0; height: auto;" required/>
+
+                            <input id="task_estimated_duration_minutes" name="task[minutes]" type="hidden" min="0" max="60" placeholder="Minutes" value={i_minutes} style="max-width: 125px; margin-bottom: 0; height: auto;"required/> 
                             <%=
                               cond do
                                 i_hour == 0 and i_minutes >= 0 -> if i_minutes > 1, do: "#{i_minutes} minutes", else: "#{i_minutes} minute"
