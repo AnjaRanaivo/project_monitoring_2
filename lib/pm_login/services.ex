@@ -12,6 +12,7 @@ defmodule PmLogin.Services do
   alias PmLogin.Services.Rights_clients
   alias PmLogin.Login
   alias PmLogin.Services.{Software, Editor, License, AssistContract, Type}
+  alias PmLogin.Monitoring.Task
 
   @topic inspect(__MODULE__)
   def subscribe do
@@ -1003,10 +1004,15 @@ defmodule PmLogin.Services do
   def get_clients_request!(id), do: Repo.get!(ClientsRequest, id)
 
   def get_client_request_id_by_task!(task_id, project_id) do
-    query = from cr in ClientsRequest,
-            where: cr.task_id == ^task_id and cr.project_id == ^project_id,
-            select: cr.id
+    # query = from cr in ClientsRequest,
+    #         where: cr.task_id == ^task_id and cr.project_id == ^project_id,
+    #         select: cr.id
 
+    # Repo.one(query)
+    query = from t in Task,
+            where: t.id == ^task_id,
+            select: t.clients_request_id,
+            limit: 1
     Repo.one(query)
   end
 
