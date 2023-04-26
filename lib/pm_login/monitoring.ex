@@ -1429,6 +1429,23 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_clients_requests_not_seen() do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.seen == false
+    Repo.all(query)
+  end
+
   def search_requests_not_seen(user_id,search) do
     search = "%#{search}%"
     tool_query = from(t in Tool)
@@ -1444,6 +1461,24 @@ defmodule PmLogin.Monitoring do
     join: u in User,
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.seen == false and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def search_all_requests_not_seen(search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.seen == false and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
     Repo.all(query)
   end
 
@@ -1480,6 +1515,23 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_clients_requests_finished() do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.finished == true
+    Repo.all(query)
+  end
+
   def search_requests_finished(user_id,search) do
     search = "%#{search}%"
     tool_query = from(t in Tool)
@@ -1495,6 +1547,24 @@ defmodule PmLogin.Monitoring do
     join: u in User,
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.finished == true and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def search_all_requests_finished(search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.finished == true and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
     Repo.all(query)
   end
 
@@ -1531,6 +1601,23 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_clients_requests_done() do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.done == true and cr.finished == false
+    Repo.all(query)
+  end
+
   def search_requests_done(user_id,search) do
     search = "%#{search}%"
     tool_query = from(t in Tool)
@@ -1546,6 +1633,24 @@ defmodule PmLogin.Monitoring do
     join: u in User,
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.done == true and cr.finished == false and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def search_all_requests_done(search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.done == true and cr.finished == false and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
     Repo.all(query)
   end
 
@@ -1582,6 +1687,23 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_clients_requests_ongoing() do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.ongoing == true and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
   def search_requests_ongoing(user_id,search) do
     search = "%#{search}%"
     tool_query = from(t in Tool)
@@ -1597,6 +1719,25 @@ defmodule PmLogin.Monitoring do
     join: u in User,
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.ongoing == true and cr.done == false and cr.finished == false
+     and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def search_all_requests_ongoing(search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.ongoing == true and cr.done == false and cr.finished == false
      and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
     Repo.all(query)
   end
@@ -1634,6 +1775,23 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_clients_requests_seen() do
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
+    Repo.all(query)
+  end
+
   def search_requests_seen(user_id,search) do
     search = "%#{search}%"
     tool_query = from(t in Tool)
@@ -1649,6 +1807,25 @@ defmodule PmLogin.Monitoring do
     join: u in User,
     on: u.id == a.user_id,
     where: u.id == ^user_id and cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
+     and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
+    Repo.all(query)
+  end
+
+  def search_all_requests_seen(search) do
+    search = "%#{search}%"
+    tool_query = from(t in Tool)
+    request_type_query = from(req in RequestType)
+
+    query = from cr in ClientsRequest,
+    preload: [
+      tool: ^tool_query,
+      request_type: ^request_type_query,
+    ],
+    join: a in ActiveClient,
+    on: cr.active_client_id == a.id,
+    join: u in User,
+    on: u.id == a.user_id,
+    where: cr.seen == true and cr.ongoing == false and cr.done == false and cr.finished == false
      and (ilike(cr.title, ^search) or ilike(cr.content, ^search) or ilike(cr.uuid, ^search))
     Repo.all(query)
   end

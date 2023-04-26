@@ -2,6 +2,7 @@ defmodule PmLoginWeb.ClientsRequest.ShowLive do
   use Phoenix.LiveView
   alias PmLogin.Services
   alias PmLogin.Monitoring
+  alias PmLogin.Login
   alias PmLoginWeb.Router.Helpers, as: Routes
    alias PmLogin.Services.ClientsRequest
 
@@ -12,13 +13,22 @@ defmodule PmLoginWeb.ClientsRequest.ShowLive do
     Services.subscribe_to_request_topic()
     client_request = Monitoring.get_clients_request_by_id(id)
     changeset2 = Services.change_clients_request(%ClientsRequest{})
-    layout =
-    case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
-      1 -> {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
-      2 -> {PmLoginWeb.LayoutView, "active_client_demandeur_layout_live.html"}
-      3 -> {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
-      _ -> {}
+    layout = case Monitoring.is_admin?(curr_user_id) do
+      true -> {PmLoginWeb.LayoutView, "board_layout_live.html"}
+      false -> case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
+          1 -> {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
+          2 -> {PmLoginWeb.LayoutView, "active_client_demandeur_layout_live.html"}
+          3 -> {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
+          _ -> {}
+        end
     end
+    # layout =
+    # case Services.get_active_client_from_userid!(curr_user_id).rights_clients_id do
+    #   1 -> {PmLoginWeb.LayoutView, "active_client_admin_layout_live.html"}
+    #   2 -> {PmLoginWeb.LayoutView, "active_client_demandeur_layout_live.html"}
+    #   3 -> {PmLoginWeb.LayoutView, "active_client_utilisateur_layout_live.html"}
+    #   _ -> {}
+    # end
     {:ok,
        socket
        |> assign(
