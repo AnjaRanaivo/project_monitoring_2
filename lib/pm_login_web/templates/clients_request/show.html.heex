@@ -23,7 +23,7 @@
       <div class="">
         <div class="old-detail-request">
           <div class="" style="margin-top: 50px; padding: 0;">
-            <div class="" style="background-color: white; margin-left:-300px;width:1350px">
+            <div class="" style={"background-color: white; margin-left: #{if !PmLogin.Monitoring.is_admin?(@curr_user_id), do: '-300px' , else: '50px'} ;width:1350px"}>
               <div class="row">
                 <div class="col-md-6" style="margin-left:50px;width:600px;">
                   <h3 class="header__link__title" style="font-size:20px;margin-right:500px"><a id="adm">Informations <br/><span class="material-icons mat__ico">content_paste</span></a></h3>
