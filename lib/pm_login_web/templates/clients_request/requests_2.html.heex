@@ -1,21 +1,307 @@
-  <div class="card-info" style="max-width: 750px;">
-    <span class="material-icons mat__ico__big">
+  <div class="menu-client-request-2" >
+    <p style="    height: 3.8rem;
+    display: flex;
+    align-items: center;"><span class="material-icons">
       receipt_long
-    </span>Requêtes des clients
-  </div>
-<div style="display: flex; align-items: center; margin-bottom: 2rem; gap: 1rem;">
-  <form phx-change="request-search" style="margin-bottom: -2rem;">
+    </span>Requêtes des clients</p>
+
+    <form phx-change="request-search-2" style="margin-bottom: -2rem;">
       <div class="request-search">
-        <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem; color: #fff !important;"></i>
-        
-        <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem; color: #fff !important;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+        <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
+        <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
       </div>
-</form>
-<button 
-      class="survey"
-      phx-click="show_survey_request" 
-    >
-      <i class="bi bi-eye-fill"></i>
-      Voir les sondages
-</button>
-</div>
+    </form>
+    <button 
+          class="survey"
+          phx-click="show_survey_request" style="margin-left:15px"
+        >
+          <i class="bi bi-eye-fill"></i>
+          Voir les sondages
+    </button>
+    <button onclick="show_finished()" style="margin-left:15px" >Afficher les demandes clôturées</button>
+  </div>
+
+  <div class="mobile-menu-client-request">
+    <div class="row">
+      <p style="    height: 3.8rem;
+      display: flex;
+      align-items: center;margin-left: 15px;margin-top:15px"><span class="material-icons">
+        receipt_long
+      </span>Requêtes des clients</p>
+    </div>
+
+    <div class="row">
+      <form phx-change="request-search-2" style="margin-bottom: -2rem;">
+        <div class="request-search">
+          <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem;"></i>
+          
+          <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <button 
+          class="survey"
+          phx-click="show_survey_request" style="margin-left:15px"
+        >
+          <i class="bi bi-eye-fill"></i>
+          Voir les sondages
+      </button>
+    </div>
+    <div class="row">
+      <button class="btn-clotured" onclick="show_finished()" >Afficher les demandes clôturées</button>
+    </div>
+  </div>
+
+  <section id="the_board" class="board_req">
+    <div data-stage-id="" class="stage_req">
+      <div class="stage__header" id="stage__header__sticked">
+        <div class="stage__name">
+          Pas encore vue
+        </div>
+        <span class="stage__counter"><b class="counter__nb">
+          <%= length(@clients_requests_not_seen) %>
+          </b></span>
+      </div>
+        <%= for clients_request_not_seen <- @clients_requests_not_seen do %>
+          <div class="basecontents__without__radius">
+            <%= case clients_request_not_seen.tool.tool_group_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="high__priority__point"><%= clients_request_not_seen.tool.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="avg__priority__point"><%= clients_request_not_seen.tool.name %></div>
+            <% end %>
+            <%= case clients_request_not_seen.request_type_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="low__priority__point"><%= clients_request_not_seen.request_type.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="urg__priority__point"><%= clients_request_not_seen.request_type.name %></div>
+            <% end %>
+          <br/>
+          <div 
+            style={"
+              display: inline-block;
+              color: #fff;
+              margin: 5px 0 5px 0;
+              font-size: 10px;background:#{if clients_request_not_seen.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+            "}
+          >
+              #<%= clients_request_not_seen.uuid %>
+            </div>
+            <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <a href={ Routes.clients_request_path(@socket, :show, clients_request_not_seen.id) }><%= clients_request_not_seen.title %></a>
+            </div>
+  
+            <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
+              Date d'échéance : <%= Utilities.simple_date_format(clients_request_not_seen.deadline) %>
+            </div>
+            <p style="font-size: 8px;">
+              Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_not_seen.date_post) %>
+            </p>
+          </div>
+        <%= end %>
+    </div>
+    
+    <div data-stage-id="" class="stage_req">
+      <div class="stage__header" id="stage__header__sticked">
+        <div class="stage__name">
+          Vue
+        </div>
+        <span class="stage__counter"><b class="counter__nb">
+          <%= length(@clients_requests_seen) %>
+          </b></span>
+      </div>
+        <%= for clients_request_seen <- @clients_requests_seen do %>
+          <div class="basecontents__without__radius">
+            <%= case clients_request_seen.tool.tool_group_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="high__priority__point"><%= clients_request_seen.tool.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="avg__priority__point"><%= clients_request_seen.tool.name %></div>
+            <% end %>
+            <%= case clients_request_seen.request_type_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="low__priority__point"><%= clients_request_seen.request_type.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="urg__priority__point"><%= clients_request_seen.request_type.name %></div>
+            <% end %>
+          <br/>
+            <div 
+              style={"
+                display: inline-block;
+                color: #fff;
+                margin: 5px 0 5px 0;
+                font-size: 10px;background:#{if clients_request_seen.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+              "}
+            >
+              #<%= clients_request_seen.uuid %>
+            </div>
+            <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <a href={ Routes.clients_request_path(@socket, :show, clients_request_seen.id) } ><%= clients_request_seen.title %></a>
+            </div>
+  
+            <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
+              Date d'échéance : <%= Utilities.simple_date_format(clients_request_seen.deadline) %>
+            </div>
+            <p style="font-size: 8px;">
+              Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_seen.date_post) %>
+            </p>
+          </div>
+        <%= end %>
+    </div>
+  
+    <div data-stage-id="" class="stage_req">
+      <div class="stage__header" id="stage__header__sticked">
+        <div class="stage__name">
+          En cours
+        </div>
+        <span class="stage__counter"><b class="counter__nb">
+          <%= length(@clients_requests_ongoing) %>
+          </b></span>
+      </div>
+        <%= for clients_request_ongoing <- @clients_requests_ongoing do %>
+          <div class="basecontents__without__radius">
+            <%= case clients_request_ongoing.tool.tool_group_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="high__priority__point"><%= clients_request_ongoing.tool.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="avg__priority__point"><%= clients_request_ongoing.tool.name %></div>
+            <% end %>
+            <%= case clients_request_ongoing.request_type_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="low__priority__point"><%= clients_request_ongoing.request_type.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="urg__priority__point"><%= clients_request_ongoing.request_type.name %></div>
+            <% end %>
+          <br/>
+          <div 
+            style={"
+              display: inline-block;
+              color: #fff;
+              margin: 5px 0 5px 0;
+              font-size: 10px;background:#{if clients_request_ongoing.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+            "}
+          >
+              #<%= clients_request_ongoing.uuid %>
+            </div>
+            <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <a href={ Routes.clients_request_path(@socket, :show, clients_request_ongoing.id) } ><%= clients_request_ongoing.title %></a>
+            </div>
+  
+            <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
+              Date d'échéance : <%= Utilities.simple_date_format(clients_request_ongoing.deadline) %>
+            </div>
+            <p style="font-size: 8px;">
+              Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_ongoing.date_post) %>
+            </p>
+          </div>
+        <%= end %>
+    </div>
+  
+    <div data-stage-id="" class="stage_req">
+      <div class="stage__header" id="stage__header__sticked">
+        <div class="stage__name">
+          Accomplie
+        </div>
+        <span class="stage__counter"><b class="counter__nb">
+          <%= length(@clients_requests_done) %>
+          </b></span>
+      </div>
+        <%= for clients_request_done <- @clients_requests_done do %>
+          <div class="basecontents__without__radius">
+            <%= case clients_request_done.tool.tool_group_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="high__priority__point"><%= clients_request_done.tool.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="avg__priority__point"><%= clients_request_done.tool.name %></div>
+            <% end %>
+            <%= case clients_request_done.request_type_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="low__priority__point"><%= clients_request_done.request_type.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="urg__priority__point"><%= clients_request_done.request_type.name %></div>
+            <% end %>
+          <br/>
+          <div 
+            style={"
+              display: inline-block;
+              color: #fff;
+              margin: 5px 0 5px 0;
+              font-size: 10px;background:#{if clients_request_done.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+            "}
+          >
+              #<%= clients_request_done.uuid %>
+            </div>
+            <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <a href={ Routes.clients_request_path(@socket, :show, clients_request_done.id) } ><%= clients_request_done.title %></a>
+            </div>
+  
+            <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
+              Date d'échéance : <%= Utilities.simple_date_format(clients_request_done.deadline) %>
+            </div>
+            <p style="font-size: 8px;">
+              Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_done.date_post) %>
+            </p>
+          </div>
+        <%= end %>
+    </div>
+    
+    <div data-stage-id="" class="stage_req" id="tasks_finished" style="display: none;">
+      <div class="stage__header" id="stage__header__sticked">
+        <div class="stage__name">
+          Clôturée
+        </div>
+        <span class="stage__counter"><b class="counter__nb">
+          <%= length(@clients_requests_finished) %>
+          </b></span>
+      </div>
+        <%= for clients_request_finished <- @clients_requests_finished do %>
+          <div class="basecontents__without__radius">
+            <%= case clients_request_finished.tool.tool_group_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="high__priority__point"><%= clients_request_finished.tool.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="avg__priority__point"><%= clients_request_finished.tool.name %></div>
+            <% end %>
+            <%= case clients_request_finished.request_type_id do %>
+              <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="low__priority__point"><%= clients_request_finished.request_type.name %></div>
+              <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+                class="urg__priority__point"><%= clients_request_finished.request_type.name %></div>
+            <% end %>
+          <br/>
+          <div 
+            style={"
+              display: inline-block;
+              color: #fff;
+              margin: 5px 0 5px 0;
+              font-size: 10px;background:#{if clients_request_finished.is_urgent, do: '#d82a2a' , else: '#031d2e' };
+            "}
+          >
+              #<%= clients_request_finished.uuid %>
+            </div>
+            <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <a href={ Routes.clients_request_path(@socket, :show, clients_request_finished.id) } ><%= clients_request_finished.title %></a>
+            </div>
+  
+            <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
+              Date d'échéance : <%= Utilities.simple_date_format(clients_request_finished.deadline) %>
+            </div>
+            <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
+              Date de finition : <%= Utilities.simple_date_format_with_hours(clients_request_finished.date_finished) %>
+            </div>
+            <p style="font-size: 8px;">
+              Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_finished.date_post) %>
+            </p>
+          </div>
+        <%= end %>
+    </div>
+  </section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function show_finished(){
+    // document.getElementById("list_task").style.display = 'block';
+    $("#tasks_finished").toggle();
+  }
+</script>

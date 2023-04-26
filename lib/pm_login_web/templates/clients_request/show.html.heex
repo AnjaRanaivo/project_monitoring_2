@@ -325,7 +325,7 @@
           </div>
         </div>
 
-        <%= if PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id) do %>
+        <%= if !PmLogin.Monitoring.is_admin?(@curr_user_id) and (PmLogin.Login.is_active_client_admin_by_user_id?(@curr_user_id) or PmLogin.Login.is_active_client_demandeur_by_user_id?(@curr_user_id)) do %>
           <div class="upload-form">
             <.form let={f} for={@changeset} phx-change="change-request" phx-submit="update-file">
               <div class="column">

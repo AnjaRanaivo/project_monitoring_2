@@ -4,17 +4,32 @@ defmodule PmLoginWeb.Services.Requests2Live do
   alias PmLoginWeb.LiveComponent.ModalLive
   alias PmLoginWeb.LiveComponent.DetailModalRequestLive
   alias PmLoginWeb.Router.Helpers, as: Routes
+  alias PmLogin.Monitoring
 
   def mount(_params, %{"curr_user_id"=>curr_user_id}, socket) do
     Services.subscribe()
     Services.subscribe_to_request_topic()
 
+    clients_requests_not_seen = Monitoring.list_clients_requests_not_seen()
+    clients_requests_seen = Monitoring.list_clients_requests_seen()
+    clients_requests_ongoing = Monitoring.list_clients_requests_ongoing()
+    clients_requests_done = Monitoring.list_clients_requests_done()
+    clients_requests_finished = Monitoring.list_clients_requests_finished()
+
+
     {:ok,
        socket
        |> assign(search_text: nil)
        |> assign(requests: Services.list_requests, show_detail_request_modal: false, client_request: nil,
-       show_modal: false, service_id: nil,curr_user_id: curr_user_id,show_notif: false, notifs: Services.list_my_notifications_with_limit(curr_user_id, 4)),
-       layout: {PmLoginWeb.LayoutView, "admin_layout_live.html"}
+       show_modal: false, service_id: nil,curr_user_id: curr_user_id,show_notif: false,
+       notifs: Services.list_my_notifications_with_limit(curr_user_id, 4),
+       clients_requests_not_seen: clients_requests_not_seen,
+       clients_requests_seen: clients_requests_seen,
+       clients_requests_ongoing: clients_requests_ongoing,
+       clients_requests_done: clients_requests_done,
+       clients_requests_finished: clients_requests_not_seen,
+       clients_requests_finished: clients_requests_finished),
+       layout: {PmLoginWeb.LayoutView, "board_layout_live.html"}
        }
   end
 
@@ -37,6 +52,27 @@ defmodule PmLoginWeb.Services.Requests2Live do
     socket =
       socket
       |> assign(requests: requests)
+      |> assign(search_text: search)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("request-search-2", params, socket) do
+    search = params["request_search"]
+
+    clients_requests_not_seen = Monitoring.search_all_requests_not_seen(search)
+    clients_requests_seen = Monitoring.search_all_requests_seen(search)
+    clients_requests_ongoing = Monitoring.search_all_requests_ongoing(search)
+    clients_requests_done = Monitoring.search_all_requests_done(search)
+    clients_requests_finished = Monitoring.search_all_requests_finished(search)
+
+    socket =
+      socket
+      |> assign(clients_requests_not_seen: clients_requests_not_seen)
+      |> assign(clients_requests_seen: clients_requests_seen)
+      |> assign(clients_requests_ongoing: clients_requests_ongoing)
+      |> assign(clients_requests_done: clients_requests_done)
+      |> assign(clients_requests_finished: clients_requests_finished)
       |> assign(search_text: search)
 
     {:noreply, socket}
