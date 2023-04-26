@@ -59,6 +59,8 @@ defmodule PmLoginWeb.Router do
     resources "/active_clients", ActiveClientController, except: [:edit, :show]
     resources "/clients_requests", ClientsRequestController
     get "/requests", ClientsRequestController, :requests
+    #requests_2 côté admin
+    get "/requests_2", ClientsRequestController, :requests_2
     get "/my_requests", ClientsRequestController, :my_requests
     get "/client_tasks", ClientsRequestController, :client_tasks
     get "/client_users", ClientsRequestController, :client_users

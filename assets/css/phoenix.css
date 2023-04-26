@@ -1004,7 +1004,7 @@ header nav a {
   }
 }
 
-@media (max-width: 1540px) {
+@media (max-width: 1490px) {
   .web-projet-liste-attributeur{
     display: none;
   }

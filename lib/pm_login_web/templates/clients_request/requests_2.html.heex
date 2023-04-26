@@ -1,0 +1,12 @@
+  <div class="card-info" style="max-width: 750px;">
+    <span class="material-icons mat__ico__big">
+      receipt_long
+    </span>Requêtes des clients
+  </div>
+  <form phx-change="request-search" style="margin-bottom: -2rem;">
+      <div class="request-search">
+        <i class="bi bi-search" style="position: relative;top: 0.2rem;left: 21rem; color: #fff !important;"></i>
+        
+        <input type="text" name="request_search" id="requestSearch" placeholder="Rechercher une requête" style="width: 22rem; color: #fff !important;" value={if not is_nil(@search_text), do: "#{@search_text}"}>
+      </div>
+</form>
