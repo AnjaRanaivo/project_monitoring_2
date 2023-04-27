@@ -194,6 +194,15 @@
             <p style="font-size: 8px;">
               Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_ongoing.date_post) %>
             </p>
+            <div style="margin-top:-20px;margin-left:60px;">
+              <button style="width: 170px"
+              phx-click="show_client_request_modal"  
+              phx-value-id={clients_request_ongoing.id}
+              >
+              <i class="bi bi-plus"></i>
+                Ajouter tâche 
+              </button>
+            </div>
           </div>
         <%= end %>
     </div>
@@ -299,6 +308,26 @@
   </section>
   <span><a href={ Routes.company_path(@socket, :services) } class="btn btn-lg btn-secondary"><i class="bi bi-arrow-bar-left"></i> Services</a></span>
 
+  <%= live_component(
+          ClientModalRequestLive, 
+          id: "confirm-arch", 
+          title: "Créer tâche", 
+          body: nil, 
+          right_button: nil, 
+          right_button_action: nil, 
+          right_button_param: nil, 
+          left_button: "Annuler", 
+          left_button_action: "cancel",
+          task_changeset: @task_changeset, 
+          contributors: @contributors, 
+          attributors: @attributors,
+          show_client_request_modal: @show_client_request_modal, 
+          is_contributor: @is_contributor, 
+          curr_user_id: @curr_user_id, 
+          list_projects: @list_projects, 
+          client_request: @client_request
+          ) 
+        %>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>

@@ -5,6 +5,12 @@ defmodule PmLoginWeb.Services.Requests2Live do
   alias PmLoginWeb.LiveComponent.DetailModalRequestLive
   alias PmLoginWeb.Router.Helpers, as: Routes
   alias PmLogin.Monitoring
+  alias PmLogin.Monitoring.Task
+  alias PmLogin.Monitoring.Project
+  alias PmLogin.Login
+  alias PmLogin.Login.User
+  alias PmLoginWeb.LiveComponent.ClientModalRequestLive
+  alias PmLogin.Kanban
 
   def mount(_params, %{"curr_user_id"=>curr_user_id}, socket) do
     Services.subscribe()
@@ -15,7 +21,16 @@ defmodule PmLoginWeb.Services.Requests2Live do
     clients_requests_ongoing = Monitoring.list_clients_requests_ongoing()
     clients_requests_done = Monitoring.list_clients_requests_done()
     clients_requests_finished = Monitoring.list_clients_requests_finished()
+    task_changeset = Monitoring.change_task(%Task{})
 
+    contributors = Login.list_contributors()
+    list_contributors = Enum.map(contributors, fn %User{} = p -> {p.username, p.id} end)
+
+    attributors = Login.list_attributors()
+    list_attributors = Enum.map(attributors, fn %User{} = a -> {a.username, a.id} end)
+
+    projects = Monitoring.list_projects()
+    list_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
 
     {:ok,
        socket
@@ -23,14 +38,132 @@ defmodule PmLoginWeb.Services.Requests2Live do
        |> assign(requests: Services.list_requests, show_detail_request_modal: false, client_request: nil,
        show_modal: false, service_id: nil,curr_user_id: curr_user_id,show_notif: false,
        notifs: Services.list_my_notifications_with_limit(curr_user_id, 4),
+       is_contributor: Monitoring.is_contributor?(curr_user_id),
        clients_requests_not_seen: clients_requests_not_seen,
        clients_requests_seen: clients_requests_seen,
        clients_requests_ongoing: clients_requests_ongoing,
        clients_requests_done: clients_requests_done,
        clients_requests_finished: clients_requests_not_seen,
-       clients_requests_finished: clients_requests_finished),
+       clients_requests_finished: clients_requests_finished,
+       contributors: list_contributors,
+       attributors: list_attributors,
+       list_projects: list_projects,
+       task_changeset: task_changeset,
+       show_client_request_modal: false,
+       client_request: nil),
        layout: {PmLoginWeb.LayoutView, "board_layout_live.html"}
        }
+  end
+
+  def handle_info({ClientModalRequestLive, :button_clicked, %{action: "cancel", param: nil}}, socket) do
+    {:noreply, assign(socket, show_client_request_modal: false)}
+  end
+
+  def handle_event("show_client_request_modal", %{"id" => id}, socket) do
+    client_request = Services.list_clients_requests_with_client_name_and_id(id)
+    {:noreply, socket |> assign(show_client_request_modal: true, client_request: client_request)}
+  end
+
+  def handle_event("save", %{"task" => params}, socket) do
+    # IO.inspect params["estimated_duration"]
+    # IO.puts("#{is_integer(params["estimated_duration"])}")
+
+
+
+    IO.inspect(params)
+
+    pro_id = params["project_id"]
+
+    project = Monitoring.get_project!(pro_id)
+    board = Kanban.get_board!(project.board_id)
+
+    hour        = String.to_integer(params["hour"])
+    minutes     = String.to_integer(params["minutes"])
+
+    total_minutes  = (hour * 60) + minutes
+
+    # Ajouter la durée estimée dans le map
+    params =
+      params
+      |> Map.put("estimated_duration", total_minutes)
+      |> Map.put("client_request_id", params["client_request_id"])
+
+    new_params =
+      if Login.get_user!(params["attributor_id"]).right_id == 3,
+        do: Map.put(params, "contributor_id", params["attributor_id"]),
+        else: params
+
+    # IO.inspect new_params
+
+    case Monitoring.create_task_with_card(new_params) do
+      {:ok, task} ->
+        Monitoring.update_task(task, %{"clients_request_id" => params["client_request_id"]})
+        this_board = board
+
+        this_project = board.project
+        Monitoring.substract_project_progression_when_creating_primary(this_project)
+
+        [head | _] = this_board.stages
+        Kanban.create_card(%{name: task.title, stage_id: head.id, task_id: task.id})
+        # SEND NEW TASK NOTIFICATION TO ADMINS AND ATTRIBUTORS
+        curr_user_id = socket.assigns.curr_user_id
+
+        Services.send_notifs_to_admins_and_attributors(
+          curr_user_id,
+          "Tâche nouvellement créee du nom de #{task.title} par #{Login.get_user!(curr_user_id).username} dans le projet #{this_project.title}.",
+          5
+        )
+
+        # Mettre la requête en vue
+        request = Services.get_request_with_user_id!(params["client_request_id"])
+        Services.update_request_bool(request, %{"ongoing" => true})
+
+        # Mettre à jour la date de de mise en cours du requête
+        Services.update_clients_request(request, %{"date_ongoing" => NaiveDateTime.local_now()})
+
+
+        # Mettre à jour task_id et project_id à partir de la tâche créée
+        clients_request = Services.get_clients_request!(params["client_request_id"])
+
+        clients_request_params = %{
+          # "task_id" => task.id,
+          "project_id" => task.project_id
+        }
+
+        Services.update_clients_request(clients_request, clients_request_params)
+
+        user = Login.get_user!(request.active_client.user_id)
+
+        # Envoyer l'email immédiatement
+        if not request.ongoing, do: Process.send_after(self(), :send_email_to_user, 0)
+
+        # Changement en direct
+        Monitoring.broadcast_clients_requests({:ok, :clients_requests})
+
+        if not is_nil(task.contributor_id) do
+          Services.send_notif_to_one(
+            curr_user_id,
+            task.contributor_id,
+            "#{Login.get_user!(task.contributor_id).username} vous a assigné à la tâche #{task.title} dans le projet #{this_project.title}.",
+            6
+          )
+
+          Services.send_notifs_to_admins(
+            curr_user_id,
+            "#{Login.get_user!(task.contributor_id).username} vous a assigné à la tâche #{task.title} dans le projet #{this_project.title}.",
+            6
+          )
+        end
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "La tâche #{Monitoring.get_task!(task.id).title} a bien été créee")
+         |> push_event("AnimateAlert", %{})
+         |> assign(show_client_request_modal: false, email: user.email, id: request.id)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, task_changeset: changeset)}
+    end
   end
 
   #==============================#
