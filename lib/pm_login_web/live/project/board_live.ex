@@ -1119,7 +1119,8 @@ defmodule PmLoginWeb.Project.BoardLive do
           # Get client request by client_request_id
           request = Services.get_request_with_user_id!(client_request_id)
 
-          if real_task.status_id == 5 do
+          # if real_task.status_id == 5 do
+          if Services.check_tasks_undone_in_request(request) == nil do
             params = %{
               "date_done" => NaiveDateTime.local_now(),
               "done" => true
