@@ -1070,10 +1070,18 @@ defmodule PmLogin.Services do
 
   def get_request_with_user_id!(id) do
     ac_request = from ac in ActiveClient
+
+    tasks_query = from t in Task,
+      where: t.clients_request_id == ^id
+
     query = from req in ClientsRequest,
-            preload: [active_client: ^ac_request],
+            preload: [active_client: ^ac_request, tasks: ^tasks_query],
             where: req.id == ^id
     Repo.one!(query)
+  end
+
+  def check_tasks_undone_in_request(request) do
+    Enum.find(request.tasks,fn v -> v.status_id < 5 end)
   end
 
   @doc """
