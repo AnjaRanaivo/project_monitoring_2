@@ -195,6 +195,7 @@
               Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_ongoing.date_post) %>
             </p>
             <div style="margin-top:-20px;margin-left:95px;">
+              <%= if length(PmLogin.Services.get_request_with_user_id!(clients_request_ongoing.id).tasks) > 0 do %>
               <button style="width:140px"
               phx-click="show_client_request_modal"  
               phx-value-id={clients_request_ongoing.id}
@@ -202,7 +203,7 @@
               <i class="bi bi-plus" style="margin-left:-20px"></i>              
                 Ajouter tâche
               </button>
-                
+              <% end %>
             </div>
           </div>
         <%= end %>
