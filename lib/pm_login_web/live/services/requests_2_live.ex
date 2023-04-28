@@ -32,6 +32,8 @@ defmodule PmLoginWeb.Services.Requests2Live do
     projects = Monitoring.list_projects()
     list_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
 
+    projects_active_client = Monitoring.list_projects()
+    list_projects_active_client = Enum.map(projects_active_client, fn %Project{} = p -> {p.title, p.id} end)
     {:ok,
        socket
        |> assign(search_text: nil)
@@ -48,6 +50,7 @@ defmodule PmLoginWeb.Services.Requests2Live do
        contributors: list_contributors,
        attributors: list_attributors,
        list_projects: list_projects,
+       list_projects_active_client: list_projects_active_client,
        task_changeset: task_changeset,
        show_client_request_modal: false,
        client_request: nil),
@@ -61,7 +64,13 @@ defmodule PmLoginWeb.Services.Requests2Live do
 
   def handle_event("show_client_request_modal", %{"id" => id}, socket) do
     client_request = Services.list_clients_requests_with_client_name_and_id(id)
-    {:noreply, socket |> assign(show_client_request_modal: true, client_request: client_request)}
+    request = Services.get_request_with_user_id!(id)
+    #list_projects_active_client ovaina an'ny request.active_client_id avec fonction à créer
+    projects_active_client = Monitoring.list_projects_by_active_client(request.active_client_id)
+    #projects_active_client = Monitoring.list_projects()
+    list_projects_active_client = Enum.map(projects_active_client, fn %Project{} = p -> {p.title, p.id} end)
+
+    {:noreply, socket |> assign(show_client_request_modal: true, client_request: client_request,list_projects_active_client: list_projects_active_client)}
   end
 
   def handle_event("save", %{"task" => params}, socket) do
