@@ -194,14 +194,15 @@
             <p style="font-size: 8px;">
               Envoyée le <%= Utilities.simple_date_format_with_hours(clients_request_ongoing.date_post) %>
             </p>
-            <div style="margin-top:-20px;margin-left:60px;">
-              <button style="width: 170px"
+            <div style="margin-top:-20px;margin-left:95px;">
+              <button style="width:140px"
               phx-click="show_client_request_modal"  
               phx-value-id={clients_request_ongoing.id}
               >
-              <i class="bi bi-plus"></i>
-                Ajouter tâche 
+              <i class="bi bi-plus" style="margin-left:-20px"></i>              
+                Ajouter tâche
               </button>
+                
             </div>
           </div>
         <%= end %>
