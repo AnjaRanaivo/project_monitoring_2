@@ -37,6 +37,9 @@ defmodule PmLoginWeb.Project.IndexLive do
     projects = Monitoring.list_projects()
     list_projects = Enum.map(projects, fn %Project{} = p -> {p.title, p.id} end)
 
+    projects_active_client = Monitoring.list_projects()
+    list_projects_active_client = Enum.map(projects_active_client, fn %Project{} = p -> {p.title, p.id} end)
+
     layout =
       case Login.get_user!(curr_user_id).right_id do
         1 -> {PmLoginWeb.LayoutView, "board_layout_live.html"}
@@ -61,6 +64,7 @@ defmodule PmLoginWeb.Project.IndexLive do
         show_project_modal: false,
         show_notif: false,
         list_projects: list_projects,
+        list_projects_active_client: list_projects_active_client,
         client_request: nil,
         not_ongoing_requests: not_ongoing_requests,
         not_ongoing_index: 0,
@@ -171,7 +175,12 @@ defmodule PmLoginWeb.Project.IndexLive do
     # Mettre à jour la date de vue
     Services.update_clients_request(request, %{"date_seen" => NaiveDateTime.local_now()})
 
-    {:noreply, socket |> assign(show_client_request_modal: true, client_request: client_request)}
+    #list_projects_active_client ovaina an'ny request.active_client_id avec fonction à créer
+    projects_active_client = Monitoring.list_projects_by_active_client(request.active_client_id)
+    #projects_active_client = Monitoring.list_projects()
+    list_projects_active_client = Enum.map(projects_active_client, fn %Project{} = p -> {p.title, p.id} end)
+
+    {:noreply, socket |> assign(show_client_request_modal: true, client_request: client_request,list_projects_active_client: list_projects_active_client)}
   end
 
   # Afficher les détails du requête client dans la liste des projets

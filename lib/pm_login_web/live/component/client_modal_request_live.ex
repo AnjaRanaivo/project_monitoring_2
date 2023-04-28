@@ -102,7 +102,7 @@ defmodule PmLoginWeb.LiveComponent.ClientModalRequestLive do
                   <div class="row">
                     <div class="column">
                       <label class="zoom-out">Ajouter au projet</label>
-                      <%= select f, :project_id, @list_projects, style: "width: -webkit-fill-available; width: -moz-available; height: 38px;" %>
+                      <%= select f, :project_id, @list_projects_active_client, style: "width: -webkit-fill-available; width: -moz-available; height: 38px;" %>
                     </div>
                   </div>
 
