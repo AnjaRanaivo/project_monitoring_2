@@ -5,15 +5,17 @@ defmodule PmLogin.Kanban do
   alias PmLogin.Kanban.{Board, Stage, Card}
   alias PmLogin.Monitoring.{Task, Status, Priority, Comment, Project}
   alias PmLogin.Login.User
-  alias PmLogin.Services.{ActiveClient, Company}
+  alias PmLogin.Services.{ActiveClient, Company,ClientsRequest}
 
   def get_board!(board_id) do
     parent_query = from tsk in Task
     contributor_query = from c in User
     attributor_query = from u in User
 
+    client_request_query = from cr in ClientsRequest
+
     task_query = from t in Task,
-                preload: [attributor: ^attributor_query, contributor: ^contributor_query, parent: ^parent_query, children: :children]
+                preload: [attributor: ^attributor_query, contributor: ^contributor_query, parent: ^parent_query, children: :children,clients_request: ^client_request_query]
 
     stage_query =
       from s in Stage,
