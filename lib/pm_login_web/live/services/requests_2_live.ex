@@ -66,7 +66,7 @@ defmodule PmLoginWeb.Services.Requests2Live do
     client_request = Services.list_clients_requests_with_client_name_and_id(id)
     request = Services.get_request_with_user_id!(id)
     #list_projects_active_client ovaina an'ny request.active_client_id avec fonction à créer
-    projects_active_client = Monitoring.list_projects_by_active_client(request.active_client_id)
+    projects_active_client = Monitoring.list_projects_by_request(request.project_id)
     #projects_active_client = Monitoring.list_projects()
     list_projects_active_client = Enum.map(projects_active_client, fn %Project{} = p -> {p.title, p.id} end)
 

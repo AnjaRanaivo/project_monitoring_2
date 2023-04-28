@@ -660,6 +660,14 @@ defmodule PmLogin.Monitoring do
     Repo.all(query)
   end
 
+  def list_projects_by_request(project_id) do
+    query =
+      from p in Project,
+        where: p.id == ^project_id,
+        order_by: [desc: :inserted_at]
+    Repo.all(query)
+  end
+
   def list_project_by_title!(project_title) do
     project_search = "%#{project_title}%"
 
