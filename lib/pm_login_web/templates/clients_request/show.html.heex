@@ -103,6 +103,7 @@
                     <table id="tb-auth">
                       <thead>
                         <tr>
+                          <th style="font-size:12px">Projet</th>
                           <th style="font-size:12px">Nom</th>
                           <th style="font-size:12px">Attributeur</th>
                           <th style="font-size:12px">Contributeur</th>
@@ -112,6 +113,7 @@
                       <tbody>
                         <%= for task <- @client_request.tasks do %>
                         <tr>
+                          <td style="font-size:12px"><%= task.project.title %></td>
                           <td style="font-size:12px"><%= task.title %></td>
                           <td style="font-size:12px"><%= PmLogin.Login.get_user!(task.attributor_id).username %></td>
                           <td style="font-size:12px"><%= if is_nil(task.contributor_id) do %>

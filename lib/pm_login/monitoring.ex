@@ -3202,6 +3202,7 @@ defmodule PmLogin.Monitoring do
     request_type_query = from(rt in RequestType)
 
     tasks_query = from t in Task,
+      preload: [:project],
       where: t.clients_request_id == ^id
 
     tool_query = from(t in Tool)
