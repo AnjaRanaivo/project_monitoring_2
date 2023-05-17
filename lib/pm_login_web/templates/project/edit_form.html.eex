@@ -63,6 +63,7 @@
       <%= label f, "Status" %>
       <%= select f, :status_id, @status, style: "width: -moz-available;" %>
       <%= error_tag f, :status_id %>
+      <%= error_tag f, :progression_status %>
     </div>
   </div>
   <div>

@@ -181,6 +181,24 @@ defmodule PmLogin.Monitoring do
     end
   end
 
+  def validate_status(changeset) do
+    progression = get_field(changeset, :progression)
+    status_id = get_field(changeset, :status_id)
+    case status_id do
+      nil ->
+        changeset
+
+      _ ->
+        cond do
+          status_id == 5 and progression < 100 ->
+            changeset |> add_error(:progression_status, "Le projet n'est pas encore achevé")
+
+          true ->
+            changeset
+        end
+    end
+  end
+
   def validate_positive_performed(changeset) do
     est = get_field(changeset, :performed_duration)
 

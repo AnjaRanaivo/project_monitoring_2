@@ -169,7 +169,10 @@ end
           status = Monitoring.list_statuses_title()
 
           # render(conn, "edit.html", project: project, changeset: changeset, ac_ids: ac_ids, layout: {PmLoginWeb.LayoutView, "admin_layout.html"})
-          LiveView.Controller.live_render(conn, PmLoginWeb.Project.EditLive, session: %{"curr_user_id" => get_session(conn, :curr_user_id), "project" => project, "changeset" => changeset, "ac_ids" => ac_ids, "status" => status}, router: PmLoginWeb.Router)
+          LiveView.Controller.live_render(conn, PmLoginWeb.Project.EditLive,
+          session: %{"curr_user_id" => get_session(conn, :curr_user_id),
+          "project" => project, "changeset" => changeset,
+          "ac_ids" => ac_ids, "status" => status}, router: PmLoginWeb.Router)
 
         true ->
           conn
@@ -253,8 +256,13 @@ end
       {:error, %Ecto.Changeset{} = changeset} ->
         # render(conn, "edit.html", project: project, changeset: changeset)
         ac_list = Services.list_active_clients
+        status = Monitoring.list_statuses_title()
         ac_ids = Enum.map(ac_list, fn(%ActiveClient{} = ac) -> {ac.user.username, ac.id} end )
-        LiveView.Controller.live_render(conn, PmLoginWeb.Project.EditLive, session: %{"curr_user_id" => get_session(conn, :curr_user_id), "project" => project, "changeset" => changeset, "ac_ids" => ac_ids}, router: PmLoginWeb.Router)
+        LiveView.Controller.live_render(conn, PmLoginWeb.Project.EditLive,
+        session: %{"curr_user_id" => get_session(conn, :curr_user_id),
+        "project" => project, "changeset" => changeset, "ac_ids" => ac_ids,
+        "status" => status},
+         router: PmLoginWeb.Router)
 
     end
   end

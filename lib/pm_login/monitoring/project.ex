@@ -37,6 +37,7 @@ defmodule PmLogin.Monitoring.Project do
   def update_changeset(project, attrs) do
     project
     |> cast(attrs, [:title, :description,:date_start, :date_end, :estimated_duration, :deadline, :active_client_id, :status_id])
+    |> Monitoring.validate_status
     |> foreign_key_constraint(:active_client_id)
     |> unique_constraint(:title, message: "Ce nom de projet existe déjà")
     |> validate_required(:estimated_duration, message: "Entrez la durée estimée du projet")
@@ -46,6 +47,7 @@ defmodule PmLogin.Monitoring.Project do
     # |> validate_required(:date_end, message: "Entrez une date de fin")
     |> validate_required(:estimated_duration, message: "Entrez une estimation en heure")
     |> validate_required(:deadline, message: "Entrez la date d'échéance")
+    # |> Monitoring.validate_status
   end
 
   def create_changeset(project, attrs) do
@@ -106,10 +108,19 @@ defmodule PmLogin.Monitoring.Project do
     changeset |> put_change(:progression, 0)
   end
 
+  defp put_default_status(changeset) do
+    status_id = get_field(changeset, :status_id)
+    cond do
+      status_id == 1 -> put_change(changeset, :status_id, 3)
+      true -> changeset
+    end
+  end
+
   def update_progression_cs(project, attrs) do
     project
     |> cast(attrs, [:progression])
     |> Monitoring.validate_progression_mother
+    |> put_default_status
   end
 
 
