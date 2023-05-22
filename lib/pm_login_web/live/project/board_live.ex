@@ -201,7 +201,19 @@ defmodule PmLoginWeb.Project.BoardLive do
                                 else
                                   0
                                 end
-                  card |> Map.from_struct() |> Map.put(:day_blocked ,day_blocked)
+                  card |> Map.from_struct() |> Map.put_new(:day_blocked ,day_blocked)
+                end
+    new_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
+  end
+
+  def cards_list_primary_tasks_no_struct(old_list) do
+    new_list = for card <- old_list do
+                  day_blocked = if (card.task.status_id == 2) and (not is_nil(Monitoring.get_last_task_history(card.task.id))) do
+                                  Date.diff(Date.utc_today(),Monitoring.get_last_task_history(card.task.id).inserted_at |> NaiveDateTime.to_date())
+                                else
+                                  0
+                                end
+                  card |> Map.put_new(:day_blocked ,day_blocked)
                 end
     new_list |> Enum.filter(fn card -> is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
@@ -213,7 +225,19 @@ defmodule PmLoginWeb.Project.BoardLive do
                                 else
                                   0
                                 end
-                  card |> Map.from_struct() |> Map.put(:day_blocked ,day_blocked)
+                  Map.from_struct(card) |> Map.put(:day_blocked ,day_blocked)
+                end
+    new_list |> Enum.filter(fn card -> not is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
+  end
+
+  def cards_list_secondary_tasks_no_struct(old_list) do
+    new_list = for card <- old_list do
+                  day_blocked = if (card.task.status_id == 2) and (not is_nil(Monitoring.get_last_task_history(card.task.id))) do
+                                  Date.diff(Date.utc_today(),Monitoring.get_last_task_history(card.task.id).inserted_at |> NaiveDateTime.to_date())
+                                else
+                                  0
+                                end
+                  card |> Map.put(:day_blocked ,day_blocked)
                 end
     new_list |> Enum.filter(fn card -> not is_nil(card.task.parent_id) end) |> Enum.filter(fn card -> card.task.status_id > 0 end)
   end
@@ -1254,13 +1278,15 @@ defmodule PmLoginWeb.Project.BoardLive do
             true ->
               board.stages
               |> Enum.map(fn %Kanban.Stage{} = stage ->
-                struct(stage, cards: cards_list_primary_tasks(stage.cards))
+                # struct(stage, cards: cards_list_primary_tasks(stage.cards))
+                struct(stage, cards: cards_list_primary_tasks_no_struct(stage.cards))
               end)
 
             _ ->
               board.stages
               |> Enum.map(fn %Kanban.Stage{} = stage ->
-                struct(stage, cards: cards_list_secondary_tasks(stage.cards))
+                # struct(stage, cards: cards_list_secondary_tasks(stage.cards))
+                struct(stage, cards: cards_list_secondary_tasks_no_struct(stage.cards))
               end)
           end
 
