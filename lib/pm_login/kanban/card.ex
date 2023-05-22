@@ -1,6 +1,7 @@
 defmodule PmLogin.Kanban.Card do
   use Ecto.Schema
   import Ecto.Changeset
+  alias PmLogin.Monitoring
 
   alias PmLogin.Kanban.{Stage, Position}
   alias PmLogin.Monitoring.Task
@@ -25,6 +26,7 @@ defmodule PmLogin.Kanban.Card do
   def update_changeset(card, attrs) do
     card
     |> cast(attrs, [:name, :stage_id, :position])
+    |> Monitoring.validate_task_status
     |> validate_required([:name, :stage_id, :position])
     |> Position.recompute_positions(:stage_id)
   end

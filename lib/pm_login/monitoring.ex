@@ -199,6 +199,24 @@ defmodule PmLogin.Monitoring do
     end
   end
 
+  def validate_task_status(changeset) do
+    task = get_field(changeset, :task)
+    status_id = get_field(changeset, :stage_id)
+    case status_id do
+      nil ->
+        changeset
+
+      _ ->
+        cond do
+          task.progression < 100 and Kanban.get_stage!(status_id).status_id == 4 ->
+            changeset |> add_error(:message, "La tâche n'est pas encore achevée à 100%")
+
+          true ->
+            changeset
+        end
+    end
+  end
+
   def validate_positive_performed(changeset) do
     est = get_field(changeset, :performed_duration)
 

@@ -1299,7 +1299,16 @@ defmodule PmLoginWeb.Project.BoardLive do
       # {:noreply, update(socket, :board, fn _ -> Kanban.get_board!() end)}
 
       {:error, changeset} ->
-        {:noreply, {:error, %{message: changeset.message}, socket}}
+        {:noreply,
+        socket
+        |> clear_flash()
+        |> put_flash(
+          :error,
+          "La tâche n'est pas encore achevée à 100%"
+        )
+        |> push_event("AnimateAlert", %{})
+        # {:error, %{message: "La tâche n'est pas encore achevée à 100%"}, socket}
+      }
     end
   end
 
