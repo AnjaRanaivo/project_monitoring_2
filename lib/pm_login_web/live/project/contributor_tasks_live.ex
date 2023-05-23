@@ -87,13 +87,23 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
     else
       progression = params["progression_change"] |> Float.parse() |> elem(0) |> trunc
 
-      if progression < 0 or progression > 100 do
+      cond do
+        progression < 100 and params["status_id"] == "4" ->
+      # if progression < 100 and params["status_id"] == "4" do
+        {:noreply,
+         socket
+         |> clear_flash()
+         |> put_flash(:error, "La tâche n'est pas encore achevée à 100%")
+         |> push_event("AnimateAlert", %{})}
+        progression < 0 or progression > 100 ->
+      # if progression < 0 or progression > 100 do
         {:noreply,
          socket
          |> clear_flash()
          |> put_flash(:error, "La progression doit être comprise entre 0 à 100")
          |> push_event("AnimateAlert", %{})}
-      else
+        true ->
+      # else
         task = Monitoring.get_task_with_card!(params["task_id"])
 
         # Récupérer l'id de la dernière stage
