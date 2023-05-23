@@ -20,6 +20,7 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
   alias PmLogin.Monitoring.Comment
   alias PmLoginWeb.Router.Helpers, as: Routes
 
+
   def mount(_params, %{"curr_user_id" => curr_user_id, "tasks" => tasks}, socket) do
     Monitoring.subscribe()
     Services.subscribe()
@@ -86,7 +87,6 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
        |> push_event("AnimateAlert", %{})}
     else
       progression = params["progression_change"] |> Float.parse() |> elem(0) |> trunc
-
       if progression < 0 or progression > 100 do
         {:noreply,
          socket
@@ -119,8 +119,13 @@ defmodule PmLoginWeb.Project.ContributorTasksLive do
           }
         )
 
+      progress = case {params["progression_change"], params["status_id"]} do
+        {"0", "3"} -> 5
+        _ -> params["progression_change"] |> Float.parse() |> elem(0) |> trunc
+      end
+
         Monitoring.update_task(task, %{"status_id" => status_id})
-        Monitoring.update_task_progression(task, %{"progression" => params["progression_change"]})
+        Monitoring.update_task_progression(task, %{"progression" => progress})
 
         Monitoring.broadcast_progression_change({:ok, task})
 
