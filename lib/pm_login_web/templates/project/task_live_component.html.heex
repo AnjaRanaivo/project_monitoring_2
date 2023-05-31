@@ -32,6 +32,13 @@
             width: -webkit-fill-available;
             width: -moz-available;"
         >
+        <div class="title">
+          <%= if @list_tasks_by_contributor_id == nil && @list_tasks_by_date do %>
+            Toutes les tâches (<%= Enum.count(@list_tasks) %>)
+          <% else %>
+            Toutes les tâches (<%= Enum.count(@list_tasks) %>)
+          <% end %>
+        </div>
           <table style="font-size: 1.2rem">
             <tbody>
               <tr 
@@ -41,13 +48,6 @@
                   background: #fff;
                 "
               >
-                <td class="title">
-                  <%= if @list_tasks_by_contributor_id == nil && @list_tasks_by_date do %>
-                    Toutes les tâches (<%= Enum.count(@list_tasks) %>)
-                  <% else %>
-                    Toutes les tâches (<%= Enum.count(@list_tasks) %>)
-                  <% end %>
-                </td>
                 <td colspan="4" style="border:none;position:relative;"> 
                   <form action="#" phx-submit="filter_by_date">  
                     <div style="display:flex; height:100px;align-items:center;">
@@ -66,7 +66,7 @@
                   </form>
                 </td>
                 <td class="select">
-                  <form phx-change="logs_filtered_by_contributors"  style="margin-top:50px">
+                  <form phx-change="logs_filtered_by_contributors"  style="margin-bottom: -2rem;">
                     <select
                       id="task_filter"
                       name="contributor_select"
@@ -85,6 +85,7 @@
                     </select>
                   </form>
                 </td>
+                <td style="border: none;"></td>
                 <td style="border: none;"></td>
                 <td style="border: none;"></td>
                 <td style="border: none;"></td>
