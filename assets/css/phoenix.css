@@ -965,6 +965,11 @@ header nav a {
  
 }
 
+.mobile-middle-projet-liste-attributeur{
+  display: none;
+ 
+}
+
 .carte-mobile{
   margin-top:3rem;
 }
@@ -972,7 +977,7 @@ header nav a {
 /* .main-admin-index{
   margin-top: 5rem;
 } */
-@media screen and (min-width: 640px) and (max-width: 720px) {
+/* @media screen and (min-width: 700px) and (max-width: 720px) {
   .web-projet-liste-attributeur{
     display: none;
   }
@@ -982,7 +987,7 @@ header nav a {
   }
   
 }
-@media (max-width: 950px) {
+ @media (max-width: 950px) {
   .web-projet-liste-attributeur{
     display: none;
   }
@@ -1002,10 +1007,20 @@ header nav a {
     display: block;
     margin: 0 auto;
   }
+}  */
+
+@media (max-width: 1270px) {
+  .web-projet-liste-attributeur{
+    display: none;
+  }
+  .mobile-middle-projet-liste-attributeur{
+    display: block;
+    margin: 0 auto;
+  }
 }
 
-@media (max-width: 1490px) {
-  .web-projet-liste-attributeur{
+@media (max-width: 640px) {
+  .mobile-middle-projet-liste-attributeur{
     display: none;
   }
   .mobile-projet-liste-attributeur{
@@ -1013,7 +1028,5 @@ header nav a {
     margin: 0 auto;
   }
 }
-
-
 
 

@@ -23,6 +23,10 @@
   margin-bottom: 10px;
 }
 
+.project-info-web {
+  width: 700px;
+}
+
 .card-info-fit {
   display: flex;
   /* margin: 0 auto; */
