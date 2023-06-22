@@ -85,8 +85,13 @@ defmodule PmLoginWeb.LiveComponent.SecondaryModalLive do
                     </div>
 
                     <div class="column">
-                      <label class="zoom-out">Assigner intervenant</label>
-                      <%= select f, :contributor_id, @attributors ++ @contributors, style: "width: -webkit-fill-available; width: -moz-available; height: 38px;"%>
+                      <%= if (@is_attributor == true or @is_admin == true) do %>
+                        <label class="zoom-out">Assigner intervenant</label>
+                        <%= select f, :contributor_id, @attributors ++ @contributors, style: "width: -webkit-fill-available; width: -moz-available; height: 38px;"%>
+                      <% end %>
+                      <%= if (@is_attributor == false and @is_admin == false) do %>
+                        <%= hidden_input f, :contributor_id, value: @curr_user_id %>
+                      <% end %>
                       <div class="zoom-out">
                         <%= error_tag f, :contributor_id %>
                       </div>
