@@ -597,20 +597,20 @@ defmodule PmLogin.Login do
   alias PmLogin.Login.Auth
 
   def asc_username do
-    auth = list_asc_auth
+    auth = list_asc_auth()
     Enum.sort_by(auth, &(&1.username), :desc)
     # Enum.sort(auth)
   end
 
   def filter_auth(right_id) do
     case right_id do
-      1 -> list_only_auth_admin
-      2 -> list_only_auth_attributor
-      3 -> list_only_auth_contributor
-      4 -> list_only_auth_client
-      5 -> list_only_auth_unattributed
-      100 -> list_only_auth_archived
-      9000 -> list_asc_auth
+      1 -> list_only_auth_admin()
+      2 -> list_only_auth_attributor()
+      3 -> list_only_auth_contributor()
+      4 -> list_only_auth_client()
+      5 -> list_only_auth_unattributed()
+      100 -> list_only_auth_archived()
+      9000 -> list_asc_auth()
     end
   end
 
@@ -644,8 +644,8 @@ defmodule PmLogin.Login do
     Repo.all(query)
   end
 
-  def sort_auth(sort_type) when sort_type == "asc", do: list_asc_username_auth
-  def sort_auth(sort_type) when sort_type == "desc", do: list_desc_username_auth
+  def sort_auth(sort_type) when sort_type == "asc", do: list_asc_username_auth()
+  def sort_auth(sort_type) when sort_type == "desc", do: list_desc_username_auth()
 
   def list_asc_username_auth do
     query = from a in Auth, order_by: [asc: :username], select: a
