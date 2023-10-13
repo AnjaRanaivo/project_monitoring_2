@@ -529,18 +529,18 @@
           basecontents__without__radius #{if is_nil(card.task.parent_id)
             do "" end}"} style={"display: #{ if card.task.hidden, do: "none !important" }; margin-bottom: 50px;#{if PmLogin.Monitoring.is_late(card.task)<0 && card.task.status_id<5, do: "border: 3px solid red;"}"}>
               <%= if card.task.status_id == 2 do %>
-                <p style="font-size:10px;color:red">Nombre de jours de blocage : <%= card.day_blocked %></p>
+                <p style="font-size:10px;color:#dc3545">Nombre de jours de blocage : <%= card.day_blocked %></p>
               <% end %>
             <%= case card.task.priority_id do %>
-            <% 1 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+            <% 1 -> %><div style="display: inline-table; font-size: 10px; padding: 4px 8px 2px 8px;"
               class="low__priority__point"> Faible </div>
-            <% 2 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+            <% 2 -> %><div style="display: inline-table; font-size: 10px; padding: 4px 8px 2px 8px;"
               class="avg__priority__point"> Moyenne </div>
-            <% 3 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+            <% 3 -> %><div style="display: inline-table; font-size: 10px; padding: 4px 8px 2px 8px;"
               class="high__priority__point"> Importante </div>
-            <% 4 -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+            <% 4 -> %><div style="display: inline-table; font-size: 10px; padding: 4px 8px 2px 8px;"
               class="urg__priority__point"> Urgente </div>
-            <% _ -> %><div style="display: inline-table; font-size: 8px; padding: 4px 8px 2px 8px;"
+            <% _ -> %><div style="display: inline-table; font-size: 10px; padding: 4px 8px 2px 8px;"
               class="priority__point"></div>
             <% end %>
             
@@ -596,14 +596,14 @@
             <% end %>
 
 
-              <div class="card__name" style="margin-top: 10px; font-size: 11px;">
+              <div class="card__name" style="margin-top: 10px; font-size: 14px;">
               <%= card.task.title %>
             </div>
-
+            <!--
             <div data-label="Description" style="word-wrap: anywhere; font-size: 11px; color: #727272; margin-bottom: 3px;">
               <%= card.task.description %>
             </div>
-
+            -->
             <%= if !is_nil(card.task.parent_id) do %>
 
             <div class="row" style="margin-top: 5px;">
@@ -663,7 +663,7 @@
             </div>
 
             <div style="float: right;">
-              <div class="card__date" style="font-size: 8px;">
+              <div class="card__date" style="font-size: 10px;">
                 Le <%= Utilities.simple_date_format_with_hours(card.task.inserted_at) %>
               </div>
             </div>

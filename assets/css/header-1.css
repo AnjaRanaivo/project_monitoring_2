@@ -20,7 +20,7 @@
   font-weight: bold;
   font-size: 22px;
   margin-top: 5px;
-  text-shadow: 2px 2px 4px rgba(18, 20, 167, 0.3);
+  /*text-shadow: 2px 2px 4px rgba(18, 20, 167, 0.3);*/
 }
 
 @media (max-width: 650px) {
@@ -205,11 +205,11 @@
 }
 
 .nav__item__link>* {
-  text-shadow: 2px 2px 4px rgba(18, 20, 167, 0.3);
+  /*text-shadow: 2px 2px 4px rgba(18, 20, 167, 0.3);*/
 
 }
 
 .header__ico {
-  text-shadow: 2px 2px 4px rgba(18, 20, 167, 0.3);
+  /*text-shadow: 2px 2px 4px rgba(18, 20, 167, 0.3);*/
 
 }

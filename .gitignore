@@ -42,3 +42,5 @@ bootstrap.min.css
 todo.txt
 
 assets/cypress.config.js
+
+/config/

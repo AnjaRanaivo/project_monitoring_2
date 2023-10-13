@@ -41,11 +41,13 @@
 @import "./loader.css";
 @import "./responsive_2.css";
 @import "../node_modules/animate.css/animate.css";
+@import url('https://fonts.cdnfonts.com/css/manrope');
 
+/*
 @font-face {
-  font-family: "Axiforma";
-  src:url("/fonts/Axiforma-Medium.ttf") format("truetype");
-}
+  font-family: "Manrope";
+  src:url("/fonts/Manrope-Medium.ttf") format("truetype");
+}*/
 /* Alerts and form errors used by phx.new */
 /* .alert {
   padding: 15px;
@@ -265,13 +267,13 @@
 
 body {
   background-color: #F3EBF6;
-  font-family: 'Axiforma', sans-serif;
+  font-family: 'Manrope', sans-serif;
   color: #393e46;
   /* color: white; */
   }
   
   .names{
-    font-family: 'Axiforma', sans-serif !important;
+    font-family: 'Manrope', sans-serif !important;
   }
   
   #inscription label{
@@ -292,7 +294,7 @@ body {
   #inshead{
     padding-top: 10px;
     color: gray;
-    font-family: 'Axiforma', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: bold;
     font-size: 40px;
     text-align: left;
@@ -314,7 +316,7 @@ body {
   .sign {
   padding-top: 0px;
   color: gray;
-  font-family: 'Axiforma', sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-weight: bold;
   font-size: 23px;
   }
@@ -332,7 +334,7 @@ body {
   
   #names{
     color: black;
-    font-family: 'Axiforma', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: bold;
     font-size: 25px;
   }
@@ -378,7 +380,7 @@ body {
   
   .subtext{
     color: black;
-    font-family: 'Axiforma', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: bold;
     font-size: 15px;
   }
@@ -386,7 +388,7 @@ body {
   #title{
     padding-top: 20px;
     color: black;
-    font-family: 'Axiforma', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-weight: bold;
     font-size: 23px;
   }
@@ -408,7 +410,7 @@ body {
   /* margin-left: 46px; */
   text-align: center;
   margin-bottom: 27px;
-  font-family: 'Axiforma', sans-serif;
+  font-family: 'Manrope', sans-serif;
   }
   
   .pass {
@@ -428,7 +430,7 @@ body {
   /* margin-left: 46px; */
   text-align: center;
   margin-bottom: 27px;
-  font-family: 'Axiforma', sans-serif;
+  font-family: 'Manrope', sans-serif;
   }
   
   #hasaccount{
@@ -448,7 +450,7 @@ body {
   margin-bottom: 20px !important;
   /* padding-bottom: 10px;
   padding-top: 10px; */
-  font-family: 'Axiforma', sans-serif;
+  font-family: 'Manrope', sans-serif;
   /* margin-left: 23%; */
   font-size: 13px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
