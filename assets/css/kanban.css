@@ -193,6 +193,7 @@
   color: #666;
   text-transform: uppercase;
   font-size: 1.3rem;
+  font-weight: bold;
 }
 
 .stage__counter {
