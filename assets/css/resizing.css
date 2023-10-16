@@ -42,9 +42,9 @@
 
 .profile-pic-mini-resized{
     width: auto;
-    height: 30px;
+    height: 25px;
 
-    max-height: 30px;
+    max-height: 25px;
     clip-path: circle();
   }
 

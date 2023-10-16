@@ -1,7 +1,7 @@
-<div class="boardcontainer" style="margin-top: 25px; overflow: clip;">
+<div class="boardcontainer" style="overflow: clip;">
   <div class="boardheader">
     <div class="row">
-      <div class="board-menu-button" style="margin-bottom: 15px;">
+      <div class="board-menu-button" style="margin-bottom: 15px; margin-top: 15px">
         <div class="column">
           <%= cond do %>
             <% @is_admin or @is_attributor or @is_contributor -> %>
@@ -9,6 +9,8 @@
               <div class="column" style="margin-bottom: 15px;">
                 <%= if @is_admin or @is_attributor do %>
                   <h2 style="margin: 0; font-size: 12px; display: flex;">
+                    <span><a href={ Routes.project_path(@socket, :index) } class="btn btn-lg btn-secondary"><i
+                      class="bi bi-arrow-bar-left"></i> Retour</a></span>
                     <span class="material-icons" style="font-size: 20px;">checklist_rtl</span>
                     <div style="margin-top: 3px;">
                       <%= @board.project.title %>
@@ -18,6 +20,8 @@
               
                 <%= if @is_contributor do %>
                   <h2 style="margin: 0; font-size: 12px; display: flex;">
+                    <span><a href={ Routes.contributor_path(@socket, :my_projects) } class="btn btn-lg btn-secondary"><i
+                      class="bi bi-arrow-bar-left"></i> Retour</a></span>
                     <i class="bi bi-list-task" style="font-size: 20px"></i> 
                     <div style="margin: 4 0 0 8">
                       Mes tâches sur "<%= @board.project.title %>"
@@ -633,25 +637,25 @@
 
             <div class="column" style="margin-bottom: 5px;">
               <div style="font-size: 10px; text-align: center;">
-                <div style="display: flex;">
-                  <div class="column" style="cursor: pointer;">
+                <div style="display: flex;flex-direction: row-reverse;">
+                  <div style="cursor: pointer;">
                     <img title={"#{card.task.attributor.username}"} class="profile-pic-mini-resized" src={
                       Routes.static_path(@socket, "/#{card.task.attributor.profile_picture}" ) } width="50" />
 
                     <div class="zoom-out"
-                      style="font-size: 8px; margin-top: 4px; word-wrap: anywhere; margin-left: 2px;">
+                      style="font-size: 9px; margin-top: 4px; margin-left: 2px;">
                       <%= "#{card.task.attributor.username}" %>
                     </div>
                   </div>
 
                   <%= if card.task.contributor !=nil do %>
-                  <div class="right-button" style="display: flex;">
-                    <div class="column" style="cursor: pointer;">
+                  <div class="right-button" style="display: flex;flex-direction: row-reverse;">
+                    <div  style="cursor: pointer;margin-right: 10px;">
                       <img title={"#{card.task.contributor.username}"} class="profile-pic-mini-resized" src={
                         Routes.static_path(@socket, "/#{card.task.contributor.profile_picture}" ) } width="50" />
 
                       <div class="zoom-out"
-                        style="font-size: 8px; margin-top: 4px; word-wrap: anywhere; margin-left: 2px;">
+                        style="font-size: 9px; margin-top: 4px; margin-left: 2px;">
                         <%= "#{card.task.contributor.username}" %>
                       </div>
                     </div>
@@ -866,14 +870,7 @@
 
 
   <br />
-  <%= if @is_admin or @is_attributor do %>
-  <span><a href={ Routes.project_path(@socket, :index) } class="btn btn-lg btn-secondary"><i
-        class="bi bi-arrow-bar-left"></i> Retour</a></span>
-  <% else %>
-  <span><a href={ Routes.contributor_path(@socket, :my_projects) } class="btn btn-lg btn-secondary"><i
-        class="bi bi-arrow-bar-left"></i> Retour</a></span>
-  <% end %>
-
+  <!-- les boutons retour étaient ici avant -->
   <div class="my__modal__container" style={"visibility: #{ if @show_modal, do: "visible" , else: "hidden" }; opacity: #{
     if @show_modal, do: "1 !important" , else: "0" };"}>
     <div class="container my__modal__card archive__modal__card">
