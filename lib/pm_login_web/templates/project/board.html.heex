@@ -512,14 +512,26 @@
     <%= for stage <- @board.stages do %>
     <div data-stage-id={ stage.id } class={if stage.status_id != 1 do "stage basecontents__without__shadow__and__radius" 
     else "stage_first basecontents__without__shadow__and__radius" end}>
-        <div class="stage__header basecontents__without__radius" id="stage__header__sticked">
-          <div class="stage__name">
-            <%= stage.name %>
-          </div>
-          <span class="stage__counter"><b class="counter__nb">
-              <%= length(stage.cards) %>
-            </b></span>
-        </div>
+    <!-- COLORATION DE LENTETE DES TACHES-->
+    
+    <div class="stage__header basecontents__without__radius" id="stage__header__sticked" 
+    style={
+      "background: #{
+        if stage.name == "A faire", do: "#817d7d",
+        else: if stage.name == "En blocage", do: "#f15757",
+        else: if stage.name == "En cours", do: "#e78d00",
+        else: if stage.name == "En contrôle", do: "#0199e5",
+        else: if stage.name == "Achevée(s)", do: "#0ea50e"
+      };"
+    }
+    >
+    <div class="stage__name">
+      <%= stage.name %>
+    </div>
+    <span class="stage__counter"><b class="counter__nb">
+      <%= length(stage.cards) %>
+    </b></span>
+    </div>
 
       <ul data-stage-id={ stage.id } id="stage__height" class={if (not @is_admin and not @is_attributor) and stage.status_id==5 do ""
         else "stage__cards" end}>

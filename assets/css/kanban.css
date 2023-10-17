@@ -174,8 +174,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5em;
-  border-bottom: 1px solid rgb(238, 238, 238);
-  background-color: rgb(228, 228, 228);
+  /*border-bottom: 2px solid rgb(255, 255, 255);*/
+  /*background-color: rgb(228, 228, 228);*/
   /* border: 1px solid gray; */
   margin-bottom: 20px;
   border-radius: 8px;
@@ -190,19 +190,19 @@
 }
 
 .stage__name {
-  color: #666;
+  color: #ffffff;
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: bold;
 }
 
 .stage__counter {
-  background-color: rgb(131, 193, 164);
-  color: white;
+  background-color: rgb(255, 255, 255);
+  color: rgb(53, 52, 52);
   font-weight: bold;
   /* font-size: 20px; */
   padding: 0.2rem 1rem;
-  border-radius: 9999px;
+  border-radius: 50px;
 }
 
 .counter__nb {
